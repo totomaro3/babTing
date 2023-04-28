@@ -1,0 +1,53 @@
+@font-face {
+    font-family: 'Cafe24Ssurround';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+	font-family: 'Cafe24Ssurround', sans;
+	font-size: 1.25rem;
+}
+
+html>body {
+	padding: 1.25rem;
+}
+
+/* 라이브러리 */
+th, td {
+	border: 1px solid black;
+	padding: 10px;
+	text-align: center;
+}
+
+a:hover {
+	color: deepskyblue;
+}
+
+button:hover {
+	color: deepskyblue;
+}
+
+li {
+	padding: 0 0.5rem;
+}
+
+.logo {
+	padding: 0 0.5rem;
+}
+
+header > div > ul > li{
+	position: relative;
+}
+
+
+header > div > ul > li > ul {
+	display: none;
+}
+
+header > div > ul > li:hover > ul {
+	display: block;
+	position: absolute;
+	left: 0;
+}
