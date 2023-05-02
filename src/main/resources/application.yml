@@ -12,4 +12,4 @@ spring:
     username: root
     password: 
 mybatis:
-  type-aliases-package: com.KoreaIT.cwy.demo.vo
+  type-aliases-package: com.Babting.toto.demo.vo

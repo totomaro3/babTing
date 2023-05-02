@@ -22,6 +22,22 @@
 		<th>작성자</th>
 		<td>${article.extra__writer }</td>
 	</tr>
+	<c:if test="${boardId == 2}">
+		<tr>
+			<th>매장 이름</th>
+			<td><input class="input input-bordered w-full max-w-xs" value="${article.restaurantName }" 
+				type="text" name="title" placeholder="시킬 예정인 매장" /></td>
+		</tr>
+		<tr>
+			<th>예상 배달 비용</th>
+			<td><input class="input input-bordered w-full max-w-xs" value="${article.deliveryCost }" 
+				type="text" name="title" placeholder="예상 배달 비용" /></td>
+		</tr>
+		<tr>
+			<th>모집 마감 시간</th>
+			<td>1시간 후</td>
+		</tr>
+	</c:if>
 	<tr>
 		<th>조회수</th>
 		<td>${article.hitCount }</td>

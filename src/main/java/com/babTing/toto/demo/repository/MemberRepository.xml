@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.babTing.toto.demo.repository.MemberRepository">
+
+	<insert id="doJoinMember">
+		INSERT INTO `member`
+		set regDate = NOW(),
+		updateDate = NOW(),
+		loginId = #{loginId},
+		loginPw = #{loginPw},
+		`name` = #{name},
+		nickname = #{nickname},
+		cellphoneNum = #{cellphoneNum},
+		email = #{email}
+	</insert>
+
+	<select id="getMember" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE id = #{id}
+	</select>
+
+	<select id="isDupLoginId" resultType="boolean">
+		SELECT Count(*)
+		FROM `member`
+		WHERE loginId = #{loginId}
+	</select>
+	
+	<select id="isDupNameAndEmail" resultType="boolean">
+		SELECT Count(*)
+		FROM `member`
+		WHERE name = #{name} AND email = #{email}
+	</select>
+			
+	<select id="getLastInsertId" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</select>
+	
+	<select id="getMemberByLoginId" resultType="Member">
+		SELECT *
+		FROM `member`
+		WHERE loginId = #{loginId}
+	</select>
+	
+	<select id="getNicknameById" resultType="String">
+		SELECT nickname
+		FROM `member`
+		WHERE id = #{id}
+	</select>
+
+</mapper>

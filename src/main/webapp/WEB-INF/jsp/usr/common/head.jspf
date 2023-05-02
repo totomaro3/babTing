@@ -30,23 +30,18 @@
 <body>
 
 	<header>
-		<div class="flex mx-auto text-3xl ">
+		<div class="flex mx-auto text-3xl justify-around">
 			<a class="logo" href="/">밥팅</a>
-			<div class="flex-grow"></div>
 			<ul class="flex">
-				<li><a href="/usr/article/list?boardId=0&page=1">LIST</a>
-					<ul>
-						<li><a href= "/usr/article/list?boardId=1&page=1">NOTICE</a></li>
-						<li><a href= "/usr/article/list?boardId=2&page=1">FREE</a></li>
-						<li><a href= "/usr/article/list?boardId=3&page=1">QNA</a></li>
-					</ul>
-				</li>
-				<li><a href="/usr/article/write">WRITE</a></li>
+				<li><a href= "/usr/article/list?boardId=1&page=1">밥팅소개</a></li>
+				<li><a href= "/usr/article/list?boardId=2&page=1">밥팅보기</a></li>
+				<li><a href= "/usr/article/list?boardId=3&page=1">자유게시판</a></li>
+				<li><a href= "/usr/article/list?boardId=4&page=1">문의하기</a></li>
 				<c:if test="${!rq.isLogined() }">
-					<li><a href="/usr/member/login">LOGIN</a></li>
+					<li><a href="/usr/member/login">로그인</a></li>
 				</c:if>
 				<c:if test="${rq.isLogined() }">
-				<li><a href="/usr/member/doLogout">LOGOUT</a></li>
+				<li><a href="/usr/member/doLogout">로그아웃</a></li>
 				</c:if>
 			</ul>
 		</div>
@@ -61,6 +56,7 @@
 				</c:choose>
 		</div>
 		<div>${pageTitle }</div>
+
 	</header>
 	<main>
 	<hr>

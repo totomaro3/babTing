@@ -4,14 +4,16 @@
 <%@ include file="../common/head.jspf" %>
 	
 <section>
-	<div class="flex">
+	<div class="flex my-2">
 		<div>
 			게시물 갯수 : 
 			<span class="badge">${articlesCount }</span>
 			개
 		</div>
+		
 		<div class ="w-1/12"></div>
-		<div class="flex">
+		
+		<div class="flex my-2">
 			<form class= "flex" method="post" action="?boardId=${boardId }&page=1">
 				<select name="searchKeywordTypeCode" class="select select-bordered max-w-xs">
  					<option value="title" selected>제목</option>
@@ -25,25 +27,48 @@
 		</div>
 	</div>
 	
-	<table style="border-collapse: collapse; border-color: green">
+	<table class="my-2" style="border-collapse: collapse; border-color: green">
 		<tr>
+			<c:if test="${boardId != 2}">
 			<th>번호</th>
 			<th>작성날짜</th>
+			</c:if>
 			<th>제목</th>
+			<c:if test="${boardId == 2}">
+			<th>매장</th>
+			<th>거리</th>
+			<th>배달비</th>
+			<th>참여자</th>
+			<th>마감</th>
+			</c:if>
+			<c:if test="${boardId != 2}">
 			<th>작성자</th>
 			<th>조회수</th>
+			</c:if>
 		</tr>
 	<c:forEach var="article" items="${articles }">
 		<tr style="text-align: center;">
+			<c:if test="${boardId != 2}">
 			<td><div class="badge badge-lg text-xl">${article.id }</div></td>
 			<td>${article.regDate.substring(0,10) }</td>
+			</c:if>
 			<td><a href="detail?id=${article.id }">${article.title }</a></td>
+			<c:if test="${boardId == 2}">
+			<td>${article.restaurantName }</td>
+			<td>약 ${article.distance }m</td>
+			<td>${article.deliveryCost }</td>
+			<td>${article.participants }</td>
+			<td>${article.deadlineTime.substring(11,16) }</td>
+			</c:if>
+			<c:if test="${boardId != 2}">
 			<td>${article.extra__writer }</td>
 			<td>${article.hitCount }</td>
+			</c:if>
 		</tr>
 	</c:forEach>
 	</table>
-	<div class="btn-group">
+	
+	<div class="btn-group my-2">
 			<c:set var="paginationLen" value="3" />
 			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1}" />
 			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount}" />
@@ -66,6 +91,23 @@
 				<a class="btn" href="${baseUri }&page=${pagesCount }">${pagesCount }</a>
 			</c:if>
 	</div>
+	<br>
+	<div class="btn-group">
+		<c:if test="${boardId == 1 && loginedMemberAuthLevel == 7}">
+			<a class="btn" href="/usr/article/write?boardId=1">소개 쓰기</a>
+		</c:if>
+		<c:if test="${boardId == 2}">
+			<a class="btn" href="/usr/article/write?boardId=2">밥팅 쓰기</a>
+		</c:if>
+		<c:if test="${boardId == 3}">
+			<a class="btn" href="/usr/article/write?boardId=3">글 쓰기</a>
+		</c:if>
+		<c:if test="${boardId == 4 && loginedMemberAuthLevel != 7}">
+			<a class="btn" href="/usr/article/write?boardId=4">문의 하기</a>
+		</c:if>
+	</div>
+	
+
 </section>
 	
 	<style type="text/css">
