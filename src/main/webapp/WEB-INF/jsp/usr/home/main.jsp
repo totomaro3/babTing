@@ -82,8 +82,7 @@
 	</div>
 </section>
 
-
-	<div id="map" style="width:500px;height:400px;"></div>
+<div id="map" style="width:500px;height:400px;"></div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ae1891ba1b0c1ff630450e76b284f50"></script>
 	<script>
 		var container = document.getElementById('map');
