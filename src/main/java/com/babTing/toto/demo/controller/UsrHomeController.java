@@ -6,21 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.babTing.toto.demo.service.ArticleService;
-import com.babTing.toto.demo.service.BoardService;
 import com.babTing.toto.demo.vo.Article;
-import com.babTing.toto.demo.vo.Board;
+import com.babTing.toto.demo.vo.Rq;
 
 @Controller
 public class UsrHomeController {
-	
+	@Autowired
+	private Rq rq;
 	@Autowired
 	private ArticleService articleService;
-	@Autowired
-	private BoardService boardService;
-
+	
 	@RequestMapping("/usr/home/main")
 	public String showMain(Model model) {
 		

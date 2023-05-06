@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.babTing.toto.demo.service.ArticleService;
 import com.babTing.toto.demo.service.BoardService;
+import com.babTing.toto.demo.service.ReactionPointService;
+import com.babTing.toto.demo.service.ReplyService;
 import com.babTing.toto.demo.util.Ut;
 import com.babTing.toto.demo.vo.Article;
 import com.babTing.toto.demo.vo.Board;
+import com.babTing.toto.demo.vo.Reply;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Rq;
 
@@ -24,6 +27,10 @@ public class UsrArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private ReplyService replyService;
+	@Autowired
+	private ReactionPointService reactionPointService;
 	@Autowired
 	private Rq rq;
 
@@ -40,14 +47,12 @@ public class UsrArticleController {
 		int limitFrom = (page - 1) * itemsInAPage;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);	
 		
-		List<Article> articles;
+		ResultData<List<Article>> getArticlesRd = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
 		
-		articles = articleService.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
+		List<Article> articles = getArticlesRd.getData1();
 		
 		if(board == null && boardId != 0) {
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg","존재하지 않는 게시판 입니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView("존재하지 않는 게시판 입니다.");
 		}
 
 		model.addAttribute("board", board);
@@ -66,30 +71,43 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 		
-		articleService.increaseHitCount(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		Article article = getArticleRd.getData1();
 		
-		Article article = articleService.getArticle(id);
-
+		List<Reply> replies = replyService.getReplies(rq.getLoginedMemberId(), "article" , id);
+		int repliesCount = replies.size();
+		
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg", id + "번글은 존재하지 않습니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView(id + "번글은 존재하지 않습니다.");
 		}
 		// ResultData.from("S-1", id+"번글을 조회합니다.","String", sb.toString());
 		
+		boolean actorCanMakeReaction = reactionPointService.actorCanMakeReaction(rq.getLoginedMemberId(), "article",
+				id);
+		
+		boolean actorHasGoodReaction = reactionPointService.actorHasGoodReaction(rq.getLoginedMemberId(), "article",
+				id);
+		
+		boolean actorHasBadReaction = reactionPointService.actorHasBadReaction(rq.getLoginedMemberId(), "article",
+				id);
+		
+		model.addAttribute("repliesCount", repliesCount);
 		model.addAttribute("article", article);
+		model.addAttribute("replies", replies);
+		model.addAttribute("actorCanMakeReaction", actorCanMakeReaction);
+		model.addAttribute("actorHasGoodReaction", actorHasGoodReaction);
+		model.addAttribute("actorHasBadReaction", actorHasBadReaction);
 
 		return "usr/article/detail";
 	}
 
 	@RequestMapping("/usr/article/write")
-	public String showWrite(Model model, int boardId) {
+	public String showWrite(Model model) {
 		
 		int loginedMemberId = rq.getLoginedMemberId();
 
 		model.addAttribute("loginedMemberId", loginedMemberId);
-		model.addAttribute("boardId", boardId);
 
 		// ResultData.newData(writeArticleRd, "String", sb.toString());
 
@@ -115,7 +133,9 @@ public class UsrArticleController {
 
 		int id = (int) writeArticleRd.getData1();
 
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 
 		// ResultData.newData(writeArticleRd, "String", sb.toString());
 
@@ -125,22 +145,20 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/modify")
 	public String showModify(Model model, int id) {
 
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 
 		if (article == null) {
 			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg", id + "번글은 존재하지 않습니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView(id + "번글은 존재하지 않습니다.");
 		}
 
 		int loginedMemberId = rq.getLoginedMemberId();
 		
 		if (article.getMemberId() != loginedMemberId) {
 			// ResultData.from("F-2", Ut.f("해당 글에 대한 권한이 없습니다."));
-			model.addAttribute("historyBack", true);
-			model.addAttribute("msg", "해당 글에 대한 권한이 없습니다.");
-			return "usr/common/js";
+			return rq.jsHitoryBackOnView("해당 글에 대한 권한이 없습니다.");
 		}
 
 		model.addAttribute("article", article);
@@ -152,7 +170,9 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doModify(int id, String title, String body) {
 		
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 		
 		if (article == null) {
 			return Ut.jsHistoryBack("F-1", id + "번글은 존재하지 않습니다.");
@@ -174,7 +194,9 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doDelete(int id) {
 
-		Article article = articleService.getArticle(id);
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+		
+		Article article = getArticleRd.getData1();
 
 		if (article == null) {
 			return Ut.jsHistoryBack("F-1", id + "번글은 존재하지 않습니다.");
@@ -187,6 +209,19 @@ public class UsrArticleController {
 
 		articleService.doDeleteArticle(article);
 
-		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list");
+		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list?boardId=0&page=1");
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseHitCountRd")
+	@ResponseBody
+	public ResultData<Integer> doIncreaseHitCountRd(int id) {
+
+		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
+
+		if (increaseHitCountRd.isFail()) {
+			return increaseHitCountRd;
+		}
+
+		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
 	}
 }

@@ -3,38 +3,103 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="ARTICLE MODIFY" />
 <%@ include file="../common/head.jspf"%>
+<%@ include file="../common/toastUiEditorLib.jspf"%>
+<hr />
 
-<form method="post" action="doModify">
-	<input value="${article.id }" type="hidden" name="id" />
-	<table>
-		<tr>
-			<th>번호</th>
-			<td>${article.id }</td>
-		</tr>
-		<tr>
-			<th>작성날짜</th>
-			<td>${article.regDate }</td>
-		</tr>
-		<tr>
-			<th>수정날짜</th>
-			<td>${article.updateDate }</td>
-		</tr>
-		<tr>
-			<th>작성자</th>
-			<td>${article.extra__writer }</td>
-		</tr>
-		<tr>
-			<th>제목</th>
-			<td><input class="input input-bordered w-full max-w-xs" value="${article.title }" type="text" name="title"
-				placeholder="제목을 입력해주세요" /></td>
-		</tr>
-		<tr>
-			<th>내용</th>
-			<td><textarea class="input input-bordered w-full max-w-xs" name="body" placeholder="내용을 입력해주세요" />${article.body }</textarea></td>
-		</tr>
-	</table>
-	<button type="submit">수정</button>
-</form>
-<button type="button" onclick="history.back();">뒤로가기</button>
+<!-- Article modify 관련 -->
+<script type="text/javascript">
+	let ArticleModify__submitFormDone = false;
+
+	function ArticleModify__submit(form) {
+		if (ArticleModify__submitFormDone) {
+			return;
+		}
+
+		form.title.value = form.title.value.trim();
+		if (form.title.value == 0) {
+			alert('제목을 입력해주세요');
+			return;
+		}
+
+		const editor = $(form).find('.toast-ui-editor').data(
+				'data-toast-editor');
+		const markdown = editor.getMarkdown().trim();
+
+		if (markdown.length == 0) {
+			alert('내용 써라');
+			editor.focus();
+			return;
+		}
+
+		form.body.value = markdown;
+
+		ArticleModify__submitFormDone = true;
+		form.submit();
+
+	}
+</script>
+
+<section class="mt-8">
+	<div class="container mx-auto px-3">
+		<div class="table-box-type-1">
+			<form action="../article/doModify" method="POST"
+				onsubmit="ArticleModify__submit(this); return false;">
+				<input type="hidden" name="body"> <input type="hidden"
+					name="id" value="${article.id }" />
+				<table>
+					<colgroup>
+						<col width="200" />
+					</colgroup>
+
+					<tbody>
+						<tr>
+							<th>번호</th>
+							<td>
+								<div class="badge">${article.id}</div>
+							</td>
+						</tr>
+						<tr>
+							<th>작성날짜</th>
+							<td>${article.regDate }</td>
+						</tr>
+						<tr>
+							<th>수정날짜</th>
+							<td>${article.updateDate }</td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td>${article.extra__writer }</td>
+						</tr>
+						<tr>
+							<th>제목</th>
+							<td><input class="input input-bordered w-full max-w-xs"
+								type="text" name="title" placeholder="제목을 입력해주세요"
+								value="${article.title }" /></td>
+						</tr>
+						<tr>
+							<th>내용</th>
+							<td>
+								<div class="toast-ui-editor text-left">
+									<script class="text-lg" type="text/x-template">${article.body }</script>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th><button
+									class="btn-text-link btn btn-active btn-ghost btn-lg"
+									type="button" onclick="history.back();">뒤로가기</button></th>
+							<td>
+								<button class="btn-text-link btn btn-active btn-ghost btn-lg"
+									type="submit" value="수정" /> 수정
+								</button>
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+			</form>
+		</div>
+	</div>
+</section>
 
 <%@ include file="../common/foot.jspf"%>

@@ -38,6 +38,7 @@ public class ResultData<DT> {
 	}
 
 	public static <DT> ResultData<DT> newData(ResultData<?> rd, String data1Name, DT data1) {
+		
 		return ResultData.from(rd.getResultCode(), rd.getMsg(), data1Name, data1);
 	}
 	
