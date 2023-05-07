@@ -104,15 +104,23 @@ public interface ArticleRepository {
 			<script>
 		INSERT INTO article
 		SET regDate = NOW(),
-		updateDate=
-		NOW(),
+		updateDate= NOW(),
+		<if test="boardId == 2">
+			restaurantName = #{restaurantName},
+			latitude = #{latitude},
+			longitude = #{longitude},
+			distance = #{distance},
+			deliveryCost = #{deliveryCost},
+			deadlineTime = NOW() + INTERVAL 1 HOUR,
+		</if>
 		title =#{title},
 		`body`= #{body},
 		memberId = #{memberId},
 		boardId = #{boardId}
+		
 			</script>
 			""")
-	public void writeArticle(String title, String body, int memberId, int boardId);
+	public void writeArticle(String title, String body, int memberId, int boardId, String restaurantName, int distance, int deliveryCost,double latitude, double longitude);
 
 	@Delete("""
 			<script>

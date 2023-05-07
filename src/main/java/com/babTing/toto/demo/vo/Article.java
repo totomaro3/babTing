@@ -19,6 +19,8 @@ public class Article {
 	private int goodReactionPoint;
 	private int badReactionPoint;
 	private String restaurantName;
+	private double latitude;
+	private double longitude;
 	private int distance;
 	private int deliveryCost;
 	private String deadlineTime;

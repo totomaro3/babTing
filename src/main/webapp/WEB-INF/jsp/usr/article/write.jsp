@@ -16,10 +16,12 @@
 		}
 
 		form.title.value = form.title.value.trim();
+		/*
 		if (form.title.value == 0) {
 			alert('제목을 입력해주세요');
 			return;
 		}
+		*/
 
 		const editor = $(form).find('.toast-ui-editor').data(
 				'data-toast-editor');
@@ -45,6 +47,10 @@
 			<form action="../article/doWrite" method="POST"
 				onsubmit="ArticleWrite__submit(this); return false;">
 				<input type="hidden" name="body">
+				<input type="hidden" name="boardId" value = "${param.boardId }">
+				<input type="hidden" name="restaurantName" value = "${param.restaurantName }">
+				<input type="hidden" name="latitude" value = "${param.latitude }">
+				<input type="hidden" name="longitude" value = "${param.longitude }">
 				<table>
 					<colgroup>
 						<col width="200" />
@@ -59,27 +65,29 @@
 						</tr>
 						<tr>
 							<th>게시판</th>
-							<td class="text-left"><select name="boardId"
+							<td class="text-left">
+								<select name="boardId"
 								class="select select-bordered w-full max-w-xs" disabled>
 									<option value="1" ${param.boardId == 1 ? "selected" : ""}>소개</option>
 									<option value="2" ${param.boardId == 2 ? "selected" : ""}>밥팅</option>
 									<option value="3" ${param.boardId == 3 ? "selected" : ""}>자유</option>
 									<option value="4" ${param.boardId == 4 ? "selected" : ""}>문의</option>
-							</select></td>
+								</select>
+							</td>
 						</tr>
 						<c:if test="${param.boardId == 2}">
 							<tr>
-								<th>매장 이름</th>
-								<td class="text-left"><input
-									class="input input-bordered w-full max-w-xs"
-									value="${article.restaurantName }" type="text" name="title"
-									placeholder="시킬 예정인 매장" /></td>
+								<th>매장</th>
+								<td class="text-left"> ${param.restaurantName }
+								<a class="btn btn-active btn-ghost text-xl" href="#"
+									onclick="window.open('/usr/home/kakaoTest', '장소 검색','width=900, height=550'); return false">장소 검색</a>
+								</td>
 							</tr>
 							<tr>
 								<th>예상 배달 비용</th>
 								<td class="text-left"><input
 									class="input input-bordered w-full max-w-xs"
-									value="${article.deliveryCost }" type="text" name="title"
+									value="${article.deliveryCost }" type="text" name="deliveryCost"
 									placeholder="예상 배달 비용" /></td>
 							</tr>
 							<tr>

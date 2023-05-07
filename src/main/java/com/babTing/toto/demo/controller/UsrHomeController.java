@@ -36,7 +36,7 @@ public class UsrHomeController {
 		model.addAttribute("babtingArticles", babtingArticles);
 		model.addAttribute("freeArticles", freeArticles);
 
-		// ResultData.from("S-1", "게시글 목록을 조회합니다.","articles", articles);
+
 		return "usr/home/main";
 	}
 
@@ -44,5 +44,16 @@ public class UsrHomeController {
 	public String showRoot() {
 		return "redirect:/usr/home/main";
 	}
+	
+	@RequestMapping("/usr/home/kakaoTest")
+	public String showTest(Model model) {
 
+		return "usr/home/kakaoTest";
+	}
+	
+	@RequestMapping("/usr/home/doKakaoTest")
+	public String showWriteTest(Model model) {
+
+		return "usr/home/doKakaoTest";
+	}
 }

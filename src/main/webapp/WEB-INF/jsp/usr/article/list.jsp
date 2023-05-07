@@ -47,8 +47,8 @@
 					<th>참여자</th>
 					<th>마감</th>
 				</c:if>
+				<th>작성자</th>
 				<c:if test="${boardId != 2}">
-					<th>작성자</th>
 					<th>조회수</th>
 				</c:if>
 			</tr>
@@ -62,12 +62,12 @@
 					<c:if test="${boardId == 2}">
 						<td>${article.restaurantName }</td>
 						<td>약 ${article.distance }m</td>
-						<td>${article.deliveryCost }</td>
+						<td>${article.deliveryCost }원</td>
 						<td>${article.participants }</td>
 						<td>${article.deadlineTime.substring(11,16) }</td>
 					</c:if>
+					<td>${article.extra__writer }</td>
 					<c:if test="${boardId != 2}">
-						<td>${article.extra__writer }</td>
 						<td>${article.hitCount }</td>
 					</c:if>
 				</tr>
@@ -105,7 +105,7 @@
 
 		<br>
 		<div class="btn-group mt-5 text-xl">
-			<c:if test="${boardId == 1 && loginedMemberAuthLevel == 7}">
+			<c:if test="${boardId == 1 && rq.loginedMember.authLevel == 7}">
 				<a class="btn" href="/usr/article/write?boardId=1">소개 쓰기</a>
 			</c:if>
 			<c:if test="${boardId == 2}">
@@ -114,7 +114,7 @@
 			<c:if test="${boardId == 3}">
 				<a class="btn" href="/usr/article/write?boardId=3">글 쓰기</a>
 			</c:if>
-			<c:if test="${boardId == 4 && loginedMemberAuthLevel != 7}">
+			<c:if test="${boardId == 4 && rq.loginedMember.authLevel != 7}">
 				<a class="btn" href="/usr/article/write?boardId=4">문의 하기</a>
 			</c:if>
 		</div>

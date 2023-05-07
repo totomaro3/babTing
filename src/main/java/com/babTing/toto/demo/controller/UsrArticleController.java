@@ -116,7 +116,12 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(String title, String body, int boardId) {
+	public String doWrite(String title, String body, int boardId, 
+			@RequestParam(defaultValue = "") String restaurantName,
+			@RequestParam(defaultValue = "0") int distance,
+			@RequestParam(defaultValue = "0") int deliveryCost,
+			@RequestParam(defaultValue = "0") double latitude, 
+			@RequestParam(defaultValue = "0") double longitude) {
 
 		if (Ut.empty(title)) {
 			// ResultData.from("F-1", "제목을 입력해주세요");
@@ -129,7 +134,8 @@ public class UsrArticleController {
 
 		int loginedMemberId = rq.getLoginedMemberId();
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId, boardId);
+		ResultData<Integer> writeArticleRd = 
+				articleService.writeArticle(title, body, loginedMemberId, boardId, restaurantName, distance , deliveryCost, latitude, longitude);
 
 		int id = (int) writeArticleRd.getData1();
 

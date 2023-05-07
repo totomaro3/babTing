@@ -96,6 +96,10 @@
 <section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
 		<table>
+			<colgroup>
+				<col width="200" />
+				<col width="500" />
+			</colgroup>
 			<tr>
 				<th>번호</th>
 				<td>
@@ -121,13 +125,44 @@
 			</tr>
 			<c:if test="${article.boardId == 2}">
 				<tr>
-					<th>매장 이름</th>
-					<td>${article.restaurantName }</td>
+					<th>매장</th>
+					<td>${article.restaurantName }
+						<div id="map" style="width: 100%; height: 350px;"></div> <script
+							type="text/javascript"
+							src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ae1891ba1b0c1ff630450e76b284f50"></script>
+						<script>
+							var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+							mapOption = {
+								center : new kakao.maps.LatLng(${article.latitude },
+										${article.longitude }), // 지도의 중심좌표
+								level : 3
+							// 지도의 확대 레벨
+							};
+
+							var map = new kakao.maps.Map(mapContainer,
+									mapOption); // 지도를 생성합니다
+
+							// 마커가 표시될 위치입니다 
+							var markerPosition = new kakao.maps.LatLng(
+									${article.latitude }, ${article.longitude });
+
+							// 마커를 생성합니다
+							var marker = new kakao.maps.Marker({
+								position : markerPosition
+							});
+
+							// 마커가 지도 위에 표시되도록 설정합니다
+							marker.setMap(map);
+
+							// 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+							// marker.setMap(null);
+						</script>
+					</td>
 				</tr>
 
 				<tr>
 					<th>예상 배달 비용</th>
-					<td>${article.deliveryCost }</td>
+					<td>${article.deliveryCost }원</td>
 				</tr>
 				<tr>
 					<th>거리</th>
@@ -138,7 +173,7 @@
 					<td>1시간 후</td>
 				</tr>
 			</c:if>
-			<c:if test="${article.boardId != 2}">
+			<c:if test="${article.boardId == 3}">
 				<tr>
 					<th>추천</th>
 					<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
@@ -155,10 +190,6 @@
 							</span>
 						</div></td>
 				</tr>
-				<tr>
-					<th>조회수</th>
-					<td>${article.hitCount }</td>
-				</tr>
 			</c:if>
 			<tr>
 				<th>제목</th>
@@ -172,7 +203,7 @@
 	</div>
 </section>
 
-<c:if test="${article.boardId == 3}">
+<c:if test="${article.boardId == 3 || (article.boardId == 4 && rq.loginedMember.authLevel == 7)}">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">
 			<div class="table-box-type-1">
@@ -200,10 +231,10 @@
 						</table>
 					</form>
 				</c:if>
-				<c:if test="${!rq.isLogined() }">
+				<c:if test="${!rq.isLogined() && article.boardId == 3}">
 				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost"
 						href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a> 후 이용해줘
-			</c:if>
+				</c:if>
 			</div>
 		</div>
 	</section>

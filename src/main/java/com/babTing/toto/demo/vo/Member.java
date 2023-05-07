@@ -18,6 +18,8 @@ public class Member {
 	private String nickname;
 	private String cellphoneNum;
 	private String email;
+	private double Latitude;
+	private double longitude;
 	private boolean delStatus;
 	private String delDate;
 }

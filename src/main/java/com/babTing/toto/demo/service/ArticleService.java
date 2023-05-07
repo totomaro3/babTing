@@ -30,9 +30,10 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("모든 글을 불러왔습니다."),"articles", articles);
 	}
 	
-	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId) {
+	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId,
+			String restaurantName, int distance, int deliveryCost, double latitude, double longitude) {
 
-		articleRepository.writeArticle(title, body, memberId, boardId);
+		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, distance , deliveryCost, latitude, longitude);
 
 		int id = articleRepository.getLastInsertId();
 
