@@ -52,26 +52,31 @@
 					<th>조회수</th>
 				</c:if>
 			</tr>
+
 			<c:forEach var="article" items="${articles }">
-				<tr style="text-align: center;">
-					<c:if test="${boardId != 2}">
-						<td><div class="badge badge-lg text-xl">${article.id }</div></td>
-						<td>${article.regDate.substring(0,10) }</td>
-					</c:if>
-					<td><a href="detail?id=${article.id }">${article.title }</a></td>
-					<c:if test="${boardId == 2}">
-						<td>${article.restaurantName }</td>
-						<td>약 ${article.distance }m</td>
-						<td>${article.deliveryCost }원</td>
-						<td>${article.participants }</td>
-						<td>${article.deadlineTime.substring(11,16) }</td>
-					</c:if>
-					<td>${article.extra__writer }</td>
-					<c:if test="${boardId != 2}">
-						<td>${article.hitCount }</td>
-					</c:if>
-				</tr>
+				<c:if
+					test="${boardId != 4 || rq.loginedMember.id == article.memberId || rq.loginedMember.id == 1}">
+					<tr style="text-align: center;">
+						<c:if test="${boardId != 2}">
+							<td><div class="badge badge-lg text-xl">${article.id }</div></td>
+							<td>${article.regDate.substring(0,10) }</td>
+						</c:if>
+						<td><a href="detail?id=${article.id }">${article.title }</a></td>
+						<c:if test="${boardId == 2}">
+							<td>${article.restaurantName }</td>
+							<td>약 ${article.distance }m</td>
+							<td>${article.deliveryCost }원</td>
+							<td>${article.participants }</td>
+							<td>${article.deadlineTime.substring(11,16) }</td>
+						</c:if>
+						<td>${article.extra__writer }</td>
+						<c:if test="${boardId != 2}">
+							<td>${article.hitCount }</td>
+						</c:if>
+					</tr>
+				</c:if>
 			</c:forEach>
+
 		</table>
 
 		<div class="btn-group mt-5 text-xl">

@@ -1,0 +1,300 @@
+#DB 생성
+DROP DATABASE IF EXISTS babting;
+CREATE DATABASE babting;
+USE babting;
+
+CREATE TABLE article(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) NOT NULL,
+    boardId INT(10) NOT NULL,
+    title CHAR(100) NOT NULL,
+    `body` TEXT NOT NULL,
+    hitCount INT(10) NOT NULL DEFAULT 0,
+    goodReactionPoint INT(10) NOT NULL DEFAULT 0,
+    badReactionPoint INT(10) NOT NULL DEFAULT 0,
+    restaurantName CHAR(100),
+    longitude DOUBLE NOT NULL,
+    latitude DOUBLE NOT NULL,
+    distance INT(10),
+    deliveryCost INT(10),
+    deadlineTime DATETIME,
+    Participants INT(10)
+);
+
+# 게시물 테스트데이터 생성
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+boardId = 3,
+title = '자유 1',
+`body` = '내용 1';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+boardId = 3,
+title = '자유 2',
+`body` = '내용 2';
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+boardId = 1,
+title = '제목 2',
+`body` = '내용 2';
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+boardId = 3,
+title = '제목 3',
+`body` = '내용 3';
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+boardId = 4,
+title = '문의 4',
+`body` = '내용 4';
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+boardId = 4,
+title = '문의 5',
+`body` = '내용 5';
+
+CREATE TABLE `member`(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    loginId CHAR(20) NOT NULL,
+    loginPw CHAR(60) NOT NULL,
+    `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반,7=관리자)',
+    `name` CHAR(20) NOT NULL,
+    nickname CHAR(20) NOT NULL,
+    cellphoneNum CHAR(20) NOT NULL,
+    email CHAR(50) NOT NULL,
+    longitude DOUBLE NOT NULL,
+    latitude DOUBLE NOT NULL,
+    delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
+    delDate DATETIME COMMENT '탈퇴 날짜'
+);
+
+# 회원 테스트데이터 생성 (관리자)
+INSERT INTO `member` 
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'admin',
+loginPw = 'admin',
+`authLevel` = 7,
+`name` = '관리자',
+`nickname` = '관리자',
+cellphoneNum = '01012341234',
+email = 'abcdef@gmail.com';
+
+# 회원 테스트데이터 생성 (일반)
+INSERT INTO `member` 
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test1',
+loginPw = 'test1',
+`name` = '회원1',
+`nickname` = '회원1',
+cellphoneNum = '01043214321',
+email = 'abcd@gmail.com';
+
+INSERT INTO `member` 
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test2',
+loginPw = 'test2',
+`name` = '회원2',
+`nickname` = '회원2',
+cellphoneNum = '01067896789',
+email = 'zxcv@gmail.com';
+
+# 게시판 테이블 생성
+CREATE TABLE board (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    `code` CHAR(50) NOT NULL UNIQUE COMMENT 'notice(공지사항), free(자유), qna(질의응답), ....',
+    `name` CHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
+    delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
+    delDate DATETIME COMMENT '삭제 날짜'
+);
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'NOTICE',
+`name` = '공지사항';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'BABTING',
+`name` = '밥팅';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'FREE',
+`name` = '자유';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'QNA',
+`name` = '질의응답';
+
+# reactionPoint 테이블 생성
+CREATE TABLE reactionPoint (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+    relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
+    `point` INT(10) NOT NULL
+);
+
+# reactionPoint 테이블 생성
+CREATE TABLE reactionPoint (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+    relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
+    `point` INT(10) NOT NULL
+);
+
+# reactionPoint 테스트 데이터
+# 1번 회원이 1번 글에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+
+# 1번 회원이 2번 글에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
+
+# 2번 회원이 1번 글에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+
+# 2번 회원이 2번 글에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 2,
+`point` = -1;
+
+# 3번 회원이 1번 글에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`point` = 1;
+
+# 기존 게시물의 good,bad ReactionPoint 필드의 값을 채운다
+UPDATE article AS A
+INNER JOIN (
+    SELECT RP.relTypeCode, RP.relId,
+    SUM(IF(RP.point > 0, RP.point,0)) AS goodReactionPoint,
+    SUM(IF(RP.point < 0, RP.point * -1,0)) AS badReactionPoint
+    FROM reactionPoint AS RP
+    GROUP BY RP.relTypeCode, RP.relId
+) AS RP_SUM
+ON A.id = RP_SUM.relId
+SET A.goodReactionPoint = RP_SUM.goodReactionPoint,
+A.badReactionPoint = RP_SUM.badReactionPoint;
+
+# reply 테이블 생성
+CREATE TABLE reply (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+    relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
+    `body`TEXT NOT NULL
+);
+
+# 2번 회원이 1번 글에 
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 1,
+`body` = '댓글 1';
+
+# 2번 회원이 1번 글에 
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 1,
+`body` = '댓글 2';
+
+# 3번 회원이 1번 글에 
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`body` = '댓글 3';
+
+# 3번 회원이 1번 글에 
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 2,
+`body` = '댓글 4';
+
+# 3번 회원이 1번 글에 
+INSERT INTO reply
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 5,
+`body` = '문의 답변 5';
+
+SELECT * FROM article;
+SELECT * FROM `member`;
+SELECT * FROM reactionPoint;
+SELECT * FROM reply;

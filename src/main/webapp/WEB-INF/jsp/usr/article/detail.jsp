@@ -174,22 +174,23 @@
 				</tr>
 			</c:if>
 			<c:if test="${article.boardId == 3}">
-				<tr>
-					<th>추천</th>
-					<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
-						<span>&nbsp;싫어요 : ${article.badReactionPoint }&nbsp;</span>
+			<tr>
+				<th>추천</th>
+				<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
+					<span>&nbsp;싫어요 : ${article.badReactionPoint }&nbsp;</span> <c:if
+						test="${article.boardId == 3}">
 						<div>
 							<span> <span>&nbsp;</span> <a
 								href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
-								class="btn btn-xs ${actorHasGoodReaction ? "deepSkyBlue" : ""}">좋아요
-									👍</a>
+								class="btn btn-xs ${actorHasGoodReaction ? "deepSkyBlue" : ""}">좋아요 👍</a>
 							</span> <span> <span>&nbsp;</span> <a
 								href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
-								class="btn btn-xs ${actorHasBadReaction ? "deepSkyBlue" : ""}">싫어요
-									👎</a>
+								class="btn btn-xs ${actorHasBadReaction ? "deepSkyBlue" : ""}">싫어요 👎</a>
 							</span>
-						</div></td>
-				</tr>
+						</div>
+					</c:if>
+				</td>
+			</tr>
 			</c:if>
 			<tr>
 				<th>제목</th>
@@ -203,7 +204,8 @@
 	</div>
 </section>
 
-<c:if test="${article.boardId == 3 || (article.boardId == 4 && rq.loginedMember.authLevel == 7)}">
+<c:if
+	test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">
 			<div class="table-box-type-1">
@@ -238,7 +240,9 @@
 			</div>
 		</div>
 	</section>
+</c:if>
 
+	<c:if test="${article.boardId == 4 || article.boardId == 3 }">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">
 			<h1 class="text-3xl">댓글 리스트(${repliesCount })</h1>
@@ -256,7 +260,6 @@
 						<th>번호</th>
 						<th>날짜</th>
 						<th>작성자</th>
-						<th>추천</th>
 						<th>내용</th>
 						<th>수정삭제</th>
 					</tr>
@@ -270,7 +273,6 @@
 							</td>
 							<td>${reply.regDate.substring(2,16)}</td>
 							<td>${reply.extra__writer}</td>
-							<td>${reply.goodReactionPoint}</td>
 							<td align="left">${reply.body}</td>
 							<td><c:if test="${reply.memberId eq loginedMemberId}">
 									<a class="btn btn-active btn-ghost text-xl"
@@ -286,6 +288,7 @@
 			</table>
 		</div>
 	</section>
-</c:if>
+	</c:if>
+
 
 <%@ include file="../common/foot.jspf"%>

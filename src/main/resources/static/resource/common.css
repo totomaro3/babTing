@@ -29,6 +29,10 @@ button:hover {
 	color: deepskyblue;
 }
 
+.deepSkyBlue {
+	color: deepskyblue;
+}
+
 li {
 	padding: 0 0.5rem;
 }
