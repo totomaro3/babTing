@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.babTing.toto.demo.service.MemberService;
@@ -30,48 +31,39 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultData<?> doJoin(HttpSession httpsession, String loginId, String loginPw, String name, String nickname,
-			String cellphoneNum, String email) {
-		if (httpsession.getAttribute("loginedMemberId") != null) {
-			return ResultData.from("F-A", "로그아웃 해주세요.");
-		}
+	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
+			String email, @RequestParam(defaultValue = "/") String afterLoginUri) {
 
 		if (Ut.empty(loginId)) {
-			return ResultData.from("F-1", "아이디를 입력해주세요");
+			return rq.jsHistoryBack("F-1", "아이디를 입력해주세요");
 		}
 		if (Ut.empty(loginPw)) {
-			return ResultData.from("F-2", "비밀번호를 입력해주세요");
+			return rq.jsHistoryBack("F-2", "비밀번호를 입력해주세요");
 		}
 		if (Ut.empty(name)) {
-			return ResultData.from("F-3", "이름을 입력해주세요");
+			return rq.jsHistoryBack("F-3", "이름을 입력해주세요");
 		}
 		if (Ut.empty(nickname)) {
-			return ResultData.from("F-4", "닉네임을 입력해주세요");
+			return rq.jsHistoryBack("F-4", "닉네임을 입력해주세요");
 		}
 		if (Ut.empty(cellphoneNum)) {
-			return ResultData.from("F-5", "전화번호를 입력해주세요");
+			return rq.jsHistoryBack("F-5", "전화번호를 입력해주세요");
 		}
 		if (Ut.empty(email)) {
-			return ResultData.from("F-6", "이메일을 입력해주세요");
+			return rq.jsHistoryBack("F-6", "이메일을 입력해주세요");
 		}
 
 		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNum, email);
 
 		if (joinRd.isFail()) {
-			return joinRd;
+			return rq.jsHistoryBack(joinRd.getResultCode(), joinRd.getMsg());
 		}
 
-		int id = joinRd.getData1();
+		Member member = memberService.getMemberById(joinRd.getData1());
 
-		Member member = memberService.getMemberById(id);
+		String afterJoinUri = "../member/login?afterLoginUri=" + Ut.getEncodedUri(afterLoginUri);
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("번호 : " + member.getId());
-		sb.append("<br>가입날짜 : " + member.getRegDate());
-		sb.append("<br>아이디 : " + member.getLoginId());
-		sb.append("<br>이름 : " + member.getName());
-
-		return ResultData.newData(joinRd, "String", sb.toString());
+		return Ut.jsReplace("S-1", Ut.f("회원가입이 완료되었습니다"), afterJoinUri);
 	}
 
 	@RequestMapping("/usr/member/login")

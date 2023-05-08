@@ -129,11 +129,17 @@ public class Rq {
 	}
 	
 	public String getLogoutUri() {
+		String requestUri = req.getRequestURI();
+
+		switch (requestUri) {
+		case "/usr/article/write":
+			return "../member/doLogout?afterLogoutUri=" + "/";
+		}
+
 		return "../member/doLogout?afterLogoutUri=" + getAfterLogoutUri();
 	}
 
-	private String getAfterLogoutUri() {
-
+	public String getAfterLogoutUri() {
 		return getEncodedCurrentUri();
 	}
 	

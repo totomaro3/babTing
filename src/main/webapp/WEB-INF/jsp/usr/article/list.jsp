@@ -11,7 +11,7 @@
 				게시물 갯수 : <span class="badge">${articlesCount }</span> 개
 			</div>
 			<div class="w-1/12"></div>
-			<c:if test="${param.boardId == 1 || param.boardId == 3 }">
+			<c:if test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
 				<div class="flex">
 					<form class="flex" method="post"
 						action="?boardId=${boardId }&page=1">
