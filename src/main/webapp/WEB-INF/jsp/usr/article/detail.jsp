@@ -127,7 +127,8 @@
 				<tr>
 					<th>매장</th>
 					<td>${article.restaurantName }
-						<div id="map" style="width: 100%; height: 350px;"></div> <script
+						<div id="map" style="width: 100%; height: 350px;"></div>
+						 <script
 							type="text/javascript"
 							src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ae1891ba1b0c1ff630450e76b284f50"></script>
 						<script>

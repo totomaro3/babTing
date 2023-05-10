@@ -37,6 +37,10 @@ li {
 	padding: 0 0.5rem;
 }
 
+td {
+	text-align: left;
+}
+
 .logo {
 	padding: 0 0.5rem;
 }

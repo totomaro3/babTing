@@ -25,8 +25,44 @@ public class UsrMemberController {
 	private Rq rq;
 
 	@RequestMapping("/usr/member/join")
-	public String join(String loginId, String loginPw) {
+	public String join() {
 		return "usr/member/join";
+	}
+	
+	@RequestMapping("/usr/member/getLoginIdDup")
+	@ResponseBody
+	public ResultData<String> getLoginIdDup(String loginId) {
+		
+		if(Ut.empty(loginId)) {
+			return ResultData.from("F-1", "아이디를 입력해주세요.","loginId",loginId);
+		}
+		
+		ResultData<Boolean> getMemberByLoginIdRd = memberService.getMemberByLoginId(loginId);
+		
+		if(getMemberByLoginIdRd.getData1()) {
+			return ResultData.from("F-2", getMemberByLoginIdRd.getMsg(),"loginId",loginId);
+		}
+		
+		return ResultData.from("S-1", getMemberByLoginIdRd.getMsg(),"loginId",loginId);
+	}
+	
+	@RequestMapping("/usr/member/getLoginPwConfirm")
+	@ResponseBody
+	public ResultData<String> getLoginPwConfirm(String loginPw, String loginPwConfirm) {
+		
+		if (Ut.empty(loginPw)) {
+			return ResultData.from("F-1", "비밀번호를 입력해주세요");
+		}
+		
+		if (Ut.empty(loginPw)) {
+			return ResultData.from("F-2", "비밀번호확인을 입력해주세요");
+		}
+		
+		if(!loginPw.equals(loginPwConfirm)) {
+			return ResultData.from("F-3", "비밀번호가 일치하지 않습니다.");
+		}
+		
+		return ResultData.from("S-1", "비밀번호가 일치합니다.");
 	}
 	
 	@RequestMapping("/usr/member/doJoin")

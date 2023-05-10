@@ -121,7 +121,7 @@ public class Rq {
 		switch (requestUri) {
 		case "/usr/member/login":
 		case "/usr/member/join":
-			return Ut.getEncodedUri(paramMap.get("afterLoginUri"));
+			return Ut.getEncodedUri(Ut.getAttr(paramMap, "afterLoginUri", ""));
 
 		}
 

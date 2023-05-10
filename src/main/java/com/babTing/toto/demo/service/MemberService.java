@@ -54,4 +54,14 @@ public class MemberService {
 		
 		return ResultData.from("S-1", "회원이 삭제되었습니다.","id", id);
 	}
+
+	public ResultData<Boolean> getMemberByLoginId(String loginId) {
+		
+		if(memberRepository.isDupLoginId(loginId)) {
+			return ResultData.from("F-2", "중복된 아이디 입니다.","isDupLoginId", true);
+		}
+		else {
+			return ResultData.from("S-1", "사용 가능한 아이디 입니다.","isDupLoginId", false);
+		}	
+	}
 }
