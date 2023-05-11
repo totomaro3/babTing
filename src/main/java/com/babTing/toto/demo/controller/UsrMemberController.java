@@ -1,6 +1,9 @@
 package com.babTing.toto.demo.controller;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +66,18 @@ public class UsrMemberController {
 		}
 		
 		return ResultData.from("S-1", "비밀번호가 일치합니다.");
+	}
+	
+	@RequestMapping("/usr/member/doCheckData")
+	@ResponseBody
+	public ResultData doCheckData(double longitude ,double latitude, String name) {
+		
+		Object[] dataArray = new Object[3];
+		dataArray[0] = longitude;
+		dataArray[1] = latitude;
+		dataArray[2] = name;
+		
+		return ResultData.from("S-1", "성공적으로 불러왔습니다.","dataArray",dataArray);
 	}
 	
 	@RequestMapping("/usr/member/doJoin")

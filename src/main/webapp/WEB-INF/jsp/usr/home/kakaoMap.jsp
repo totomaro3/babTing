@@ -398,21 +398,27 @@
 				return el;
 			}
 			
-			function goDoKaKao(x,y,n) {
-				alert("경도 = "+x+" , 위도 ="+y+" 저장 완료");
-				const url = window.location.href;
-				console.log(url);
-				// URL에서 쿼리 스트링을 추출
-				const queryString = url.split('?')[1];
-				// 쿼리 스트링을 파싱하여 객체로 변환
-				const queryParams = new URLSearchParams(queryString);
-				// replaceUri 값을 가져옴
-				const replaceUri = queryParams.get('replaceUri');
-				console.log(replaceUri);
-				 opener.document.location.href = replaceUri +"?longitude="+x+"&latitude="+y+"&name="+n;
-				 window.close();
+			function goDoKaKao(longitude,latitude,name) {
+				alert("경도 = "+longitude+" , 위도 ="+latitude+" 저장 완료");
+				
+				window.opener.myFunction(longitude,latitude,name);
+
+				window.close();
 				
 			}
+			
+			/*
+			const url = window.location.href;
+			console.log(url);
+			// URL에서 쿼리 스트링을 추출
+			const queryString = url.split('?')[1];
+			// 쿼리 스트링을 파싱하여 객체로 변환
+			const queryParams = new URLSearchParams(queryString);
+			// replaceUri 값을 가져옴
+			const replaceUri = queryParams.get('replaceUri');
+			console.log(replaceUri);
+			 opener.document.location.href = replaceUri +"?longitude="+x+"&latitude="+y+"&name="+n;
+			 */
 
 			// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 			function addMarker(position, idx, title) {

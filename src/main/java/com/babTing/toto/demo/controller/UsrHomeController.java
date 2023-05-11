@@ -45,15 +45,15 @@ public class UsrHomeController {
 		return "redirect:/usr/home/main";
 	}
 	
-	@RequestMapping("/usr/home/kakaoTest")
+	@RequestMapping("/usr/home/kakaoMap")
 	public String showTest(Model model) {
 
-		return "usr/home/kakaoTest";
+		return "usr/home/kakaoMap";
 	}
 	
-	@RequestMapping("/usr/home/doKakaoTest")
+	@RequestMapping("/usr/home/doKakaoMap")
 	public String showWriteTest(Model model) {
 
-		return "usr/home/doKakaoTest";
+		return "usr/home/doKakaoMap";
 	}
 }

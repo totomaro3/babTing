@@ -107,14 +107,27 @@
 
 		}, 'json');
 	}
+	
+	function myFunction(longitude, latitude, name) {
+		  var action = './doCheckData';
+
+		  $.get(action, {
+		    isAjax: 'Y',
+		    longitude: longitude,
+		    latitude: latitude,
+		    name: name
+		  }, function(data) {
+		    $('.address').text(data.data1[2]);
+		  }, 'json');
+		}
 </script>
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<form class="table-box-type-1" name="form1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
-			<input type="hidden" name=longitude value="${param.longitude}" />
-			<input type="hidden" name="latitude" value="${param.latitude}" />
+			<input type="hidden" name=longitude value= "${data.data1[0]}" />
+			<input type="hidden" name="latitude" value= "${data.data1[1]}" />
 			<table class="table table-zebra w-full">
 				<colgroup>
 					<col width="200" />
@@ -166,10 +179,10 @@
 						</td>
 					</tr>
 					<tr>
-						<th>주소</th>
-						<td class="text-left"> ${param.name }
+						<th>거주지 위치</th>
+						<td class="text-left"> <div class="address"></div>
 								<a class="btn btn-active btn-ghost text-xl" href="#"
-									onclick="window.open('/usr/home/kakaoTest?replaceUri=${rq.getCurrentUri()}', '장소 검색','width=900, height=550'); return false">장소 검색</a>
+									onclick="window.open('/usr/home/kakaoMap?replaceUri=${rq.getCurrentUri()}', '장소 검색','width=900, height=550'); return false">장소 검색</a>
 						</td>
 					</tr>
 					<tr>
