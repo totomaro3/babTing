@@ -113,6 +113,8 @@
 	<div class="container mx-auto px-3">
 		<form class="table-box-type-1" name="form1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
+			<input type="hidden" name=longitude value="${param.longitude}" />
+			<input type="hidden" name="latitude" value="${param.latitude}" />
 			<table class="table table-zebra w-full">
 				<colgroup>
 					<col width="200" />
@@ -161,6 +163,13 @@
 						<th>이메일</th>
 						<td>
 							<input name="email" class="w-full input input-bordered  max-w-xs" placeholder="이메일을 입력해주세요" />
+						</td>
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td class="text-left"> ${param.name }
+								<a class="btn btn-active btn-ghost text-xl" href="#"
+									onclick="window.open('/usr/home/kakaoTest?replaceUri=${rq.getCurrentUri()}', '장소 검색','width=900, height=550'); return false">장소 검색</a>
 						</td>
 					</tr>
 					<tr>

@@ -27,6 +27,12 @@
 					<td><button class="btn btn-active btn-ghost text-xl"
 							type="submit">로그인</button></td>
 				</tr>
+				<tr>
+					<th><a class="btn btn-active btn-ghost text-xl"
+						href="${rq.findLoginIdUri }">아이디 찾기</a></th>
+					<td><a class="btn btn-active btn-ghost text-xl"
+						href="${rq.findLoginPwUri }">비밀번호 찾기</a></td>
+				</tr>
 			</table>
 		</form>
 	</div>

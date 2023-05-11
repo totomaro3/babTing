@@ -400,7 +400,16 @@
 			
 			function goDoKaKao(x,y,n) {
 				alert("경도 = "+x+" , 위도 ="+y+" 저장 완료");
-				 opener.document.location.href="/usr/article/write?boardId=2&longitude="+x+"&latitude="+y+"&restaurantName="+n;
+				const url = window.location.href;
+				console.log(url);
+				// URL에서 쿼리 스트링을 추출
+				const queryString = url.split('?')[1];
+				// 쿼리 스트링을 파싱하여 객체로 변환
+				const queryParams = new URLSearchParams(queryString);
+				// replaceUri 값을 가져옴
+				const replaceUri = queryParams.get('replaceUri');
+				console.log(replaceUri);
+				 opener.document.location.href = replaceUri +"?longitude="+x+"&latitude="+y+"&name="+n;
 				 window.close();
 				
 			}

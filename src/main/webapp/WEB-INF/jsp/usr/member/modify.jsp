@@ -68,8 +68,10 @@
 		<div class="table-box-type-1">
 			<form action="../member/doModify" method="POST"
 				onsubmit="MemberModify__submit(this); return false;">
-				<input value="${rq.loginedMember.id }" type="hidden" name="id" /> <input
-					value="${rq.loginedMember.loginId }" type="hidden" name="loginId" />
+				<input value="${rq.loginedMember.id }" type="hidden" name="id" />
+				<input value="${rq.loginedMember.loginId }" type="hidden" name="loginId" />
+				<input value=0 type="hidden" name="longitude" />
+				<input value=0 type="hidden" name="latitude" />
 				<table border="1">
 					<colgroup>
 						<col width="200" />

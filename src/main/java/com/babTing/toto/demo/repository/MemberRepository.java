@@ -19,9 +19,11 @@ public interface MemberRepository {
 			`name` = #{name},
 			nickname = #{nickname},
 			cellphoneNum = #{cellphoneNum},
-			email = #{email}
+			email = #{email},
+			longitude = #{longitude},
+			latitude = #{latitude}
 			""")
-	public void doJoinMember(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email);
+	public void doJoinMember(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email, double longitude, double latitude);
 
 	@Select("""
 			SELECT *
@@ -48,6 +50,20 @@ public interface MemberRepository {
 			WHERE name = #{name} AND email = #{email}
 			""")
 	public boolean isDupNameAndEmail(String name, String email);
+	
+	@Select("""
+			SELECT *
+			FROM `member`
+			WHERE name = #{name} AND email = #{email}
+			""")
+	public Member getMemberByNameAndEmail(String name, String email);
+	
+	@Select("""
+			SELECT loginPw
+			FROM `member`
+			WHERE name = #{name} AND email = #{email}
+			""")
+	public String getLoginPwByNameAndEmail(String name, String email);
 
 	@Select("""
 			SELECT *
@@ -58,22 +74,36 @@ public interface MemberRepository {
 
 	@Update("""
 			<script>
-			UPDATE member
+			UPDATE `member`
 			<set>
-			<if test="loginPw != ''">
-				loginPw = #{loginPw},
-			</if>
-			name = '${name}',
-			nickname = '${nickname}',
-			cellphoneNum = '${cellphoneNum}',
-			email = '${email}',
-			updateDate= NOW()
+				<if test="loginPw != null">
+					loginPw = #{loginPw},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="nickname != null">
+					nickname = #{nickname},
+				</if>
+				<if test="cellphoneNum != null">
+					cellphoneNum = #{cellphoneNum},
+				</if>
+				<if test="email != null">
+					email = #{email},
+				</if>
+				<if test="longitude != 0">
+					longitude = #{longitude},
+				</if>
+				<if test="latitude != 0">
+					latitude = #{latitude},
+				</if>
+				updateDate= NOW()
 			</set>
 			WHERE id = #{id}
 			</script>
 			""")
 	public void doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum,
-			String email);
+			String email, double longitude, double latitude);
 
 	@Update("""
 			<script>

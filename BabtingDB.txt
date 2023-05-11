@@ -99,7 +99,7 @@ loginPw = 'admin',
 `name` = '관리자',
 `nickname` = '관리자',
 cellphoneNum = '01012341234',
-email = 'abcdef@gmail.com';
+email = 'ppoiuy1451@gmail.com';
 
 # 회원 테스트데이터 생성 (일반)
 INSERT INTO `member` 
@@ -110,7 +110,7 @@ loginPw = 'test1',
 `name` = '회원1',
 `nickname` = '회원1',
 cellphoneNum = '01043214321',
-email = 'abcd@gmail.com';
+email = 'ppoiuy1451@gmail.com';
 
 INSERT INTO `member` 
 SET regDate = NOW(),
@@ -120,7 +120,7 @@ loginPw = 'test2',
 `name` = '회원2',
 `nickname` = '회원2',
 cellphoneNum = '01067896789',
-email = 'zxcv@gmail.com';
+email = 'ppoiuy1451@gmail.com';
 
 # 게시판 테이블 생성
 CREATE TABLE board (
@@ -293,6 +293,10 @@ memberId = 1,
 relTypeCode = 'article',
 relId = 5,
 `body` = '문의 답변 5';
+
+# 기존의 회원 비번을 암호화
+UPDATE `member`
+SET loginPw = SHA2(loginPw,256);
 
 SELECT * FROM article;
 SELECT * FROM `member`;
