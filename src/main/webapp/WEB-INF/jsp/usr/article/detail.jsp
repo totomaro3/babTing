@@ -75,43 +75,6 @@
 	}
 </script>
 
-
-<script>
-/*
-window.onload = function calculateDistance() {
-    	  
-    	  const lat1 = 37.566826; // 위도 1
-          const lon1 = 126.978656; // 경도 1
-          const lat2 = 35.179554; // 위도 2
-          const lon2 = 129.075642; // 경도 2
-
-    		
-
-        const distance = haversineDistance(lat1, lon1, lat2, lon2);
-        document.getElementById("result").innerText = `두 지점 사이의 거리: ${distance}m`;
-      }
-
-      function haversineDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // 지구 반지름 (km)
-        const dLat = toRadians(lat2 - lat1);
-        const dLon = toRadians(lon2 - lon1);
-        const lat1Rad = toRadians(lat1);
-        const lat2Rad = toRadians(lat2);
-
-        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1Rad) * Math.cos(lat2Rad);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c;
-
-        return distance * 1000; // m 단위로 반환
-      }
-
-      function toRadians(degrees) {
-        return degrees * Math.PI / 180;
-      }
-      */
-</script>
-
 <script>
 		window.onload = function() {
 			
@@ -143,7 +106,7 @@ window.onload = function calculateDistance() {
 		function toRadians(degrees) {
 			return degrees * Math.PI / 180;
 		}
-	</script>
+</script>
 
 <section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
@@ -187,11 +150,6 @@ window.onload = function calculateDistance() {
 			<tr>
 				<th>작성자</th>
 				<td>${article.extra__writer }</td>
-			</tr>
-			<tr>
-				<th>조회수</th>
-				<td><span class="article-detail__hit-count">${article.hitCount }</span>
-				</td>
 			</tr>
 			<c:if test="${article.boardId == 2}">
 				<tr>
@@ -244,6 +202,11 @@ window.onload = function calculateDistance() {
 				</tr>
 			</c:if>
 			<c:if test="${article.boardId == 3}">
+				<tr>
+					<th>조회수</th>
+					<td><span class="article-detail__hit-count">${article.hitCount }</span>
+					</td>
+				</tr>
 				<tr>
 					<th>추천</th>
 					<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>

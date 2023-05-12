@@ -39,13 +39,33 @@
 	}
 </script>
 
+<script>
+	function kakaoMapPost(longitude, latitude, name) {
+		var action = '../member/doCheckData';
+
+		$.get(action, {
+			isAjax : 'Y',
+			longitude : longitude,
+			latitude : latitude,
+			name : name
+		}, function(data) {
+			$('.longitude').val(data.data1[0]);
+			$('.latitude').val(data.data1[1]);
+			$('.inputAddress').val(data.data1[2]);
+			$('.address').text(data.data1[2]);
+		}, 'json');
+	}
+</script>
+
 <section class="mt-8">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
-			<form action="../article/doModify" method="POST"
-				onsubmit="ArticleModify__submit(this); return false;">
-				<input type="hidden" name="body"> <input type="hidden"
-					name="id" value="${article.id }" />
+			<form action="../article/doModify" method="POST" onsubmit="ArticleModify__submit(this); return false;">
+				<input type="hidden" name="body"> <input type="hidden" name="id" value="${article.id }" />
+				<input type="hidden" name="boardId" value = "${article.boardId }">
+				<input value="${article.restaurantName }" class="inputAddress" type="hidden" name="restaurantName" />
+				<input value="${article.longitude }" class="longitude" type="hidden" name="longitude" />
+				<input value="${article.latitude }" class="latitude" type="hidden" name="latitude" />
 				<table>
 					<colgroup>
 						<col width="200" />
@@ -70,6 +90,28 @@
 							<th>작성자</th>
 							<td>${article.extra__writer }</td>
 						</tr>
+						<c:if test="${article.boardId == 2}">
+							<tr>
+								<th>매장</th>
+								<td class="text-left">
+									<div class="address">${article.restaurantName }</div>
+									<a class="btn btn-active btn-ghost text-xl" href="#"
+									onclick="window.open('/usr/home/kakaoMap', '장소 검색','width=900, height=550'); return false">장소
+										검색</a>
+								</td>
+							</tr>
+							<tr>
+								<th>예상 배달 비용</th>
+								<td class="text-left"><input
+									class="input input-bordered w-full max-w-xs"
+									value="${article.deliveryCost }" type="text"
+									name="deliveryCost" placeholder="예상 배달 비용" /></td>
+							</tr>
+							<tr>
+								<th>모집 마감 시간</th>
+								<td class="text-left">1시간 후</td>
+							</tr>
+						</c:if>
 						<tr>
 							<th>제목</th>
 							<td><input class="input input-bordered w-full max-w-xs"

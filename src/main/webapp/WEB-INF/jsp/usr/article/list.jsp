@@ -4,6 +4,39 @@
 <c:set var="pageTitle" value="ARTICLE ${board.code} LIST" />
 <%@ include file="../common/head.jspf"%>
 
+<script>
+		function calDistance(writerLatitude, writerLongitude, id) {
+			
+			const lat1 = writerLatitude; // 위도 1
+    		const lon1 = writerLongitude; // 경도 1
+    		const lat2 = ${rq.loginedMember.latitude}; // 위도 2
+    		const lon2 = ${rq.loginedMember.longitude}; // 경도 2
+
+			const distance = haversineDistance(lat1, lon1, lat2, lon2);
+    		const result = Math.round(distance / 100) * 100;
+			document.getElementById("result "+id).innerText = `약 `+ result +`m`;
+		}
+
+		function haversineDistance(lat1, lon1, lat2, lon2) {
+			const R = 6371; // 지구 반지름 (km)
+			const dLat = toRadians(lat2 - lat1);
+			const dLon = toRadians(lon2 - lon1);
+			const lat1Rad = toRadians(lat1);
+			const lat2Rad = toRadians(lat2);
+
+			const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1Rad) * Math.cos(lat2Rad);
+			const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			const distance = R * c;
+
+			return distance * 1000; // m 단위로 반환
+		}
+
+		function toRadians(degrees) {
+			return degrees * Math.PI / 180;
+		}
+</script>
+
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="flex">
@@ -11,7 +44,8 @@
 				게시물 갯수 : <span class="badge">${articlesCount }</span> 개
 			</div>
 			<div class="w-1/12"></div>
-			<c:if test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
+			<c:if
+				test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
 				<div class="flex">
 					<form class="flex" method="post"
 						action="?boardId=${boardId }&page=1">
@@ -42,7 +76,7 @@
 				<th>제목</th>
 				<c:if test="${boardId == 2}">
 					<th>매장</th>
-					<th>거리</th>
+					<th>회원 간의 거리</th>
 					<th>배달비</th>
 					<th>참여자</th>
 					<th>마감</th>
@@ -64,7 +98,7 @@
 						<td><a href="detail?id=${article.id }">${article.title }</a></td>
 						<c:if test="${boardId == 2}">
 							<td>${article.restaurantName }</td>
-							<td>약 ${article.distance }m</td>
+							<td><div id="result ${article.id}"></div></td>
 							<td>${article.deliveryCost }원</td>
 							<td>${article.participants }</td>
 							<td>${article.deadlineTime.substring(11,16) }</td>
@@ -74,6 +108,9 @@
 							<td>${article.hitCount }</td>
 						</c:if>
 					</tr>
+					<script>
+					calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
+					</script>
 				</c:if>
 			</c:forEach>
 

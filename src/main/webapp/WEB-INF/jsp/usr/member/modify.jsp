@@ -85,8 +85,8 @@
 				onsubmit="MemberModify__submit(this); return false;">
 				<input value="${rq.loginedMember.id }" type="hidden" name="id" />
 				<input value="${rq.loginedMember.loginId }" type="hidden" name="loginId" />
-				<input class="longitude" type="hidden" name="longitude" />
-				<input class="latitude" type="hidden" name="latitude" />
+				<input value="${rq.loginedMember.longitude }" class="longitude" type="hidden" name="longitude" />
+				<input value="${rq.loginedMember.latitude }" class="latitude" type="hidden" name="latitude" />
 				<table border="1">
 					<colgroup>
 						<col width="200" />

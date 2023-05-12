@@ -31,9 +31,9 @@ public class ArticleService {
 	}
 	
 	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId,
-			String restaurantName, int distance, int deliveryCost, double latitude, double longitude) {
+			String restaurantName, int deliveryCost, double latitude, double longitude) {
 
-		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, distance , deliveryCost, latitude, longitude);
+		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, deliveryCost, latitude, longitude);
 
 		int id = articleRepository.getLastInsertId();
 
@@ -45,9 +45,11 @@ public class ArticleService {
 		articleRepository.doDeleteArticle(article);
 	}
 
-	public ResultData<Integer> doModifyArticle(int id, String title, String body) {
+	public ResultData<Integer> doModifyArticle(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
+			double latitude, double longitude) {
 		
-		articleRepository.doModifyArticle(id,title,body);
+		articleRepository.doModifyArticle(id, title, body, boardId, restaurantName, deliveryCost,
+				latitude, longitude);
 		
 		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다", id),"id", id);
 	}

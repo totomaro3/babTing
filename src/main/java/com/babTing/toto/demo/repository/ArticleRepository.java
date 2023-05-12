@@ -13,7 +13,6 @@ import com.babTing.toto.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-
 	@Select("""
 			<script>
 			SELECT A.*,
@@ -22,7 +21,7 @@ public interface ArticleRepository {
 			M.latitude AS extra__writerLatitude,
 			IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
 			IFNULL(SUM(IF(RP.point &gt; 0,RP.point,0)),0) AS extra__goodReactionPoint,
-			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint 
+			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
@@ -36,10 +35,13 @@ public interface ArticleRepository {
 
 	@Select("""
 			<script>
-			SELECT A.*, M.nickname AS extra__writer,
+			SELECT A.*,
+			M.nickname AS extra__writer,
+			M.longitude AS extra__writerLongitude,
+			M.latitude AS extra__writerLatitude,
 			IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
 			IFNULL(SUM(IF(RP.point &gt; 0,RP.point,0)),0) AS extra__goodReactionPoint,
-			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint 
+			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
@@ -68,8 +70,9 @@ public interface ArticleRepository {
 			LIMIT #{limitFrom}, #{itemsInAPage};
 			</script>
 			""")
-	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword);
-	
+	public List<Article> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode,
+			String searchKeyword);
+
 	@Select("""
 			<script>
 			SELECT Count(*) AS cnt
@@ -94,8 +97,8 @@ public interface ArticleRepository {
 			</if>
 			</script>
 			""")
-	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword );
-	
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
+
 	@Select("""
 			<script>
 			SELECT LAST_INSERT_ID()
@@ -104,26 +107,26 @@ public interface ArticleRepository {
 	public int getLastInsertId();
 
 	@Insert("""
-			<script>
-		INSERT INTO article
-		SET regDate = NOW(),
-		updateDate= NOW(),
-		<if test="boardId == 2">
-			restaurantName = #{restaurantName},
-			latitude = #{latitude},
-			longitude = #{longitude},
-			distance = #{distance},
-			deliveryCost = #{deliveryCost},
-			deadlineTime = NOW() + INTERVAL 1 HOUR,
-		</if>
-		title =#{title},
-		`body`= #{body},
-		memberId = #{memberId},
-		boardId = #{boardId}
-		
-			</script>
-			""")
-	public void writeArticle(String title, String body, int memberId, int boardId, String restaurantName, int distance, int deliveryCost,double latitude, double longitude);
+				<script>
+			INSERT INTO article
+			SET regDate = NOW(),
+			updateDate= NOW(),
+			<if test="boardId == 2">
+				restaurantName = #{restaurantName},
+				latitude = #{latitude},
+				longitude = #{longitude},
+				deliveryCost = #{deliveryCost},
+				deadlineTime = NOW() + INTERVAL 1 HOUR,
+			</if>
+			title =#{title},
+			`body`= #{body},
+			memberId = #{memberId},
+			boardId = #{boardId}
+
+				</script>
+				""")
+	public void writeArticle(String title, String body, int memberId, int boardId, String restaurantName,
+			int deliveryCost, double latitude, double longitude);
 
 	@Delete("""
 			<script>
@@ -140,13 +143,17 @@ public interface ArticleRepository {
 			<set>
 			<if test="title != null and title != ''">title = #{title},</if>
 			<if test="body != null and title != ''">`body` = #{body},</if>
+			<if test="boardId == 2">
+			<if test="restaurantName != null and restaurantName != ''">restaurantName = #{restaurantName},</if>
+			</if>
 			updateDate= NOW(),
 			</set>
 			WHERE id = #{id}
 			</script>
 			""")
-	public void doModifyArticle(int id, String title, String body);
-	
+	public void doModifyArticle(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
+			double latitude, double longitude);
+
 	@Select("""
 			<script>
 			SELECT hitCount
@@ -155,7 +162,7 @@ public interface ArticleRepository {
 			</script>
 			""")
 	public int getArticleHitCount(int id);
-	
+
 	@Update("""
 			<script>
 			UPDATE article
@@ -200,7 +207,7 @@ public interface ArticleRepository {
 			</script>
 			""")
 	public int decreaseBadReactionPoint(int relId);
-	
+
 	@Select("""
 			SELECT A.*, M.nickname AS extra__writer
 			FROM article AS A

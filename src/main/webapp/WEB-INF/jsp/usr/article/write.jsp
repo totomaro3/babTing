@@ -39,7 +39,9 @@
 		form.submit();
 
 	}
-	
+</script>
+
+<script>
 	function kakaoMapPost(longitude, latitude, name) {
 		  var action = '../member/doCheckData';
 
