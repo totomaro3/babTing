@@ -75,6 +75,76 @@
 	}
 </script>
 
+
+<script>
+/*
+window.onload = function calculateDistance() {
+    	  
+    	  const lat1 = 37.566826; // 위도 1
+          const lon1 = 126.978656; // 경도 1
+          const lat2 = 35.179554; // 위도 2
+          const lon2 = 129.075642; // 경도 2
+
+    		
+
+        const distance = haversineDistance(lat1, lon1, lat2, lon2);
+        document.getElementById("result").innerText = `두 지점 사이의 거리: ${distance}m`;
+      }
+
+      function haversineDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // 지구 반지름 (km)
+        const dLat = toRadians(lat2 - lat1);
+        const dLon = toRadians(lon2 - lon1);
+        const lat1Rad = toRadians(lat1);
+        const lat2Rad = toRadians(lat2);
+
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1Rad) * Math.cos(lat2Rad);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+
+        return distance * 1000; // m 단위로 반환
+      }
+
+      function toRadians(degrees) {
+        return degrees * Math.PI / 180;
+      }
+      */
+</script>
+
+<script>
+		window.onload = function() {
+			
+			const lat1 = ${article.extra__writerLatitude}; // 위도 1
+    		const lon1 = ${article.extra__writerLongitude}; // 경도 1
+    		const lat2 = ${rq.loginedMember.latitude}; // 위도 2
+    		const lon2 = ${rq.loginedMember.longitude}; // 경도 2
+
+			const distance = haversineDistance(lat1, lon1, lat2, lon2);
+    		const result = Math.round(distance / 100) * 100;
+			document.getElementById("result").innerText = `약 `+ result +`m`;
+		}
+
+		function haversineDistance(lat1, lon1, lat2, lon2) {
+			const R = 6371; // 지구 반지름 (km)
+			const dLat = toRadians(lat2 - lat1);
+			const dLon = toRadians(lon2 - lon1);
+			const lat1Rad = toRadians(lat1);
+			const lat2Rad = toRadians(lat2);
+
+			const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1Rad) * Math.cos(lat2Rad);
+			const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			const distance = R * c;
+
+			return distance * 1000; // m 단위로 반환
+		}
+
+		function toRadians(degrees) {
+			return degrees * Math.PI / 180;
+		}
+	</script>
+
 <section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="button">
@@ -127,8 +197,7 @@
 				<tr>
 					<th>매장</th>
 					<td>${article.restaurantName }
-						<div id="map" style="width: 100%; height: 350px;"></div>
-						 <script
+						<div id="map" style="width: 100%; height: 350px;"></div> <script
 							type="text/javascript"
 							src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ae1891ba1b0c1ff630450e76b284f50"></script>
 						<script>
@@ -166,8 +235,8 @@
 					<td>${article.deliveryCost }원</td>
 				</tr>
 				<tr>
-					<th>거리</th>
-					<td>약 ${article.distance }m</td>
+					<th>회원 간의 거리</th>
+					<td><div id="result"></div></td>
 				</tr>
 				<tr>
 					<th>모집 마감 시간</th>
@@ -175,23 +244,24 @@
 				</tr>
 			</c:if>
 			<c:if test="${article.boardId == 3}">
-			<tr>
-				<th>추천</th>
-				<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
-					<span>&nbsp;싫어요 : ${article.badReactionPoint }&nbsp;</span> <c:if
-						test="${article.boardId == 3}">
-						<div>
-							<span> <span>&nbsp;</span> <a
-								href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
-								class="btn btn-xs ${actorHasGoodReaction ? "deepSkyBlue" : ""}">좋아요 👍</a>
-							</span> <span> <span>&nbsp;</span> <a
-								href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
-								class="btn btn-xs ${actorHasBadReaction ? "deepSkyBlue" : ""}">싫어요 👎</a>
-							</span>
-						</div>
-					</c:if>
-				</td>
-			</tr>
+				<tr>
+					<th>추천</th>
+					<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
+						<span>&nbsp;싫어요 : ${article.badReactionPoint }&nbsp;</span> <c:if
+							test="${article.boardId == 3}">
+							<div>
+								<span> <span>&nbsp;</span> <a
+									href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
+									class="btn btn-xs ${actorHasGoodReaction ? "deepSkyBlue" : ""}">좋아요
+										👍</a>
+								</span> <span> <span>&nbsp;</span> <a
+									href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri}"
+									class="btn btn-xs ${actorHasBadReaction ? "deepSkyBlue" : ""}">싫어요
+										👎</a>
+								</span>
+							</div>
+						</c:if></td>
+				</tr>
 			</c:if>
 			<tr>
 				<th>제목</th>
@@ -205,8 +275,7 @@
 	</div>
 </section>
 
-<c:if
-	test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
+<c:if test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">
 			<div class="table-box-type-1">
@@ -236,14 +305,14 @@
 				</c:if>
 				<c:if test="${!rq.isLogined() && article.boardId == 3}">
 				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost"
-						href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a> 후 이용해줘
+						href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a> 후 이용해주세요.
 				</c:if>
 			</div>
 		</div>
 	</section>
 </c:if>
 
-	<c:if test="${article.boardId == 4 || article.boardId == 3 }">
+<c:if test="${article.boardId == 4 || article.boardId == 3 }">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">
 			<h1 class="text-3xl">댓글 리스트(${repliesCount })</h1>
@@ -289,7 +358,7 @@
 			</table>
 		</div>
 	</section>
-	</c:if>
+</c:if>
 
 
 <%@ include file="../common/foot.jspf"%>

@@ -61,6 +61,21 @@
 		form.submit();
 
 	}
+
+	function kakaoMapPost(longitude, latitude, name) {
+		var action = './doCheckData';
+
+		$.get(action, {
+			isAjax : 'Y',
+			longitude : longitude,
+			latitude : latitude,
+			name : name
+		}, function(data) {
+			$('.longitude').val(data.data1[0]);
+			$('.latitude').val(data.data1[1]);
+			$('.address').text(data.data1[2]);
+		}, 'json');
+	}
 </script>
 
 <section class="mt-8 text-xl">
@@ -70,8 +85,8 @@
 				onsubmit="MemberModify__submit(this); return false;">
 				<input value="${rq.loginedMember.id }" type="hidden" name="id" />
 				<input value="${rq.loginedMember.loginId }" type="hidden" name="loginId" />
-				<input value=0 type="hidden" name="longitude" />
-				<input value=0 type="hidden" name="latitude" />
+				<input class="longitude" type="hidden" name="longitude" />
+				<input class="latitude" type="hidden" name="latitude" />
 				<table border="1">
 					<colgroup>
 						<col width="200" />
@@ -123,6 +138,12 @@
 							<td><input name="email" value="${rq.loginedMember.email }"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="이메일을 입력해주세요" type="text" /></td>
+						</tr>
+						<tr>
+							<th>주소</th>
+							<td><div class="address"></div> <a
+								class="btn btn-active btn-ghost text-xl" href="#"
+								onclick="window.open('/usr/home/kakaoMap', '장소 수정','width=900, height=550'); return false">장소 수정</a></td>
 						</tr>
 						<tr>
 							<th><button class="btn-text-link btn btn-active btn-ghost"

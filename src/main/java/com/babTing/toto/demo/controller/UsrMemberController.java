@@ -105,7 +105,7 @@ public class UsrMemberController {
 			return rq.jsHistoryBack("F-6", "이메일을 입력해주세요");
 		}
 
-		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNum, email, longitude, latitude);
+		ResultData<Integer> joinRd = memberService.join(loginId, Ut.sha256(loginPw), name, nickname, cellphoneNum, email, longitude, latitude);
 
 		if (joinRd.isFail()) {
 			return rq.jsHistoryBack(joinRd.getResultCode(), joinRd.getMsg());

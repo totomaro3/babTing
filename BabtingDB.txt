@@ -17,7 +17,6 @@ CREATE TABLE article(
     restaurantName CHAR(100),
     longitude DOUBLE NOT NULL,
     latitude DOUBLE NOT NULL,
-    distance INT(10),
     deliveryCost INT(10),
     deadlineTime DATETIME,
     Participants INT(10)
@@ -72,12 +71,23 @@ boardId = 4,
 title = '문의 5',
 `body` = '내용 5';
 
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+boardId = 2,
+title = '떡반집',
+`body` = '떡반집',
+longitude = 127.37494817405462,
+latitude = 36.35225102142578,
+deliveryCost = 3000;
+
 CREATE TABLE `member`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
-    loginId CHAR(20) NOT NULL,
-    loginPw CHAR(60) NOT NULL,
+    loginId CHAR(50) NOT NULL,
+    loginPw CHAR(200) NOT NULL,
     `authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반,7=관리자)',
     `name` CHAR(20) NOT NULL,
     nickname CHAR(20) NOT NULL,
@@ -110,7 +120,9 @@ loginPw = 'test1',
 `name` = '회원1',
 `nickname` = '회원1',
 cellphoneNum = '01043214321',
-email = 'ppoiuy1451@gmail.com';
+email = 'ppoiuy1451@gmail.com',
+longitude = 127.379728273553,
+latitude = 36.3510337596695;
 
 INSERT INTO `member` 
 SET regDate = NOW(),
@@ -120,7 +132,21 @@ loginPw = 'test2',
 `name` = '회원2',
 `nickname` = '회원2',
 cellphoneNum = '01067896789',
-email = 'ppoiuy1451@gmail.com';
+email = 'ppoiuy1451@gmail.com',
+longitude = 127.384834846753,
+latitude = 36.3505388993078;
+
+INSERT INTO `member` 
+SET regDate = NOW(),
+updateDate = NOW(),
+loginId = 'test3',
+loginPw = 'test3',
+`name` = '회원3',
+`nickname` = '회원3',
+cellphoneNum = '01067896789',
+email = 'ppoiuy1451@gmail.com',
+longitude = 127.37494817405462,
+latitude = 36.35225102142578;
 
 # 게시판 테이블 생성
 CREATE TABLE board (

@@ -19,12 +19,14 @@ public class Article {
 	private int goodReactionPoint;
 	private int badReactionPoint;
 	private String restaurantName;
-	private double latitude;
 	private double longitude;
+	private double latitude;
 	private int distance;
 	private int deliveryCost;
 	private String deadlineTime;
 	private int Participants;
 	
 	private String extra__writer;
+	private String extra__writerLongitude;
+	private String extra__writerLatitude;
 }

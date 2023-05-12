@@ -76,19 +76,19 @@ public interface MemberRepository {
 			<script>
 			UPDATE `member`
 			<set>
-				<if test="loginPw != null">
+				<if test="loginPw != ''">
 					loginPw = #{loginPw},
 				</if>
-				<if test="name != null">
+				<if test="name != ''">
 					name = #{name},
 				</if>
-				<if test="nickname != null">
+				<if test="nickname != ''">
 					nickname = #{nickname},
 				</if>
-				<if test="cellphoneNum != null">
+				<if test="cellphoneNum != ''">
 					cellphoneNum = #{cellphoneNum},
 				</if>
-				<if test="email != null">
+				<if test="email != ''">
 					email = #{email},
 				</if>
 				<if test="longitude != 0">

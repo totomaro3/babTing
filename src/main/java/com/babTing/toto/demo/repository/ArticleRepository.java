@@ -16,7 +16,10 @@ public interface ArticleRepository {
 
 	@Select("""
 			<script>
-			SELECT A.*, M.nickname AS extra__writer,
+			SELECT A.*,
+			M.nickname AS extra__writer,
+			M.longitude AS extra__writerLongitude,
+			M.latitude AS extra__writerLatitude,
 			IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
 			IFNULL(SUM(IF(RP.point &gt; 0,RP.point,0)),0) AS extra__goodReactionPoint,
 			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint 

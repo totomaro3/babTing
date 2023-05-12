@@ -6,10 +6,12 @@
 <script>
 	let submitJoinFormDone = false;
 	function submitJoinForm(form) {
+		/*
 		if (submitJoinFormDone) {
 			alert('처리중입니다');
 			return;
 		}
+		*/
 		form.loginId.value = form.loginId.value.trim();
 		if (form.loginId.value == 0) {
 			alert('아이디를 입력해주세요');
@@ -108,7 +110,7 @@
 		}, 'json');
 	}
 	
-	function myFunction(longitude, latitude, name) {
+	function kakaoMapPost(longitude, latitude, name) {
 		  var action = './doCheckData';
 
 		  $.get(action, {
@@ -117,6 +119,8 @@
 		    latitude: latitude,
 		    name: name
 		  }, function(data) {
+			$('.longitude').val(data.data1[0]);
+			$('.latitude').val(data.data1[1]);
 		    $('.address').text(data.data1[2]);
 		  }, 'json');
 		}
@@ -126,8 +130,8 @@
 	<div class="container mx-auto px-3">
 		<form class="table-box-type-1" name="form1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
-			<input type="hidden" name=longitude value= "${data.data1[0]}" />
-			<input type="hidden" name="latitude" value= "${data.data1[1]}" />
+			<input class="longitude" type="hidden" name="longitude" />
+			<input class="latitude" type="hidden" name="latitude" />
 			<table class="table table-zebra w-full">
 				<colgroup>
 					<col width="200" />
@@ -179,10 +183,10 @@
 						</td>
 					</tr>
 					<tr>
-						<th>거주지 위치</th>
+						<th>주소</th>
 						<td class="text-left"> <div class="address"></div>
 								<a class="btn btn-active btn-ghost text-xl" href="#"
-									onclick="window.open('/usr/home/kakaoMap?replaceUri=${rq.getCurrentUri()}', '장소 검색','width=900, height=550'); return false">장소 검색</a>
+									onclick="window.open('/usr/home/kakaoMap', '장소 검색','width=900, height=550'); return false">장소 검색</a>
 						</td>
 					</tr>
 					<tr>

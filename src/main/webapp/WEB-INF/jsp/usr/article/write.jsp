@@ -39,6 +39,22 @@
 		form.submit();
 
 	}
+	
+	function kakaoMapPost(longitude, latitude, name) {
+		  var action = '../member/doCheckData';
+
+		  $.get(action, {
+		    isAjax: 'Y',
+		    longitude: longitude,
+		    latitude: latitude,
+		    name: name
+		  }, function(data) {
+			$('.longitude').val(data.data1[0]);
+			$('.latitude').val(data.data1[1]);
+			$('.inputAddress').val(data.data1[2]);
+		    $('.address').text(data.data1[2]);
+		  }, 'json');
+		}
 </script>
 
 <section class="mt-8 text-3xl">
@@ -48,9 +64,9 @@
 				onsubmit="ArticleWrite__submit(this); return false;">
 				<input type="hidden" name="body">
 				<input type="hidden" name="boardId" value = "${param.boardId }">
-				<input type="hidden" name="restaurantName" value = "${param.restaurantName }">
-				<input type="hidden" name="latitude" value = "${param.latitude }">
-				<input type="hidden" name="longitude" value = "${param.longitude }">
+				<input class="inputAddress" type="hidden" name="restaurantName"/>
+				<input class="longitude" type="hidden" name="longitude" />
+				<input class="latitude" type="hidden" name="latitude" />
 				<table>
 					<colgroup>
 						<col width="200" />
@@ -78,9 +94,9 @@
 						<c:if test="${param.boardId == 2}">
 							<tr>
 								<th>매장</th>
-								<td class="text-left"> ${param.restaurantName }
+								<td class="text-left"> <div class="address"></div>
 								<a class="btn btn-active btn-ghost text-xl" href="#"
-									onclick="window.open('/usr/home/kakaoTest', '장소 검색','width=900, height=550'); return false">장소 검색</a>
+									onclick="window.open('/usr/home/kakaoMap', '장소 검색','width=900, height=550'); return false">장소 검색</a>
 								</td>
 							</tr>
 							<tr>

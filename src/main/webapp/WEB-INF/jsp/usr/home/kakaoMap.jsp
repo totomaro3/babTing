@@ -401,7 +401,7 @@
 			function goDoKaKao(longitude,latitude,name) {
 				alert("경도 = "+longitude+" , 위도 ="+latitude+" 저장 완료");
 				
-				window.opener.myFunction(longitude,latitude,name);
+				window.opener.kakaoMapPost(longitude,latitude,name);
 
 				window.close();
 				
