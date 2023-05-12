@@ -78,9 +78,37 @@ memberId = 2,
 boardId = 2,
 title = '떡반집',
 `body` = '떡반집',
+restaurantName = '떡반집',
 longitude = 127.37494817405462,
 latitude = 36.35225102142578,
-deliveryCost = 3000;
+deliveryCost = 3000,
+deadlineTime = NOW() + INTERVAL 1 DAY;
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+boardId = 2,
+title = '돈쿡',
+`body` = '돈쿡',
+restaurantName = '돈쿡',
+longitude = 127.388965415396,
+latitude = 36.3522738041263,
+deliveryCost = 3000,
+deadlineTime = NOW() + INTERVAL 1 DAY;
+
+INSERT INTO article 
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+boardId = 2,
+title = '보이지 않아야 함',
+`body` = '돈쿡',
+restaurantName = '돈쿡',
+longitude = 127.388965415396,
+latitude = 36.3522738041263,
+deliveryCost = 3000,
+deadlineTime = NOW() - INTERVAL 1 DAY;
 
 CREATE TABLE `member`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,

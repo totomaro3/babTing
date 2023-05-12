@@ -108,10 +108,6 @@
 									value="${article.deliveryCost }" type="text" name="deliveryCost"
 									placeholder="예상 배달 비용" /></td>
 							</tr>
-							<tr>
-								<th>모집 마감 시간</th>
-								<td class="text-left">1시간 후</td>
-							</tr>
 						</c:if>
 						<tr>
 							<th>제목</th>

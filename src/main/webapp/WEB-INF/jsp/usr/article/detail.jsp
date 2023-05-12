@@ -198,7 +198,7 @@
 				</tr>
 				<tr>
 					<th>모집 마감 시간</th>
-					<td>1시간 후</td>
+					<td>${article.deadlineTime.substring(5,16)}</td>
 				</tr>
 			</c:if>
 			<c:if test="${article.boardId == 3}">

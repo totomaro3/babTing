@@ -48,8 +48,9 @@ public interface ArticleRepository {
 			LEFT JOIN reactionPoint AS RP
 			ON A.id = RP.relId AND RP.relTypeCode = 'article'
 			WHERE 1
-			<if test="boardId != 0">
-				AND A.BoardId = #{boardId}
+			AND A.BoardId = #{boardId}
+			<if test="boardId == 2">
+			AND A.deadlineTime &gt; NOW()
 			</if>
 			<if test="searchKeyword != ''">
 				<choose>
@@ -116,7 +117,7 @@ public interface ArticleRepository {
 				latitude = #{latitude},
 				longitude = #{longitude},
 				deliveryCost = #{deliveryCost},
-				deadlineTime = NOW() + INTERVAL 1 HOUR,
+				deadlineTime = NOW() + INTERVAL 1 DAY,
 			</if>
 			title =#{title},
 			`body`= #{body},
@@ -220,13 +221,18 @@ public interface ArticleRepository {
 	public List<Article> getNoticeArticles(int limitFrom, int itemsInAPage);
 
 	@Select("""
-			SELECT A.*, M.nickname AS extra__writer
+			<script>
+			SELECT A.*, M.nickname AS extra__writer,
+			M.longitude AS extra__writerLongitude,
+			M.latitude AS extra__writerLatitude
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
 			WHERE A.boardId = 2
+			AND A.deadlineTime &gt; NOW()
 			ORDER BY A.id DESC
 			LIMIT #{limitFrom}, #{itemsInAPage};
+			</script>
 			""")
 	public List<Article> getBabtingArticles(int limitFrom, int itemsInAPage);
 

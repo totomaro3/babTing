@@ -101,7 +101,7 @@
 							<td><div id="result ${article.id}"></div></td>
 							<td>${article.deliveryCost }원</td>
 							<td>${article.participants }</td>
-							<td>${article.deadlineTime.substring(11,16) }</td>
+							<td>${article.deadlineTime.substring(5,16) }</td>
 						</c:if>
 						<td>${article.extra__writer }</td>
 						<c:if test="${boardId != 2}">
