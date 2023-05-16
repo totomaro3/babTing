@@ -134,6 +134,9 @@
 		<div class="container mx-auto px-3">
 			제작자 : 정호연 <br> 안녕하세요 배달 공동 구매 웹사이트 밥팅입니다.
 		</div>
+		<div>
+			<a class="btn-text-link btn btn-active btn-ghost" href="/chat">채팅방 테스트</a>
+		</div>
 	</section>
 </c:if>
 

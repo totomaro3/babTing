@@ -13,7 +13,7 @@ public class Article {
 	private String updateDate;
 	private String title;
 	private String body;
-	private String boardId;
+	private int boardId;
 	private int MemberId;
 	private int hitCount;
 	private int goodReactionPoint;
@@ -24,6 +24,7 @@ public class Article {
 	private int distance;
 	private int deliveryCost;
 	private String deadlineTime;
+	private int deadStatus;
 	private int Participants;
 	
 	private String extra__writer;

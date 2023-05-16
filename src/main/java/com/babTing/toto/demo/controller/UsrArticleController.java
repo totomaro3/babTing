@@ -68,6 +68,43 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
+	@RequestMapping("/usr/article/myList")
+	public String showMyList(Model model, int boardId, int page,
+			@RequestParam(defaultValue = "") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword) {
+
+		Board board = boardService.getBoardById(boardId);
+
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
+
+		int itemsInAPage = 10;
+		int limitFrom = (page - 1) * itemsInAPage;
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
+
+		int loginedMemberId = rq.getLoginedMemberId();
+
+		ResultData<List<Article>> getArticlesRd = articleService.getMyArticles(limitFrom, itemsInAPage,
+				searchKeywordTypeCode, searchKeyword, loginedMemberId);
+
+		List<Article> articles = getArticlesRd.getData1();
+
+		if (board == null && boardId != 0) {
+			return rq.jsHitoryBackOnView("존재하지 않는 게시판 입니다.");
+		}
+
+		model.addAttribute("board", board);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("articles", articles);
+		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("page", page);
+		model.addAttribute("pagesCount", pagesCount);
+		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
+		model.addAttribute("searchKeyword", searchKeyword);
+
+		// ResultData.from("S-1", "게시글 목록을 조회합니다.","articles", articles);
+		return "usr/article/list";
+	}
+
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 
@@ -187,8 +224,7 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-2", "해당 글에 대한 권한이 없습니다.");
 		}
 
-		articleService.doModifyArticle(id, title, body, boardId, restaurantName, deliveryCost,
-				latitude, longitude);
+		articleService.doModifyArticle(id, title, body, boardId, restaurantName, deliveryCost, latitude, longitude);
 
 		// ResultData.from("S-1", id + "번글이 수정되었습니다.", "article", article);
 		return Ut.jsReplace("S-1", id + "번글이 수정되었습니다.", "detail?id=" + id);
@@ -211,10 +247,57 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-2", "해당 글에 대한 권한이 없습니다.");
 		}
 
+		int articleBoardId = article.getBoardId();
+
 		articleService.doDeleteArticle(article);
 
-		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list?boardId=0&page=1");
+		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list?boardId=" + articleBoardId + "&page=1");
 	}
+
+	@RequestMapping("/usr/article/doDeadLine")
+	@ResponseBody
+	public String doDeadLine(int id) {
+
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+
+		Article article = getArticleRd.getData1();
+
+		if (article == null) {
+			return Ut.jsHistoryBack("F-1", id + "번글은 존재하지 않습니다.");
+		}
+
+		int loginedMemberId = rq.getLoginedMemberId();
+		if (article.getMemberId() != loginedMemberId) {
+			return Ut.jsHistoryBack("F-2", "해당 글에 대한 권한이 없습니다.");
+		}
+
+		articleService.doDeadArticle(article);
+
+		return Ut.jsReplace("S-1", id + "번글이 마감되었습니다.", "detail?id=" + id);
+	}
+	
+	@RequestMapping("/usr/article/doCancelDeadArticle")
+	@ResponseBody
+	public String doCancleDeadLine(int id) {
+
+		ResultData<Article> getArticleRd = articleService.getArticle(id);
+
+		Article article = getArticleRd.getData1();
+
+		if (article == null) {
+			return Ut.jsHistoryBack("F-1", id + "번글은 존재하지 않습니다.");
+		}
+
+		int loginedMemberId = rq.getLoginedMemberId();
+		if (article.getMemberId() != loginedMemberId) {
+			return Ut.jsHistoryBack("F-2", "해당 글에 대한 권한이 없습니다.");
+		}
+
+		articleService.doCancelDeadArticle(article);
+
+		return Ut.jsReplace("S-1", id + "번글이 마감 취소되었습니다.", "detail?id=" + id);
+	}
+	
 
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody

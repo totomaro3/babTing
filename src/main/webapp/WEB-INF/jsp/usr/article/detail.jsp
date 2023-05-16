@@ -122,6 +122,14 @@
 					onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
 					href="../article/doDelete?id=${article.id }">삭제</a>
 			</c:if>
+			<c:if test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 0}">
+				<a class="btn btn-active btn-ghost text-xl"
+					href="../article/doDeadLine?id=${article.id }">마감</a>
+			</c:if>
+			<c:if test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 1}">
+				<a class="btn btn-active btn-ghost text-xl"
+					href="../article/doCancelDeadArticle?id=${article.id }">마감 취소</a>
+			</c:if>
 		</div>
 	</div>
 </section>

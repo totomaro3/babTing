@@ -246,6 +246,9 @@
 				<c:if test="${rq.logined }">
 					<li><a href="/usr/article/list?boardId=4&page=1">문의하기</a></li>
 					<li><a href="/usr/member/myPage">내정보</a></li>
+					<c:if test="${rq.loginedMember.authLevel == 3}">
+					<li><a href="/usr/article/myList?boardId=2&page=1">내 글 관리</a></li>
+					</c:if>
 					<li><a href="${rq.logoutUri }">로그아웃</a></li>
 				</c:if>
 			</ul>

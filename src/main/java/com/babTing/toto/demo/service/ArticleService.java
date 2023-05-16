@@ -30,6 +30,13 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("모든 글을 불러왔습니다."),"articles", articles);
 	}
 	
+	public ResultData<List<Article>> getMyArticles(int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword, int loginedMemberId) {
+		
+		List<Article> articles = articleRepository.getMyArticles(limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword, loginedMemberId);
+	
+		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."),"articles", articles);
+	}
+	
 	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId,
 			String restaurantName, int deliveryCost, double latitude, double longitude) {
 
@@ -43,6 +50,14 @@ public class ArticleService {
 	
 	public void doDeleteArticle(Article article) {
 		articleRepository.doDeleteArticle(article);
+	}
+	
+	public void doDeadArticle(Article article) {
+		articleRepository.doDeadArticle(article);
+	}
+	
+	public void doCancelDeadArticle(Article article) {
+		articleRepository.doCancelDeadArticle(article);
 	}
 
 	public ResultData<Integer> doModifyArticle(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
@@ -122,4 +137,6 @@ public class ArticleService {
 	public List<Article> getFreeArticles(int limitFrom, int itemsInAPage) {
 		return articleRepository.getFreeArticles(limitFrom, itemsInAPage);
 	}
+
+
 }
