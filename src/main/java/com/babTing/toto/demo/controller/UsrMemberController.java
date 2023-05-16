@@ -135,7 +135,7 @@ public class UsrMemberController {
 			return Ut.jsHistoryBack("F-2", "비밀번호를 입력해주세요");
 		}
 
-		ResultData<Member> loginRd = memberService.login(loginId, loginPw);
+		ResultData<Member> loginRd = memberService.login(loginId, Ut.sha256(loginPw));
 
 		if (loginRd.getData1() == null) {
 			return Ut.jsHistoryBack("F-3", Ut.f("아이디(%s)가 없습니다.", loginId));
