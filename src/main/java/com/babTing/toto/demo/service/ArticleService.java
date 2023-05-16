@@ -38,9 +38,9 @@ public class ArticleService {
 	}
 	
 	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId,
-			String restaurantName, int deliveryCost, double latitude, double longitude) {
+			String restaurantName, String address, int deliveryCost, double latitude, double longitude) {
 
-		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, deliveryCost, latitude, longitude);
+		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, address, deliveryCost, latitude, longitude);
 
 		int id = articleRepository.getLastInsertId();
 

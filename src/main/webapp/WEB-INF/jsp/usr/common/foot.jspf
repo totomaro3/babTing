@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 </main>
-
-
+<div class="fixed top-40 right-40">
+			<c:choose>
+				<c:when test="${rq.logined}">
+					<div>${loginedMemberNickname } 님</div>
+					<div>어서오세요!</div>
+					<div><a href="/usr/member/myPage">내 정보</a></div>
+					<div><a href="/usr/article/myList?boardId=2&page=1">내 밥팅</a></div>
+					<div><a href="/usr/member/doLogout">로그아웃</a></div>
+				</c:when>
+				<c:otherwise>
+					<div>로그인을 해주세요!</div>
+					<div><a href="/usr/member/join">가입</a></div>
+					<div><a href="${rq.loginUri }">로그인</a></div>
+				</c:otherwise>
+			</c:choose>
+		</div>
 </body>
 </html>

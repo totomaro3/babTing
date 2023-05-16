@@ -110,7 +110,7 @@
 		}, 'json');
 	}
 	
-	function kakaoMapPost(longitude, latitude, name) {
+	function kakaoMapPost(longitude, latitude, name, address) {
 		  var action = './doCheckData';
 
 		  $.get(action, {
@@ -121,7 +121,8 @@
 		  }, function(data) {
 			$('.longitude').val(data.data1[0]);
 			$('.latitude').val(data.data1[1]);
-		    $('.address').text(data.data1[2]);
+		    $('.name').text(data.data1[2]);
+		    $('.address').text(data.data1[3]);
 		  }, 'json');
 		}
 </script>
@@ -132,7 +133,7 @@
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
 			<input class="longitude" type="hidden" name="longitude" />
 			<input class="latitude" type="hidden" name="latitude" />
-			<table class="table table-zebra w-full">
+			<table class="table table-zebra w-1/2">
 				<colgroup>
 					<col width="200" />
 				</colgroup>
@@ -184,7 +185,7 @@
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td class="text-left"> <div class="address"></div>
+						<td class="text-left"> <div class="name"></div> <div class="address"></div>
 								<a class="btn btn-active btn-ghost text-xl" href="#"
 									onclick="window.open('/usr/home/kakaoMap', '장소 검색','width=900, height=550'); return false">장소 검색</a>
 						</td>

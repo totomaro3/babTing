@@ -153,7 +153,8 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(String title, String body, int boardId,
-			@RequestParam(defaultValue = "") String restaurantName, @RequestParam(defaultValue = "0") int deliveryCost,
+			@RequestParam(defaultValue = "") String restaurantName, 
+			@RequestParam(defaultValue = "") String address ,@RequestParam(defaultValue = "0") int deliveryCost,
 			@RequestParam(defaultValue = "0") double latitude, @RequestParam(defaultValue = "0") double longitude) {
 
 		if (Ut.empty(title)) {
@@ -168,7 +169,7 @@ public class UsrArticleController {
 		int loginedMemberId = rq.getLoginedMemberId();
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId, boardId,
-				restaurantName, deliveryCost, latitude, longitude);
+				restaurantName, address, deliveryCost, latitude, longitude);
 
 		int id = (int) writeArticleRd.getData1();
 

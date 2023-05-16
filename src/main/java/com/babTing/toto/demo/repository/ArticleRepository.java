@@ -153,6 +153,7 @@ public interface ArticleRepository {
 			updateDate= NOW(),
 			<if test="boardId == 2">
 				restaurantName = #{restaurantName},
+				address = #{address},
 				latitude = #{latitude},
 				longitude = #{longitude},
 				deliveryCost = #{deliveryCost},
@@ -165,7 +166,7 @@ public interface ArticleRepository {
 
 				</script>
 				""")
-	public void writeArticle(String title, String body, int memberId, int boardId, String restaurantName,
+	public void writeArticle(String title, String body, int memberId, int boardId, String restaurantName, String address,
 			int deliveryCost, double latitude, double longitude);
 
 	@Delete("""

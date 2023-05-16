@@ -19,8 +19,6 @@
 		.container h1{
 			text-align: left;
 			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
 			margin-bottom: 20px;
 		}
 		.chating{
@@ -36,9 +34,6 @@
 		input{
 			width: 330px;
 			height: 25px;
-		}
-		#yourMsg{
-			display: none;
 		}
 	</style>
 </head>
@@ -70,20 +65,17 @@
 		});
 	}
 
-	function chatName(){
-		var userName = $("#userName").val();
+	window.onload = function chatName(){
+		var userName = '${rq.loginedMember.nickname }';
 		if(userName == null || userName.trim() == ""){
-			alert("사용자 이름을 입력해주세요.");
-			$("#userName").focus();
+			alert("사용자 이름을 찾을 수 없어요");
 		}else{
 			wsOpen();
-			$("#yourName").hide();
-			$("#yourMsg").show();
 		}
 	}
 
 	function send() {
-		var uN = $("#userName").val();
+		var uN = '${rq.loginedMember.nickname }';
 		var msg = $("#chatting").val();
 		ws.send(uN+" : "+msg);
 		$('#chatting').val("");
@@ -93,16 +85,6 @@
 	<div id="container" class="container">
 		<h1>채팅</h1>
 		<div id="chating" class="chating">
-		</div>
-		
-		<div id="yourName">
-			<table class="inputTable">
-				<tr>
-					<th>사용자명</th>
-					<th><input type="text" name="userName" id="userName"></th>
-					<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
-				</tr>
-			</table>
 		</div>
 		
 		<div id="yourMsg">

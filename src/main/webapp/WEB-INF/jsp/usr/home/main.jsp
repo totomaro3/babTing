@@ -39,6 +39,11 @@
 
 
 <c:if test="${rq.isLogined()}">
+
+	<div class="container mx-auto px-3">
+		<a class="btn-text-link btn btn-active btn-ghost"
+			href="/usr/chat/chat">채팅방 테스트</a>
+	</div>
 	<section class="mt-8 text-3xl">
 		<div class="container mx-auto px-3">
 			<div>모든 밥팅</div>
@@ -124,18 +129,7 @@
 <c:if test="${!rq.isLogined()}">
 	<section class="mt-8 text-3xl">
 		<div class="container mx-auto px-3">
-			밥팅을 이용하시려면 <a class="btn-text-link btn btn-active btn-ghost"
-				href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a>
-			후 이용해주세요.
-		</div>
-	</section>
-
-	<section class="mt-8 text-3xl">
-		<div class="container mx-auto px-3">
 			제작자 : 정호연 <br> 안녕하세요 배달 공동 구매 웹사이트 밥팅입니다.
-		</div>
-		<div>
-			<a class="btn-text-link btn btn-active btn-ghost" href="/chat">채팅방 테스트</a>
 		</div>
 	</section>
 </c:if>

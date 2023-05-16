@@ -15,10 +15,12 @@ CREATE TABLE article(
     goodReactionPoint INT(10) NOT NULL DEFAULT 0,
     badReactionPoint INT(10) NOT NULL DEFAULT 0,
     restaurantName CHAR(100),
+    address CHAR(100),
     longitude DOUBLE NOT NULL,
     latitude DOUBLE NOT NULL,
     deliveryCost INT(10),
     deadlineTime DATETIME,
+    deadStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '마감 여부 (0=탈퇴 전, 1=탈퇴 후)',
     Participants INT(10)
 );
 
@@ -100,7 +102,7 @@ deadlineTime = NOW() + INTERVAL 1 DAY;
 INSERT INTO article 
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 3,
+memberId = 2,
 boardId = 2,
 title = '보이지 않아야 함',
 `body` = '돈쿡',

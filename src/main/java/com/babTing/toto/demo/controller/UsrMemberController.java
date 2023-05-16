@@ -70,12 +70,13 @@ public class UsrMemberController {
 	
 	@RequestMapping("/usr/member/doCheckData")
 	@ResponseBody
-	public ResultData doCheckData(double longitude ,double latitude, String name) {
+	public ResultData doCheckData(double longitude ,double latitude, String name, String address) {
 		
-		Object[] dataArray = new Object[3];
+		Object[] dataArray = new Object[4];
 		dataArray[0] = longitude;
 		dataArray[1] = latitude;
 		dataArray[2] = name;
+		dataArray[3] = address;
 		
 		return ResultData.from("S-1", "성공적으로 불러왔습니다.","dataArray",dataArray);
 	}

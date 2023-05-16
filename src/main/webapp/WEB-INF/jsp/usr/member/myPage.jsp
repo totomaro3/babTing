@@ -4,7 +4,6 @@
 <c:set var="pageTitle" value="MEMBER MYPAGE" />
 <%@ include file="../common/head.jspf"%>
 <%@ page import="com.babTing.toto.demo.util.Ut"%>
-<hr />
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">

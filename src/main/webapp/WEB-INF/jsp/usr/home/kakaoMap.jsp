@@ -390,7 +390,7 @@
 				}
 
 				itemStr += '  <span class="tel">' + places.phone + '</span>';
-				itemStr += '<span><button type="button" onclick="goDoKaKao('+places.x+','+places.y+',\''+places.place_name+'\');">장소선택</button></span>' + '</div>';
+				itemStr += '<span><button type="button" onclick="goDoKaKao(' + places.x + ',' + places.y + ',\'' + places.place_name + '\',\'' + places.road_address_name + '\');">장소선택</button></span>' + '</div>';
 
 				el.innerHTML = itemStr;
 				el.className = 'item';
@@ -398,10 +398,11 @@
 				return el;
 			}
 			
-			function goDoKaKao(longitude,latitude,name) {
-				alert("경도 = "+longitude+" , 위도 ="+latitude+" 저장 완료");
+			function goDoKaKao(longitude,latitude,name,address) {
 				
-				window.opener.kakaoMapPost(longitude,latitude,name);
+				alert(address);
+				
+				window.opener.kakaoMapPost(longitude,latitude,name,address);
 
 				window.close();
 				
@@ -497,5 +498,6 @@
 				}
 			}
 		</script>
-
-		<%@ include file="../common/foot.jspf"%>
+</main>
+</body>
+</html>

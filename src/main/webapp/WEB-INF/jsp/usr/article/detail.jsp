@@ -162,7 +162,9 @@
 			<c:if test="${article.boardId == 2}">
 				<tr>
 					<th>매장</th>
-					<td>${article.restaurantName }
+					<td>
+						<div>${article.restaurantName }</div>
+						<div>${article.address }</div>
 						<div id="map" style="width: 100%; height: 350px;"></div> <script
 							type="text/javascript"
 							src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ae1891ba1b0c1ff630450e76b284f50"></script>
