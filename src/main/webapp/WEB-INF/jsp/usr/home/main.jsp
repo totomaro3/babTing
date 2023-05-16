@@ -38,12 +38,12 @@
 </script>
 
 
-<c:if test="${rq.isLogined()}">
-
-	<div class="container mx-auto px-3">
+<div class="container mx-auto px-3">
 		<a class="btn-text-link btn btn-active btn-ghost"
-			href="/usr/chat/chat">채팅방 테스트</a>
+			href="/room">채팅방 테스트</a>
 	</div>
+
+<c:if test="${rq.isLogined()}">
 	<section class="mt-8 text-3xl">
 		<div class="container mx-auto px-3">
 			<div>모든 밥팅</div>
