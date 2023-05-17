@@ -73,26 +73,14 @@
 
 <script type="text/javascript">
 	var ws;
+	
 	window.onload = function(){
 		getRoom();
-		createRoom();
 	}
 
 	function getRoom(){
 		commonAjax('/usr/chat/getRoom', "", 'post', function(result){
 			createChatingRoom(result);
-		});
-	}
-	
-	function createRoom(){
-		$("#createRoom").click(function(){
-			var msg = {	roomName : $('#roomName').val()	};
-
-			commonAjax('/usr/chat/createRoom', msg, 'post', function(result){
-				createChatingRoom(result);
-			});
-
-			$("#roomName").val("");
 		});
 	}
 	

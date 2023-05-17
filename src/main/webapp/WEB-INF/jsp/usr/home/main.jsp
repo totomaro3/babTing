@@ -4,7 +4,9 @@
 <c:set var="pageTitle" value="HOME MAIN" />
 <%@ include file="../common/head.jspf"%>
 
-<script>
+<c:if test="${rq.isLogined()}">
+	<script>
+	//회원간의 거리 구하기
 		function calDistance(writerLatitude, writerLongitude, id) {
 			
 			const lat1 = writerLatitude; // 위도 1
@@ -35,13 +37,43 @@
 		function toRadians(degrees) {
 			return degrees * Math.PI / 180;
 		}
+		</script>
+</c:if>
+
+<script>
+		//딱 한번만 이미 있는 채팅방 만들기
+		window.onload = function(){
+			initCreateRoom();
+		}
+		
+		function initCreateRoom(){
+			commonAjax('/usr/chat/initCreateRoom', "", 'post', function(result){
+			});
+			
+		}
+
+		function commonAjax(url, parameter, type, calbak, contentType){
+			$.ajax({
+				url: url,
+				data: parameter,
+				type: type,
+				contentType : contentType!=null?contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+				success: function (res) {
+					calbak(res);
+				},
+				error : function(err){
+					console.log('error');
+					calbak(err);
+				}
+			});
+		}
 </script>
 
 
 <div class="container mx-auto px-3">
-		<a class="btn-text-link btn btn-active btn-ghost"
-			href="/usr/chat/room">채팅방 테스트</a>
-	</div>
+	<a class="btn-text-link btn btn-active btn-ghost" href="/usr/chat/room">채팅방
+		테스트</a>
+</div>
 
 <c:if test="${rq.isLogined()}">
 	<section class="mt-8 text-3xl">

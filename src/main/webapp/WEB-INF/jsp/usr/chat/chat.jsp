@@ -57,6 +57,25 @@
 	function wsEvt() {
 		ws.onopen = function(data){
 			//소켓이 열리면 동작
+			var msg = data.data;
+			if(msg != null && msg.trim() != ''){
+				var d = JSON.parse(msg);
+				if(d.type == "getId"){
+					var si = d.sessionId != null ? d.sessionId : "";
+					if(si != ''){
+						$("#sessionId").val(si); 
+					}
+				}else if(d.type == "message"){
+					if(d.sessionId == $("#sessionId").val()){
+						$("#chating").append("<p class='me'>본인 :" + d.msg + "</p>");	
+					}else{
+						$("#chating").append("<p class='others'>" + d.userName + " :" + d.msg + "</p>");
+					}
+						
+				}else{
+					console.warn("unknown type!")
+				}
+			}
 		}
 		
 		ws.onmessage = function(data) {
@@ -113,7 +132,7 @@
 </script>
 <body>
 	<div id="container" class="container">
-		<h1>${roomName}의 채팅방</h1>
+		<h1>글 제목 : ${roomName}</h1>
 		<input type="hidden" id="sessionId" value="">
 		<input type="hidden" id="roomNumber" value="${roomNumber}">
 		

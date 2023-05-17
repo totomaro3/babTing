@@ -40,10 +40,6 @@
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="flex">
-			<div>
-				게시물 갯수 : <span class="badge">${articlesCount }</span> 개
-			</div>
-			<div class="w-1/12"></div>
 			<c:if
 				test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
 				<div class="flex">

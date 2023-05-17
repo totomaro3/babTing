@@ -400,8 +400,6 @@
 			
 			function goDoKaKao(longitude,latitude,name,address) {
 				
-				alert(address);
-				
 				window.opener.kakaoMapPost(longitude,latitude,name,address);
 
 				window.close();

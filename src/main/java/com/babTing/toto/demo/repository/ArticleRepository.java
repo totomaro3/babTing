@@ -157,7 +157,7 @@ public interface ArticleRepository {
 				latitude = #{latitude},
 				longitude = #{longitude},
 				deliveryCost = #{deliveryCost},
-				deadlineTime = NOW() + INTERVAL 1 DAY,
+				deadlineTime = NOW() + INTERVAL 6 HOUR,
 			</if>
 			title =#{title},
 			`body`= #{body},

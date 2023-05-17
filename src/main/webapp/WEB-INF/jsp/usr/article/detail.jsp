@@ -248,6 +248,15 @@
 	</div>
 </section>
 
+<c:if test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">
+	<section class="mt-3 text-xl">
+		<div class="container mx-auto px-3">
+			<a class="btn-text-link btn btn-active btn-ghost"
+						onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=700'); return false">대화방 참여 하기</a>
+		</div>
+	</section>
+</c:if>
+
 <c:if test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">

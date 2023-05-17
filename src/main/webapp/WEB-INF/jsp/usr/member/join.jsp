@@ -117,7 +117,8 @@
 		    isAjax: 'Y',
 		    longitude: longitude,
 		    latitude: latitude,
-		    name: name
+		    name: name,
+		    address: address
 		  }, function(data) {
 			$('.longitude').val(data.data1[0]);
 			$('.latitude').val(data.data1[1]);
