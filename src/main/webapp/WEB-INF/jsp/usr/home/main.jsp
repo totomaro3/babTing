@@ -40,7 +40,7 @@
 
 <div class="container mx-auto px-3">
 		<a class="btn-text-link btn btn-active btn-ghost"
-			href="/room">채팅방 테스트</a>
+			href="/usr/chat/room">채팅방 테스트</a>
 	</div>
 
 <c:if test="${rq.isLogined()}">
@@ -56,6 +56,7 @@
 					<th>배달비</th>
 					<th>참여자</th>
 					<th>마감</th>
+					<td>작성자</td>
 				</tr>
 				<c:forEach var="article" items="${babtingArticles }">
 					<tr style="text-align: center;">
@@ -65,6 +66,7 @@
 						<td>${article.deliveryCost }</td>
 						<td>${article.participants }</td>
 						<td>${article.deadlineTime.substring(5,16) }</td>
+						<td>${article.extra__writer }</td>
 					</tr>
 					<script>
 					calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})

@@ -18,9 +18,7 @@
 		}
 		.container h1{
 			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
+			padding: 5px 5px 5px 15px; 
 			margin-bottom: 20px;
 		}
 		.chating{
@@ -91,24 +89,22 @@
 		});
 	}
 
-	function chatName(){
-		var userName = $("#userName").val();
+	window.onload = function chatName(){
+		var userName = '${rq.loginedMember.nickname}';
 		if(userName == null || userName.trim() == ""){
 			alert("사용자 이름을 입력해주세요.");
-			$("#userName").focus();
 		}else{
 			wsOpen();
-			$("#yourName").hide();
 			$("#yourMsg").show();
 		}
 	}
 
-	function send() {
+	function send(name) {
 		var option ={
 			type: "message",
 			roomNumber: $("#roomNumber").val(),
 			sessionId : $("#sessionId").val(),
-			userName : $("#userName").val(),
+			userName : name,
 			msg : $("#chatting").val()
 		}
 		ws.send(JSON.stringify(option))
@@ -124,21 +120,12 @@
 		<div id="chating" class="chating">
 		</div>
 		
-		<div id="yourName">
-			<table class="inputTable">
-				<tr>
-					<th>사용자명</th>
-					<th><input type="text" name="userName" id="userName"></th>
-					<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
-				</tr>
-			</table>
-		</div>
 		<div id="yourMsg">
 			<table class="inputTable">
 				<tr>
 					<th>메시지</th>
 					<th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
-					<th><button onclick="send()" id="sendBtn">보내기</button></th>
+					<th><button onclick="send('${rq.loginedMember.nickname}')" id="sendBtn">보내기</button></th>
 				</tr>
 			</table>
 		</div>

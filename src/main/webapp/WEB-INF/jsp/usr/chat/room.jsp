@@ -19,8 +19,8 @@
 		.container h1{
 			text-align: left;
 			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
+			color:;
+			border-left: 3px solid;
 			margin-bottom: 20px;
 		}
 		.roomContainer{
@@ -33,15 +33,13 @@
 			border: none;
 		}
 		.roomList th{
-			border: 1px solid #FFBB00;
+			border: 1px solid;
 			background-color: #fff;
-			color: #FFBB00;
 		}
 		.roomList td{
-			border: 1px solid #FFBB00;
+			border: 1px solid;
 			background-color: #fff;
 			text-align: left;
-			color: #FFBB00;
 		}
 		.roomList .num{
 			width: 75px;
@@ -81,7 +79,7 @@
 	}
 
 	function getRoom(){
-		commonAjax('/getRoom', "", 'post', function(result){
+		commonAjax('/usr/chat/getRoom', "", 'post', function(result){
 			createChatingRoom(result);
 		});
 	}
@@ -90,18 +88,14 @@
 		$("#createRoom").click(function(){
 			var msg = {	roomName : $('#roomName').val()	};
 
-			commonAjax('/createRoom', msg, 'post', function(result){
+			commonAjax('/usr/chat/createRoom', msg, 'post', function(result){
 				createChatingRoom(result);
 			});
 
 			$("#roomName").val("");
 		});
 	}
-
-	function goRoom(number, name){
-		location.href="/moveChating?roomName="+name+"&"+"roomNumber="+number;
-	}
-
+	
 	function createChatingRoom(res){
 		if(res != null){
 			var tag = "<tr><th class='num'>순서</th><th class='room'>방 이름</th><th class='go'></th></tr>";
@@ -112,10 +106,14 @@
 							"<td class='num'>"+(idx+1)+"</td>"+
 							"<td class='room'>"+ rn +"</td>"+
 							"<td class='go'><button type='button' onclick='goRoom(\""+roomNumber+"\", \""+rn+"\")'>참여</button></td>" +
-						"</tr>";	
+						"</tr>";
 			});
 			$("#roomList").empty().append(tag);
 		}
+	}
+	
+	function goRoom(number, name){
+		location.href="/usr/chat/moveChating?roomName="+name+"&"+"roomNumber="+number;
 	}
 
 	function commonAjax(url, parameter, type, calbak, contentType){
