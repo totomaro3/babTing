@@ -84,7 +84,7 @@ restaurantName = '떡반집',
 longitude = 127.37494817405462,
 latitude = 36.35225102142578,
 deliveryCost = 3000,
-deadlineTime = NOW() + INTERVAL 1 DAY;
+deadlineTime = NOW() + INTERVAL 6 HOUR;
 
 INSERT INTO article 
 SET regDate = NOW(),
@@ -97,7 +97,7 @@ restaurantName = '돈쿡',
 longitude = 127.388965415396,
 latitude = 36.3522738041263,
 deliveryCost = 3000,
-deadlineTime = NOW() + INTERVAL 1 DAY;
+deadlineTime = NOW() + INTERVAL 6 HOUR;
 
 INSERT INTO article 
 SET regDate = NOW(),
@@ -110,7 +110,7 @@ restaurantName = '돈쿡',
 longitude = 127.388965415396,
 latitude = 36.3522738041263,
 deliveryCost = 3000,
-deadlineTime = NOW() - INTERVAL 1 DAY;
+deadlineTime = NOW() - INTERVAL 6 HOUR;
 
 CREATE TABLE `member`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -354,7 +354,45 @@ relId = 5,
 UPDATE `member`
 SET loginPw = SHA2(loginPw,256);
 
+CREATE TABLE chatRoom (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    roomNumber INT(10) UNSIGNED NOT NULL COMMENT 'articleId',
+    roomName Text NOT NULL COMMENT 'articleTitle'
+);
+
+INSERT INTO chatRoom
+SET regDate = NOW(),
+updateDate = NOW(),
+roomNumber = 7,
+roomName = '떡반집';
+
+INSERT INTO chatRoom
+SET regDate = NOW(),
+updateDate = NOW(),
+roomNumber = 8,
+roomName = '돈쿡';
+
+INSERT INTO chatRoom
+SET regDate = NOW(),
+updateDate = NOW(),
+roomNumber = 9,
+roomName = '보이지 않아야 함';
+
+CREATE TABLE chatBody (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+    relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
+    `body`TEXT NOT NULL
+);
+
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM reactionPoint;
 SELECT * FROM reply;
+SELECT * FROM chatRoom;
+
