@@ -11,10 +11,9 @@ public class ChatMessage {
 
 	private String message;
 	private String userName;
-	private int relId;
 
 	@Override
 	public String toString() {
-		return "ChatMessage [message =" + message + ", sessionId =" + userName + ", relId =" + relId +"]";
+		return "ChatMessage [message =" + message + ", sessionId =" + userName + "]";
 	}
 }

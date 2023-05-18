@@ -6,15 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.babTing.toto.demo.service.ChatService;
+import com.babTing.toto.demo.vo.ChatMessage;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Room;
 
@@ -126,5 +125,13 @@ public class UsrChatController {
         // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
 		chatService.saveChatMessage(message, userName, relId);
         return ResultData.from("S-1", "성공");
+    }
+	
+	@RequestMapping("/usr/chat/load-chat-message")
+	@ResponseBody
+    public List<ChatMessage> loadChatMessage() {
+        // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
+		List<ChatMessage> chatMessages = chatService.getChatMessages();
+        return chatMessages;
     }
 }

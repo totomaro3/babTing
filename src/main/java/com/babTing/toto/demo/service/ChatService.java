@@ -21,7 +21,11 @@ public class ChatService {
 
 	public void saveChatMessage(String message, String userName, int relId) {
         // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
-        ChatMessage chatMessage = new ChatMessage(message, userName, relId);
         chatRepository.save(message, userName, relId);
     }
+
+	public List<ChatMessage> getChatMessages() {
+		List<ChatMessage> chatMessages = chatRepository.load();
+		return chatMessages;
+	}
 }

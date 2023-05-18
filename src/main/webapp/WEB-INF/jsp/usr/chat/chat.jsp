@@ -72,7 +72,28 @@ input {
 		ws.onopen = function(data) {
 			//소켓이 열리면 동작
 			var nickname = "${rq.loginedMember.nickname}";
-			enterSend(nickname);
+			
+			$.get('./load-chat-message', {
+				
+			}, function(data) {
+		        
+		        // chatMessages를 활용하여 원하는 작업을 수행합니다.
+		        for (var i = 0; i < data.length; i++) {
+		            var message = data[i].message;
+		            console.log(message); // 콘솔에 채팅 메시지 출력 예시
+		            
+		            if (data[i].userName.localeCompare("${rq.loginedMember.nickname}") == 0) {
+		            	$("#chating").append(
+								"<p class='me'>나 :" + data[i].message + "</p>");
+		            } else {
+		            	$("#chating").append(
+								"<p class='others'>" + data[i].userName + " :"
+										+ data[i].message + "</p>");
+		            }
+		        }
+		        
+		        enterSend(nickname);
+			}, 'json');
 		}
 
 		ws.onmessage = function(data) {
@@ -90,20 +111,24 @@ input {
 					if (d.sessionId == $("#sessionId").val()) {
 						$("#chating").append(
 								"<p class='me'>나 :" + d.msg + "</p>");
+						
+						//메시지 데이터베이스에 저장 (내가 보낸 것만 저장)
+						$.get('./save-chat-message', {
+							isAjax : 'Y',
+							message : d.msg,
+							userName : d.userName,
+							relId : "${roomNumber}"
+						}, function(data) {
+							console.log("성공");
+						}, 'json');
+						
 					} else {
 						$("#chating").append(
 								"<p class='others'>" + d.userName + " :"
 										+ d.msg + "</p>");
 					}
 					
-					$.get('./save-chat-message', {
-						isAjax : 'Y',
-						message : d.msg,
-						userName : d.userName,
-						relId : "${roomNumber}"
-					}, function(data) {
-						console.log("성공");
-					}, 'json');
+					
 					
 				} else if (d.type == "enterNotice") {
 					$("#chating").append(
