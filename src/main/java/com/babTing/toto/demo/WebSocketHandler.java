@@ -5,17 +5,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.websocket.OnMessage;
+import javax.websocket.Session;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.babTing.toto.demo.service.ChatService;
+
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
+	
+	@Autowired
+	ChatService chatService;
 	
 	//HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
 	List<HashMap<String, Object>> rls = new ArrayList<>(); //웹소켓 세션을 담아둘 리스트 ---roomListSessions

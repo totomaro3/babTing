@@ -2,6 +2,7 @@ package com.babTing.toto.demo.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -17,7 +18,17 @@ public interface ChatRepository {
 			</script>
 			""")
 	List<Room> getRooms();
-
 	
 	
+	@Insert("""
+			<script>
+			INSERT INTO chatMessage
+			SET regDate = NOW(),
+			updateDate = NOW(),
+			message = #{message},
+			userName = #{userName},
+			relId = #{relId}
+			</script>
+			""")
+	void save(String message, String userName, int relId);
 }
