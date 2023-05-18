@@ -61,6 +61,7 @@ input {
 
 <script type="text/javascript">
 	var ws;
+	var nickname = "${rq.loginedMember.nickname}";
 
 	function wsOpen() {
 		//웹소켓 전송시 현재 방의 번호를 넘겨서 보낸다.
@@ -100,6 +101,7 @@ input {
 		ws.onmessage = function(data) {
 			//메시지를 받으면 동작
 			var msg = data.data;
+			console.log(data);
 			if (msg != null && msg.trim() != '') {
 				var d = JSON.parse(msg);
 				if (d.type == "getId") {
@@ -114,7 +116,7 @@ input {
 								"<p class='me'>" + d.userName + " :"
 										+ d.msg + "</p>");
 						
-						/*
+						
 						//메시지 데이터베이스에 저장 (내가 보낸 것만 저장)
 						$.get('./save-chat-message', {
 							isAjax : 'Y',
@@ -124,7 +126,7 @@ input {
 						}, function(data) {
 							console.log("성공");
 						}, 'json');
-						*/
+						
 						
 					} else {
 						$("#chating").append(
@@ -179,7 +181,7 @@ input {
 			type : "message",
 			roomNumber : $("#roomNumber").val(),
 			sessionId : $("#sessionId").val(),
-			userName : name,
+			userName : nickname,
 			msg : $("#chatting").val()
 		}
 		ws.send(JSON.stringify(option))

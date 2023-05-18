@@ -380,19 +380,26 @@ updateDate = NOW(),
 roomNumber = 9,
 roomName = '보이지 않아야 함';
 
-CREATE TABLE chatBody (
+CREATE TABLE ChatMessage (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
-    memberId INT(10) UNSIGNED NOT NULL,
-    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
-    relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
-    `body`TEXT NOT NULL
+    message TEXT not null,
+    userName CHAR(100) NOT NULL,
+    relId INT(10) NOT NULL COMMENT '관련 데이터 번호'
 );
+
+Insert into ChatMessage
+Set regDate = NOW(),
+updateDate = NOW(),
+message = '이건 저장 되어있는 채팅',
+userName = '회원1',
+relId = 7;
 
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM reactionPoint;
 SELECT * FROM reply;
 SELECT * FROM chatRoom;
+SELECT * FROM ChatMessage;
 
