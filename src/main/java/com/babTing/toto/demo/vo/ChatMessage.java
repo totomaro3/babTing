@@ -8,12 +8,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChatMessage {
-
+	
+	private int id;
+	private String regDate;
+	private String updateDate;
 	private String message;
 	private String userName;
+	private int relId;
 
+	/*
 	@Override
 	public String toString() {
 		return "ChatMessage [message =" + message + ", sessionId =" + userName + "]";
 	}
+	*/
 }

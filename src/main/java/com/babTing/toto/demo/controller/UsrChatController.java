@@ -129,9 +129,9 @@ public class UsrChatController {
 	
 	@RequestMapping("/usr/chat/load-chat-message")
 	@ResponseBody
-    public List<ChatMessage> loadChatMessage() {
+    public List<ChatMessage> loadChatMessage(int relId) {
         // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
-		List<ChatMessage> chatMessages = chatService.getChatMessages();
+		List<ChatMessage> chatMessages = chatService.getChatMessages(relId);
         return chatMessages;
     }
 }

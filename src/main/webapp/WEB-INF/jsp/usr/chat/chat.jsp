@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +75,7 @@ input {
 			var nickname = "${rq.loginedMember.nickname}";
 			
 			$.get('./load-chat-message', {
-				
+				relId : "${roomNumber}"
 			}, function(data) {
 		        
 		        // chatMessages를 활용하여 원하는 작업을 수행합니다.
@@ -110,8 +111,10 @@ input {
 					//메시지 보내기
 					if (d.sessionId == $("#sessionId").val()) {
 						$("#chating").append(
-								"<p class='me'>나 :" + d.msg + "</p>");
+								"<p class='me'>" + d.userName + " :"
+										+ d.msg + "</p>");
 						
+						/*
 						//메시지 데이터베이스에 저장 (내가 보낸 것만 저장)
 						$.get('./save-chat-message', {
 							isAjax : 'Y',
@@ -121,6 +124,7 @@ input {
 						}, function(data) {
 							console.log("성공");
 						}, 'json');
+						*/
 						
 					} else {
 						$("#chating").append(

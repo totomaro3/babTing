@@ -24,8 +24,8 @@ public class ChatService {
         chatRepository.save(message, userName, relId);
     }
 
-	public List<ChatMessage> getChatMessages() {
-		List<ChatMessage> chatMessages = chatRepository.load();
+	public List<ChatMessage> getChatMessages(int relId) {
+		List<ChatMessage> chatMessages = chatRepository.load(relId);
 		return chatMessages;
 	}
 }
