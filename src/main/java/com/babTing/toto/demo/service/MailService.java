@@ -59,6 +59,13 @@ public class MailService {
 		}
 	}
 
+	/**
+	 * 비밀번호 찾기 전용 , 실제 이메일 발송
+	 * @param email
+	 * @param title
+	 * @param body
+	 * @return
+	 */
 	public ResultData send(String email, String title, String body) {
 
 		MailHandler mail;

@@ -3,6 +3,7 @@
 <c:set var="pageTitle" value="MEMBER JOIN" />
 <%@ include file="../common/head.jspf"%>
 
+<!-- 빈 칸 체크 -->
 <script>
 	let submitJoinFormDone = false;
 	function submitJoinForm(form) {
@@ -128,6 +129,7 @@
 		}
 </script>
 
+<!-- 조인 폼 -->
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<form class="table-box-type-1" name="form1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
@@ -202,4 +204,5 @@
 		</form>
 	</div>
 </section>
+
 <%@ include file="../common/foot.jspf"%>

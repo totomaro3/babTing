@@ -4,6 +4,7 @@
 <c:set var="pageTitle" value="REPLY MODIFY" />
 <%@ include file="../common/head.jspf"%>
 
+<!-- 빈칸 체크 -->
 <script type="text/javascript">
 	let ReplyModify__submitFormDone = false;
 	function ReplyModify__submitFormDone(form) {
@@ -21,6 +22,7 @@
 	}
 </script>
 
+<!-- 댓글 수정 폼 -->
 <section class="text-xl">
 	<div class="container mx-auto px-3">
 		<form method="post" action="doModify">

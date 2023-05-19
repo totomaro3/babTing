@@ -4,7 +4,9 @@
 <c:set var="pageTitle" value="ARTICLE ${board.code} LIST" />
 <%@ include file="../common/head.jspf"%>
 
-<script>
+<!-- 회원간의 거리 구하기 -->
+<c:if test="${param.boardId == 2}">
+	<script>
 		function calDistance(writerLatitude, writerLongitude, id) {
 			
 			const lat1 = writerLatitude; // 위도 1
@@ -36,10 +38,12 @@
 			return degrees * Math.PI / 180;
 		}
 </script>
+</c:if>
 
+<!-- 검색, 리스트, 페이지네이션, 글쓰기  -->
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
-		<div class="flex">
+		<div class="flex justify-center mt-5 text-xl">
 			<c:if
 				test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
 				<div class="flex">
@@ -62,7 +66,7 @@
 			</c:if>
 		</div>
 
-		<table class="mt-5 text-xl"
+		<table class="flex justify-center mt-5 text-xl"
 			style="border-collapse: collapse; border-color: green">
 			<tr>
 				<c:if test="${boardId != 2}">
@@ -109,10 +113,9 @@
 					</script>
 				</c:if>
 			</c:forEach>
-
 		</table>
 
-		<div class="btn-group mt-5 text-xl">
+		<div class="flex justify-center btn-group mt-5 text-xl">
 			<c:set var="paginationLen" value="3" />
 			<c:set var="startPage"
 				value="${page - paginationLen >= 1 ? page - paginationLen : 1}" />
@@ -142,7 +145,8 @@
 		</div>
 
 		<br>
-		<div class="btn-group mt-5 text-xl">
+		
+		<div class="flex justify-center btn-group text-xl">
 			<c:if test="${boardId == 1 && rq.loginedMember.authLevel == 7}">
 				<a class="btn" href="/usr/article/write?boardId=1">소개 쓰기</a>
 			</c:if>

@@ -6,7 +6,7 @@
 <%@ include file="../common/toastUiEditorLib.jspf"%>
 <hr />
 
-<!-- Article modify 관련 -->
+<!-- 빈 칸 체크 -->
 <script type="text/javascript">
 	let ArticleWrite__submitFormDone = false;
 
@@ -16,12 +16,11 @@
 		}
 
 		form.title.value = form.title.value.trim();
-		/*
+		
 		if (form.title.value == 0) {
 			alert('제목을 입력해주세요');
 			return;
 		}
-		*/
 
 		const editor = $(form).find('.toast-ui-editor').data(
 				'data-toast-editor');
@@ -41,6 +40,7 @@
 	}
 </script>
 
+<!-- 장소 작성 -->
 <script>
 	function kakaoMapPost(longitude, latitude, name, address) {
 		  var action = '/usr/member/doCheckData';
@@ -62,6 +62,7 @@
 		}
 </script>
 
+<!-- 작성 폼 -->
 <section class="mt-8 text-3xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
@@ -137,7 +138,6 @@
 							</td>
 						</tr>
 					</tbody>
-
 				</table>
 			</form>
 		</div>

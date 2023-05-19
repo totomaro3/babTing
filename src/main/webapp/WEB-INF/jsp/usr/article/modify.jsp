@@ -6,7 +6,7 @@
 <%@ include file="../common/toastUiEditorLib.jspf"%>
 <hr />
 
-<!-- Article modify 관련 -->
+<!-- 빈 칸 체크 -->
 <script type="text/javascript">
 	let ArticleModify__submitFormDone = false;
 
@@ -26,7 +26,7 @@
 		const markdown = editor.getMarkdown().trim();
 
 		if (markdown.length == 0) {
-			alert('내용 써라');
+			alert('내용을 입력해주세요');
 			editor.focus();
 			return;
 		}
@@ -39,6 +39,7 @@
 	}
 </script>
 
+<!-- 장소 수정 -->
 <script>
 	function kakaoMapPost(longitude, latitude, name) {
 		var action = '../member/doCheckData';
@@ -57,6 +58,7 @@
 	}
 </script>
 
+<!-- 수정 폼 -->
 <section class="mt-8">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">

@@ -26,12 +26,21 @@ public class UsrMemberController {
 	
 	@Autowired
 	private Rq rq;
-
+	
+	/**
+	 * 회원 가입 폼
+	 * @return 가입 이동
+	 */
 	@RequestMapping("/usr/member/join")
-	public String join() {
+	public String showJoin() {
 		return "usr/member/join";
 	}
 	
+	/**
+	 * 아이디 중복 체크 (가입 시 사용) Ajax
+	 * @param loginId
+	 * @return
+	 */
 	@RequestMapping("/usr/member/getLoginIdDup")
 	@ResponseBody
 	public ResultData<String> getLoginIdDup(String loginId) {
@@ -49,6 +58,12 @@ public class UsrMemberController {
 		return ResultData.from("S-1", getMemberByLoginIdRd.getMsg(),"loginId",loginId);
 	}
 	
+	/**
+	 * 비밀번호 일치 체크 (가입 시 사용) Ajax
+	 * @param loginPw
+	 * @param loginPwConfirm
+	 * @return
+	 */
 	@RequestMapping("/usr/member/getLoginPwConfirm")
 	@ResponseBody
 	public ResultData<String> getLoginPwConfirm(String loginPw, String loginPwConfirm) {
@@ -68,6 +83,14 @@ public class UsrMemberController {
 		return ResultData.from("S-1", "비밀번호가 일치합니다.");
 	}
 	
+	/**
+	 * doKakaoMap에서 사용자가 입력한 지도 위치 불러오기 Ajax
+	 * @param longitude
+	 * @param latitude
+	 * @param name
+	 * @param address
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doCheckData")
 	@ResponseBody
 	public ResultData doCheckData(double longitude ,double latitude, String name, String address) {
@@ -81,6 +104,19 @@ public class UsrMemberController {
 		return ResultData.from("S-1", "성공적으로 불러왔습니다.","dataArray",dataArray);
 	}
 	
+	/**
+	 * 회원 가입 (INSERT)
+	 * @param loginId
+	 * @param loginPw
+	 * @param name
+	 * @param nickname
+	 * @param cellphoneNum
+	 * @param email
+	 * @param longitude
+	 * @param latitude
+	 * @param afterLoginUri
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
@@ -119,12 +155,26 @@ public class UsrMemberController {
 		return Ut.jsReplace("S-1", Ut.f("회원가입이 완료되었습니다"), afterJoinUri);
 	}
 
+	/**
+	 * 로그인 폼
+	 * @param loginId
+	 * @param loginPw
+	 * @param replaceUri
+	 * @return 로그인 이동
+	 */
 	@RequestMapping("/usr/member/login")
 	public String login(String loginId, String loginPw, String replaceUri) {
 		
 		return "usr/member/login";
 	}
 
+	/**
+	 * 로그인
+	 * @param loginId
+	 * @param loginPw
+	 * @param afterLoginUri
+	 * @return 로그인 알림
+	 */
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public String doLogin(String loginId, String loginPw, String afterLoginUri) {
@@ -151,6 +201,11 @@ public class UsrMemberController {
 		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다.", loginRd.getData1().getNickname()), afterLoginUri);
 	}
 
+	/**
+	 * 로그아웃
+	 * @param afterLogoutUri
+	 * @return 로그아웃 알림
+	 */
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public String doLogout(String afterLogoutUri) {
@@ -160,18 +215,32 @@ public class UsrMemberController {
 		return Ut.jsReplace("S-1", Ut.f("로그아웃 되었습니다."), afterLogoutUri);
 	}
 	
+	/**
+	 * 내 정보
+	 * @return 이동
+	 */
 	@RequestMapping("/usr/member/myPage")
 	public String showMyPage() {
 		
 		return "usr/member/myPage";
 	}
 	
+	/**
+	 * 비밀번호 본인 확인 폼 (회원 정보 수정 시 사용)
+	 * @return
+	 */
 	@RequestMapping("/usr/member/checkPw")
 	public String showCheckPw() {
 		
 		return "usr/member/checkPw";
 	}
 	
+	/**
+	 * 비밀번호 일치 체크 (회원 정보 수정 시 사용)
+	 * @param loginId
+	 * @param loginPw
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doCheckPw")
 	@ResponseBody
 	public String doCheckPw(String loginId, String loginPw) {
@@ -189,11 +258,28 @@ public class UsrMemberController {
 		return rq.jsReplace("", "modify");
 	}
 	
+	/**
+	 * 회원 정보 수정 폼
+	 * @return
+	 */
 	@RequestMapping("/usr/member/modify")
 	public String modify() {
 		return "/usr/member/modify";
 	}
 
+	/**
+	 * 회원 정보 수정 (UPDATE)
+	 * @param id
+	 * @param loginId
+	 * @param loginPw
+	 * @param name
+	 * @param nickname
+	 * @param cellphoneNum
+	 * @param email
+	 * @param longitude
+	 * @param latitude
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
 	public String doModify(int id, String loginId, String loginPw, String name, String nickname,
@@ -215,6 +301,11 @@ public class UsrMemberController {
 		
 	}
 
+	/**
+	 * 회원 정보 삭제 (UPDATE) (?) Delstatus 조정 , 탈퇴 회원 정보 유지
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
@@ -225,12 +316,23 @@ public class UsrMemberController {
 		
 	}
 	
+	/**
+	 * 아이디 찾기 폼
+	 * @return
+	 */
 	@RequestMapping("/usr/member/findLoginId")
 	public String showFindLoginId() {
 		
 		return "usr/member/findLoginId";
 	}
 	
+	/**
+	 * 아이디 찾기 (이름과 이메일 일치 체크)
+	 * @param afterFindLoginIdUri
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doFindLoginId")
 	@ResponseBody
 	public String doFindLoginId(String afterFindLoginIdUri, String name, String email) {
@@ -240,12 +342,23 @@ public class UsrMemberController {
 		return rq.jsReplace(getMemberByNameAndEmailRd.getResultCode(), getMemberByNameAndEmailRd.getMsg(), afterFindLoginIdUri);
 	}
 	
+	/**
+	 * 비밀번호 찾기 폼
+	 * @return
+	 */
 	@RequestMapping("/usr/member/findLoginPw")
 	public String showFindLoginPw() {
 		
 		return "usr/member/findLoginPw";
 	}
 
+	/**
+	 * 비밀번호 찾기 (이름과 이메일 일치 체크)
+	 * @param afterFindLoginPwUri
+	 * @param loginId
+	 * @param email
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doFindLoginPw")
 	@ResponseBody
 	public String doFindLoginPw(@RequestParam(defaultValue = "/") String afterFindLoginPwUri, String loginId,
@@ -254,11 +367,11 @@ public class UsrMemberController {
 		ResultData<Member> getMemberByLoginIdRd = memberService.getMemberByLoginId(loginId);
 
 		if (getMemberByLoginIdRd.getData1() == null) {
-			return Ut.jsHistoryBack("F-1", "너는 없는 사람이야");
+			return Ut.jsHistoryBack("F-1", "가입되어 있는 이름이 없습니다");
 		}
 
 		if (getMemberByLoginIdRd.getData1().getEmail().equals(email) == false) {
-			return Ut.jsHistoryBack("F-2", "일치하는 이메일이 없는데?");
+			return Ut.jsHistoryBack("F-2", "이메일이 일치하지 않습니다.");
 		}
 
 		ResultData notifyTempLoginPwByEmailRd = memberService.notifyTempLoginPwByEmail(getMemberByLoginIdRd.getData1());
@@ -267,7 +380,3 @@ public class UsrMemberController {
 				afterFindLoginPwUri);
 	}
 }
-
-//http://localhost:8081/usr/member/doJoin?loginId=1&loginPw=1&name=abc&nickname=toto&cellphoneNum=1&email=abc@gmail.com
-//ResultData -> 표준 보고서 양식
-//성공, 실패 쉽게 판단이 가능하도록 / 관련 데이터를 같이 주고 받을 수 있도록

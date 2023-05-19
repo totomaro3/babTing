@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class Ut {
 
+	/**
+	 * 변수가 비었을 때
+	 * @param obj
+	 * @return
+	 */
 	public static boolean empty(Object obj) {
 
 		if (obj == null) {
@@ -31,10 +36,22 @@ public class Ut {
 		return str.trim().length() == 0;
 	}
 
+	/**
+	 * String format
+	 * @param format
+	 * @param args
+	 * @return
+	 */
 	public static String f(String format, Object... args) {
 		return String.format(format, args);
 	}
 
+	/**
+	 * 알림 후 뒤로가기 실행
+	 * @param resultCode
+	 * @param msg
+	 * @return
+	 */
 	public static String jsHistoryBack(String resultCode, String msg) {
 
 		if (msg == null) {
@@ -52,6 +69,12 @@ public class Ut {
 				""", msg);
 	}
 
+	/**
+	 * 알림 후 새로고침 코드x
+	 * @param msg
+	 * @param uri
+	 * @return
+	 */
 	public static String jsReplace(String msg, String uri) {
 		if (msg == null) {
 			msg = "";
@@ -72,6 +95,13 @@ public class Ut {
 
 	}
 
+	/**
+	 * 알림 후 새로고침
+	 * @param resultCode
+	 * @param msg
+	 * @param uri
+	 * @return
+	 */
 	public static String jsReplace(String resultCode, String msg, String uri) {
 		if (msg == null) {
 			msg = "";
@@ -92,6 +122,10 @@ public class Ut {
 
 	}
 
+	/**
+	 * 로그인 할 때 마지막으로 방문한 페이지 찾기
+	 */
+	
 	public static String getEncodedCurrentUri(String currentUri) {
 
 		try {
@@ -135,6 +169,11 @@ public class Ut {
 		return defaultValue;
 	}
 	
+	/**
+	 * 비밀번호 암호화
+	 * @param input
+	 * @return
+	 */
 	public static String sha256(String input) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -155,6 +194,11 @@ public class Ut {
 		}
 	}
 	
+	/**
+	 * 임시 비밀번호 가져오기
+	 * @param length
+	 * @return
+	 */
 	public static String getTempPassword(int length) {
 		int index = 0;
 		char[] charArr = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',

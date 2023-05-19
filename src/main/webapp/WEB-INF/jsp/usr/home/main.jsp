@@ -4,9 +4,9 @@
 <c:set var="pageTitle" value="HOME MAIN" />
 <%@ include file="../common/head.jspf"%>
 
+<!-- 회원간의 거리 구하기 -->
 <c:if test="${rq.isLogined()}">
 	<script>
-	//회원간의 거리 구하기
 		function calDistance(writerLatitude, writerLongitude, id) {
 			
 			const lat1 = writerLatitude; // 위도 1
@@ -16,7 +16,8 @@
 
 			const distance = haversineDistance(lat1, lon1, lat2, lon2);
     		const result = Math.round(distance / 100) * 100;
-			document.getElementById("result "+id).innerText = `약 `+ result +`m`;
+			document.getElementById("result1 "+id).innerText = `약 `+ result +`m`;
+			document.getElementById("result2 "+id).innerText = `약 `+ result +`m`;
 		}
 
 		function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -40,100 +41,113 @@
 		</script>
 </c:if>
 
-<div class="container mx-auto px-3">
-	<a class="btn-text-link btn btn-active btn-ghost" href="/usr/chat/room">채팅방
-		테스트</a>
-</div>
-
+<!-- 로그인 시 메인페이지에 글 보기 -->
 <c:if test="${rq.isLogined()}">
-	<section class="mt-8 text-3xl">
+	<section class="mt-8">
 		<div class="container mx-auto px-3">
-			<div>모든 밥팅</div>
+
+			<div>맞춤 밥팅</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
 				<tr>
-					<th>제목</th>
 					<th>매장</th>
 					<th>회원 간의 거리</th>
 					<th>배달비</th>
+					<th>제목</th>
 					<th>참여자</th>
-					<th>마감</th>
-					<td>작성자</td>
+					<th>마감시간</th>
 				</tr>
 				<c:forEach var="article" items="${babtingArticles }">
 					<tr style="text-align: center;">
-						<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
 						<td>${article.restaurantName }</td>
-						<td><div id="result ${article.id}"></div></td>
+						<td><div id="result2 ${article.id}"></div></td>
 						<td>${article.deliveryCost }</td>
+						<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
 						<td>${article.participants }</td>
-						<td>${article.deadlineTime.substring(5,16) }</td>
-						<td>${article.extra__writer }</td>
+						<td>${article.deadlineTime.substring(11,16) }</td>
 					</tr>
 					<script>
 					calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
 					</script>
 				</c:forEach>
 			</table>
+
+			<div>모든 밥팅</div>
+			<table class="my-2"
+				style="border-collapse: collapse; border-color: green">
+				<tr>
+					<th>매장</th>
+					<th>회원 간의 거리</th>
+					<th>배달비</th>
+					<th>제목</th>
+					<th>참여자</th>
+					<th>마감시간</th>
+				</tr>
+				<c:forEach var="article" items="${babtingArticles }">
+					<tr style="text-align: center;">
+						<td>${article.restaurantName }</td>
+						<td><div id="result1 ${article.id}"></div></td>
+						<td>${article.deliveryCost }</td>
+						<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
+						<td>${article.participants }</td>
+						<td>${article.deadlineTime.substring(11,16) }</td>
+					</tr>
+					<script>
+					calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
+					</script>
+				</c:forEach>
+			</table>
+
+
 		</div>
 	</section>
 
-	<section class="mt-8 text-3xl">
+	<section class="mt-8">
 		<div class="container mx-auto px-3">
 
 			<div>공지사항</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
 				<tr>
-					<th>번호</th>
 					<th>작성날짜</th>
 					<th>제목</th>
-					<th>작성자</th>
-					<th>조회수</th>
 				</tr>
 				<c:forEach var="article" items="${noticeArticles }">
 					<tr style="text-align: center;">
-						<td><div class="badge badge-lg text-xl">${article.id }</div></td>
-						<td>${article.regDate.substring(0,10) }</td>
+						<td>${article.regDate.substring(5,10) }</td>
 						<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
-						<td>${article.extra__writer }</td>
-						<td>${article.hitCount }</td>
 					</tr>
 				</c:forEach>
 			</table>
-		</div>
-	</section>
-
-	<section class="mt-8 text-3xl">
-		<div class="container mx-auto px-3">
+			
 			<div>자유게시판</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
 				<tr>
-					<th>번호</th>
 					<th>작성날짜</th>
 					<th>제목</th>
-					<th>작성자</th>
-					<th>조회수</th>
 				</tr>
 				<c:forEach var="article" items="${freeArticles }">
 					<tr style="text-align: center;">
-						<td><div class="badge badge-lg text-xl">${article.id }</div></td>
-						<td>${article.regDate.substring(0,10) }</td>
+						<td>${article.regDate.substring(5,10) }</td>
 						<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
-						<td>${article.extra__writer }</td>
-						<td>${article.hitCount }</td>
 					</tr>
 				</c:forEach>
 			</table>
+
 		</div>
+	</section>
+
+	<section class="mt-8 text-3xl">
+		<div class="container mx-auto px-3">
 	</section>
 </c:if>
 
+<!-- 로그아웃 시 메인페이지 설정 -->
 <c:if test="${!rq.isLogined()}">
 	<section class="mt-8 text-3xl">
 		<div class="container mx-auto px-3">
-			제작자 : 정호연 <br> 안녕하세요 배달 공동 구매 웹사이트 밥팅입니다.
+			제작자 : 정호연 <br> 배달 공동 구매 웹 사이트 밥팅입니다. <br> 해마다 늘어나는 배달 비용..
 		</div>
 	</section>
 </c:if>

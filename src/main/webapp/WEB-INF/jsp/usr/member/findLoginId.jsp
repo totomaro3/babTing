@@ -5,6 +5,7 @@
 <%@ include file="../common/head.jspf"%>
 <hr />
 
+<!-- 빈 칸 체크 -->
 <script type="text/javascript">
 	let MemberFindLoginId__submitFormDone = false;
 
@@ -34,6 +35,7 @@
 	}
 </script>
 
+<!-- 아이디 찾기 폼 -->
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
 		<form method="post" action="doFindLoginId"

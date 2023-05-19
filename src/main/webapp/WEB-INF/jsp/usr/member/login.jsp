@@ -4,7 +4,7 @@
 <c:set var="pageTitle" value="MEMBER LOGIN" />
 <%@ include file="../common/head.jspf"%>
 
-
+<!-- 로그인 폼 -->
 <section class="mt-5 text-xl">
 	<div class="container mx-auto px-3">
 		<form method="post" action="doLogin">

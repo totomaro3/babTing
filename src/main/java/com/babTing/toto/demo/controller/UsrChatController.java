@@ -27,7 +27,11 @@ public class UsrChatController {
 
 	List<Room> roomList = new ArrayList<Room>();
 	static int roomNumber = 0;
-
+	
+	/**
+	 * 채팅방 불러오기 (moveChating이 대신해줌 사용x)
+	 * @return 채팅 이동
+	 */
 	@RequestMapping("/usr/chat/chat")
 	public ModelAndView chat() {
 		ModelAndView mv = new ModelAndView();
@@ -36,9 +40,8 @@ public class UsrChatController {
 	}
 
 	/**
-	 * 방 페이지
-	 * 
-	 * @return
+	 * 방 보기 (테스트 때만 사용)
+	 * @return 방 이동
 	 */
 	@RequestMapping("/usr/chat/room")
 	public ModelAndView room() {
@@ -46,12 +49,21 @@ public class UsrChatController {
 		mv.setViewName("/usr/chat/room");
 		return mv;
 	}
+	
+	/**
+	 * 방 보기에서 채팅방 목록 (테스트 때만 사용) Ajax
+	 * @param params
+	 * @return roomList
+	 */
+	@RequestMapping("/usr/chat/getRoom")
+	public @ResponseBody List<Room> getRoom(@RequestParam HashMap<Object, Object> params) {
+		return roomList;
+	}
 
 	/**
-	 * 방 생성하기
-	 * 
+	 * 글 작성 시 채팅방 만들기 Ajax
 	 * @param params
-	 * @return
+	 * @return roomList
 	 */
 	@RequestMapping("/usr/chat/createRoom")
 	public @ResponseBody List<Room> createRoom(@RequestParam HashMap<Object, Object> params) {
@@ -66,10 +78,9 @@ public class UsrChatController {
 	}
 
 	/**
-	 * 방 최초 생성하기
-	 * 
+	 * 데이터베이스에 저장되어 있는 채팅방 웹페이지에 만들기 Ajax
 	 * @param params
-	 * @return
+	 * @return roomList
 	 */
 	@RequestMapping("/usr/chat/initCreateRoom")
 	public @ResponseBody List<Room> initCreateRoom(@RequestParam HashMap<Object, Object> params) {
@@ -87,20 +98,9 @@ public class UsrChatController {
 	}
 
 	/**
-	 * 방 정보가져오기
-	 * 
+	 * 채팅방으로 이동
 	 * @param params
-	 * @return
-	 */
-	@RequestMapping("/usr/chat/getRoom")
-	public @ResponseBody List<Room> getRoom(@RequestParam HashMap<Object, Object> params) {
-		return roomList;
-	}
-
-	/**
-	 * 채팅방
-	 * 
-	 * @return
+	 * @return 채팅방 이동
 	 */
 	@RequestMapping("/usr/chat/moveChating")
 	public ModelAndView chating(@RequestParam HashMap<Object, Object> params) {
@@ -119,6 +119,13 @@ public class UsrChatController {
 		return mv;
 	}
 	
+	/**
+	 * 채팅 내용 데이터 베이스에 저장 Ajax
+	 * @param message
+	 * @param userName
+	 * @param relId
+	 * @return
+	 */
 	@RequestMapping("/usr/chat/save-chat-message")
 	@ResponseBody
     public ResultData saveChatMessage(String message, String userName, int relId) {
@@ -127,6 +134,11 @@ public class UsrChatController {
         return ResultData.from("S-1", "성공");
     }
 	
+	/**
+	 * 저장된 채팅 내용 불러오기 Ajax
+	 * @param relId
+	 * @return
+	 */
 	@RequestMapping("/usr/chat/load-chat-message")
 	@ResponseBody
     public List<ChatMessage> loadChatMessage(int relId) {

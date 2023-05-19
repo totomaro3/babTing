@@ -12,10 +12,11 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 
-	public BoardService(BoardRepository boardRepository) {
-		this.boardRepository = boardRepository;
-	}
-
+	/**
+	 * 게시판 ID로 게시판 전체 가져오기
+	 * @param boardId
+	 * @return
+	 */
 	public Board getBoardById(int boardId) {
 		return boardRepository.getBoardById(boardId);
 	}

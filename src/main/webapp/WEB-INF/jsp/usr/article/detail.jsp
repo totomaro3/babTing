@@ -10,6 +10,7 @@
 	params.id = parseInt('${param.id}');
 </script>
 
+<!-- 조회수 증가 -->
 <script>
 	function ArticleDetail__increaseHitCount() {
 		const localStorageKey = 'article__' + params.id + '__alreadyView';
@@ -25,39 +26,44 @@
 		}, 'json');
 	}
 
-	function ArticleDetail__increaseReaction() {
-		$.get('../reaction/doIncreaseGoodReaction', {
-			id : params.id,
-			ajaxMode : 'Y'
-		}, function(data) {
-			$('.article-detail__reaction-point').empty().html(data.data1);
-		}, 'json');
-	}
-
 	$(function() {
 		// 실전코드
-		// 		ArticleDetail__increaseHitCount();
+		ArticleDetail__increaseHitCount();
 		// 연습코드
-		setTimeout(ArticleDetail__increaseHitCount, 2000);
+		//setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
-
-	$(function() {
-		$('#increment-button').click(function() {
-			$.ajax({
-				url : '/../reaction/doIncreaseGoodReactionRd', // 함수를 실행할 엔드포인트 URL
-				type : 'POST',
-				dataType : 'json',
-				success : function(data) {
-					$('.article-detail__reaction-point').text(data.data1); // 응답 데이터의 result 속성을 페이지에 적용
-				},
-				error : function() {
-					alert('서버와 통신하는 중에 오류가 발생하였습니다.');
-				}
-			});
-		});
-	});
 </script>
 
+<!-- 좋아요 관련 기능 -->
+<script>
+
+function ArticleDetail__increaseReaction() {
+	$.get('../reaction/doIncreaseGoodReaction', {
+		id : params.id,
+		ajaxMode : 'Y'
+	}, function(data) {
+		$('.article-detail__reaction-point').empty().html(data.data1);
+	}, 'json');
+}
+
+$(function() {
+	$('#increment-button').click(function() {
+		$.ajax({
+			url : '/../reaction/doIncreaseGoodReactionRd', // 함수를 실행할 엔드포인트 URL
+			type : 'POST',
+			dataType : 'json',
+			success : function(data) {
+				$('.article-detail__reaction-point').text(data.data1); // 응답 데이터의 result 속성을 페이지에 적용
+			},
+			error : function() {
+				alert('서버와 통신하는 중에 오류가 발생하였습니다.');
+			}
+		});
+	});
+});
+</script>
+
+<!-- 댓글은 3글자 이상 입력 가능 -->
 <script type="text/javascript">
 	let ReplyWrite__submitFormDone = false;
 	function ReplyWrite__submitForm(form) {
@@ -75,7 +81,9 @@
 	}
 </script>
 
-<script>
+<!-- 회원간의 거리 구하기 -->
+<c:if test="${article.boardId == 2}">
+	<script>
 		window.onload = function() {
 			
 			const lat1 = ${article.extra__writerLatitude}; // 위도 1
@@ -106,10 +114,13 @@
 		function toRadians(degrees) {
 			return degrees * Math.PI / 180;
 		}
-</script>
+	</script>
+</c:if>
 
 <section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
+
+<!-- 위의 버튼 -->
 		<div class="button">
 			<button class="btn btn-active btn-ghost text-xl" type="button"
 				onclick="history.back();">뒤로가기</button>
@@ -122,21 +133,27 @@
 					onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
 					href="../article/doDelete?id=${article.id }">삭제</a>
 			</c:if>
-			<c:if test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 0}">
+			<c:if
+				test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 0}">
 				<a class="btn btn-active btn-ghost text-xl"
 					href="../article/doDeadLine?id=${article.id }">마감</a>
 			</c:if>
-			<c:if test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 1}">
+			<c:if
+				test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 1}">
 				<a class="btn btn-active btn-ghost text-xl"
 					href="../article/doCancelDeadArticle?id=${article.id }">마감 취소</a>
 			</c:if>
+			<!-- 대화방 참여하기 -->
+			<c:if
+				test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">
+				<a class="btn-text-link btn btn-active btn-ghost text-xl"
+					onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=700'); return false">대화방
+					참여 하기</a>
+			</c:if>
 		</div>
-	</div>
-</section>
 
-<section class="mt-3 text-xl">
-	<div class="container mx-auto px-3">
-		<table>
+<!-- 게시글 상세 보기 -->
+		<table class="mt-3">
 			<colgroup>
 				<col width="200" />
 				<col width="500" />
@@ -248,15 +265,9 @@
 	</div>
 </section>
 
-<c:if test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">
-	<section class="mt-3 text-xl">
-		<div class="container mx-auto px-3">
-			<a class="btn-text-link btn btn-active btn-ghost"
-						onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=700'); return false">대화방 참여 하기</a>
-		</div>
-	</section>
-</c:if>
 
+
+<!-- 댓글 작성 -->
 <c:if test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">
@@ -294,6 +305,7 @@
 	</section>
 </c:if>
 
+<!-- 댓글 리스트 -->
 <c:if test="${article.boardId == 4 || article.boardId == 3 }">
 	<section class="mt-3 text-xl">
 		<div class="container mx-auto px-3">

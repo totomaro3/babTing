@@ -16,6 +16,17 @@ public class UsrReactionPointController {
 	@Autowired
 	private ReactionPointService reactionPointService;
 
+	/**
+	 * 추천 관련 기능은 자유게시판에서만 사용이 가능합니다!
+	 */
+	
+	/**
+	 * 좋아요 증가, 싫어요 중일 때 취소 후 좋아요 증가
+	 * @param relTypeCode
+	 * @param relId
+	 * @param replaceUri
+	 * @return
+	 */
 	@RequestMapping("/usr/reactionPoint/doGoodReaction")
 	@ResponseBody
 	public String doGoodReaction(String relTypeCode, int relId, String replaceUri) {
@@ -46,6 +57,13 @@ public class UsrReactionPointController {
 		return rq.jsReplace("좋아요!", replaceUri);
 	}
 
+	/**
+	 * 싫어요 증가, 좋아요 중일 때 취소 후 싫어요 증가
+	 * @param relTypeCode
+	 * @param relId
+	 * @param replaceUri
+	 * @return
+	 */
 	@RequestMapping("/usr/reactionPoint/doBadReaction")
 	@ResponseBody
 	public String doBadReaction(String relTypeCode, int relId, String replaceUri) {

@@ -5,6 +5,7 @@
 <%@ include file="../common/head.jspf"%>
 <hr />
 
+<!-- 회원 수정 전 비밀번호 체크 폼 -->
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">

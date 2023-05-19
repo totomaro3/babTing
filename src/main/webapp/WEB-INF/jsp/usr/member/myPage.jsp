@@ -5,6 +5,7 @@
 <%@ include file="../common/head.jspf"%>
 <%@ page import="com.babTing.toto.demo.util.Ut"%>
 
+<!-- 내 정보 보기 폼 -->
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">

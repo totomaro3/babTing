@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.websocket.OnMessage;
-import javax.websocket.Session;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -26,7 +23,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Autowired
 	ChatService chatService;
 	
-	//HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵
+	//HashMap<String, WebSocketSession> sessionMap = new HashMap<>(); //웹소켓 세션을 담아둘 맵 나중에 사용
 	List<HashMap<String, Object>> rls = new ArrayList<>(); //웹소켓 세션을 담아둘 리스트 ---roomListSessions
 	
 	@Override
@@ -35,7 +32,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		String msg = message.getPayload();
 		JSONObject obj = jsonToObjectParser(msg);
 		
-		String rN = (String) obj.get("roomNumber");
+		String rN = (String) obj.get("roomNumber"); //방 번호 ---roomNumber
 		HashMap<String, Object> temp = new HashMap<String, Object>();
 		if(rls.size() > 0) {
 			for(int i=0; i<rls.size(); i++) {
@@ -52,6 +49,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 					continue;
 				}
 				
+				//메세지를 브라우저에게 보낸다.
 				WebSocketSession wss = (WebSocketSession) temp.get(k);
 				if(wss != null) {
 					try {
@@ -67,13 +65,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		//소켓 연결
+		//소켓 연결시
 		super.afterConnectionEstablished(session);
+		
+		//이미 만들어진 채팅방인지 확인합니다.
 		boolean flag = false;
 		String url = session.getUri().toString();
-		System.out.println(url);
 		String roomNumber = url.split("/chating/")[1];
-		int idx = rls.size(); //방의 사이즈를 조사한다.
+		int idx = rls.size(); 
 		if(rls.size() > 0) {
 			for(int i=0; i<rls.size(); i++) {
 				String rN = (String) rls.get(i).get("roomNumber");

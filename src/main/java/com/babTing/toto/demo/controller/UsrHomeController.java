@@ -18,6 +18,11 @@ public class UsrHomeController {
 	@Autowired
 	private ArticleService articleService;
 	
+	/**
+	 * 메인페이지 (밥팅, 공지사항, 자유게시판을 메인페이지에 보여줌)
+	 * @param model
+	 * @return 메인 이동
+	 */
 	@RequestMapping("/usr/home/main")
 	public String showMain(Model model) {
 		
@@ -40,20 +45,31 @@ public class UsrHomeController {
 		return "usr/home/main";
 	}
 
+	/**
+	 * 메인페이지 편리한 이동
+	 * @return
+	 */
 	@RequestMapping("/")
 	public String showRoot() {
 		return "redirect:/usr/home/main";
 	}
 	
+	/**
+	 * 지도 보여주기 (글 작성 , 회원 가입 시 사용)
+	 * @param model
+	 * @return 카카오맵 이동
+	 */
 	@RequestMapping("/usr/home/kakaoMap")
-	public String showTest(Model model) {
+	public String showKakaoMap(Model model) {
 
 		return "usr/home/kakaoMap";
 	}
 	
+	/*
 	@RequestMapping("/usr/home/doKakaoMap")
-	public String showWriteTest(Model model) {
+	public String showDoKakaoMap(Model model) {
 
 		return "usr/home/doKakaoMap";
 	}
+	*/
 }

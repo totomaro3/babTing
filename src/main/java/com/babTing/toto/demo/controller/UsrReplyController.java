@@ -20,6 +20,18 @@ public class UsrReplyController {
 	@Autowired
 	private ReplyService replyService;
 
+	/**
+	 * 댓글 관련 기능은 자유게시판에서만 사용이 가능합니다!
+	 */
+	
+	/**
+	 * 댓글 작성 (INSERT)
+	 * @param relTypeCode
+	 * @param relId
+	 * @param body
+	 * @param replaceUri
+	 * @return
+	 */
 	@RequestMapping("/usr/reply/doWrite")
 	@ResponseBody
 	public String doWrite(String relTypeCode, int relId, String body, String replaceUri) {
@@ -45,6 +57,12 @@ public class UsrReplyController {
 		return rq.jsReplace(writeReplyRd.getMsg(), replaceUri);
 	}
 	
+	/**
+	 * 댓글 수정 폼
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/usr/reply/modify")
 	public String showModify(Model model, int id) {
 
@@ -69,6 +87,12 @@ public class UsrReplyController {
 		return "usr/reply/modify";
 	}
 	
+	/**
+	 * 댓글 수정 (UPDATE)
+	 * @param id
+	 * @param body
+	 * @return
+	 */
 	@RequestMapping("/usr/reply/doModify")
 	@ResponseBody
 	public String doModify(int id, String body) {
@@ -94,6 +118,11 @@ public class UsrReplyController {
 		return Ut.jsReplace(doModifyReply.getResultCode(),doModifyReply.getMsg(), "../article/detail?id="+reply.getRelId());
 	}
 	
+	/**
+	 * 댓글 삭제 (DELETE)
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/usr/reply/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {

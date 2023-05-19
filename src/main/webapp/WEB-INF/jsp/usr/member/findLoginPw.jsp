@@ -4,6 +4,7 @@
 <%@ include file="../common/head.jspf"%>
 <hr />
 
+<!-- 빈 칸 체크 -->
 <script type="text/javascript">
 	let MemberFindLoginPw__submitFormDone = false;
 
@@ -33,6 +34,7 @@
 	}
 </script>
 
+<!-- 비밀번호 찾기 폼 -->
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">

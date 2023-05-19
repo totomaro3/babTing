@@ -5,7 +5,7 @@
 <%@ include file="../common/head.jspf"%>
 <hr />
 
-<!-- Member modify 관련 -->
+<!-- 빈 칸 체크 -->
 <script type="text/javascript">
 	let MemberModify__submitFormDone = false;
 
@@ -80,6 +80,7 @@
 	}
 </script>
 
+<!-- 회원 정보 수정 폼 -->
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">

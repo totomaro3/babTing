@@ -34,6 +34,16 @@ public class UsrArticleController {
 	@Autowired
 	private Rq rq;
 
+	/**
+	 * 게시글 불러오기 (공지, 밥팅, 자유, 문의)
+	 * 
+	 * @param model
+	 * @param boardId
+	 * @param page
+	 * @param searchKeywordTypeCode
+	 * @param searchKeyword
+	 * @return list 이동
+	 */
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, int boardId, int page,
 			@RequestParam(defaultValue = "") String searchKeywordTypeCode,
@@ -68,6 +78,16 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
+	/**
+	 * 나의 밥팅 보기
+	 * 
+	 * @param model
+	 * @param boardId
+	 * @param page
+	 * @param searchKeywordTypeCode
+	 * @param searchKeyword
+	 * @return list 이동
+	 */
 	@RequestMapping("/usr/article/myList")
 	public String showMyList(Model model, int boardId, int page,
 			@RequestParam(defaultValue = "") String searchKeywordTypeCode,
@@ -105,6 +125,13 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 
+	/**
+	 * 게시글 상세보기
+	 * 
+	 * @param model
+	 * @param id
+	 * @return datail 이동
+	 */
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 
@@ -138,6 +165,11 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 
+	/**
+	 * 게시글 작성 폼 불러오기 (공지, 밥팅 , 자유 , 문의)
+	 * @param model
+	 * @return write 이동
+	 */
 	@RequestMapping("/usr/article/write")
 	public String showWrite(Model model) {
 
@@ -150,12 +182,24 @@ public class UsrArticleController {
 		return "usr/article/write";
 	}
 
+	/**
+	 * 게시글 추가 (INSERT)
+	 * @param title
+	 * @param body
+	 * @param boardId
+	 * @param restaurantName
+	 * @param address
+	 * @param deliveryCost
+	 * @param latitude
+	 * @param longitude
+	 * @return 작성 알림
+	 */
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(String title, String body, int boardId,
-			@RequestParam(defaultValue = "") String restaurantName, 
-			@RequestParam(defaultValue = "") String address ,@RequestParam(defaultValue = "0") int deliveryCost,
-			@RequestParam(defaultValue = "0") double latitude, @RequestParam(defaultValue = "0") double longitude) {
+			@RequestParam(defaultValue = "") String restaurantName, @RequestParam(defaultValue = "") String address,
+			@RequestParam(defaultValue = "0") int deliveryCost, @RequestParam(defaultValue = "0") double latitude,
+			@RequestParam(defaultValue = "0") double longitude) {
 
 		if (Ut.empty(title)) {
 			// ResultData.from("F-1", "제목을 입력해주세요");
@@ -182,6 +226,12 @@ public class UsrArticleController {
 		return Ut.jsReplace("S-1", id + "번글이 작성되었습니다.", "detail?id=" + id);
 	}
 
+	/**
+	 * 게시글 수정 폼 불러오기
+	 * @param model
+	 * @param id
+	 * @return modify 이동
+	 */
 	@RequestMapping("/usr/article/modify")
 	public String showModify(Model model, int id) {
 
@@ -206,6 +256,18 @@ public class UsrArticleController {
 		return "usr/article/modify";
 	}
 
+	/**
+	 * 게시글 수정 (UPDATE)
+	 * @param id
+	 * @param title
+	 * @param body
+	 * @param boardId
+	 * @param restaurantName
+	 * @param deliveryCost
+	 * @param latitude
+	 * @param longitude
+	 * @return 수정 알림
+	 */
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
@@ -231,6 +293,11 @@ public class UsrArticleController {
 		return Ut.jsReplace("S-1", id + "번글이 수정되었습니다.", "detail?id=" + id);
 	}
 
+	/**
+	 * 게시글 삭제 (DELETE)
+	 * @param id
+	 * @return 삭제 알림
+	 */
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
@@ -255,6 +322,11 @@ public class UsrArticleController {
 		return Ut.jsReplace("S-1", id + "번글이 삭제되었습니다.", "list?boardId=" + articleBoardId + "&page=1");
 	}
 
+	/**
+	 * 게시글 마감 (UPDATE) 마감된 게시글은 작성자만 열람
+	 * @param id
+	 * @return 마감 알림
+	 */
 	@RequestMapping("/usr/article/doDeadLine")
 	@ResponseBody
 	public String doDeadLine(int id) {
@@ -276,7 +348,12 @@ public class UsrArticleController {
 
 		return Ut.jsReplace("S-1", id + "번글이 마감되었습니다.", "detail?id=" + id);
 	}
-	
+
+	/**
+	 * 게시글 마감 취소 (UPDATE)
+	 * @param id
+	 * @return 마감 취소 알림
+	 */
 	@RequestMapping("/usr/article/doCancelDeadArticle")
 	@ResponseBody
 	public String doCancleDeadLine(int id) {
@@ -298,8 +375,12 @@ public class UsrArticleController {
 
 		return Ut.jsReplace("S-1", id + "번글이 마감 취소되었습니다.", "detail?id=" + id);
 	}
-	
 
+	/**
+	 * 조회 수 증가 Ajax
+	 * @param id
+	 * @return 
+	 */
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCountRd(int id) {
