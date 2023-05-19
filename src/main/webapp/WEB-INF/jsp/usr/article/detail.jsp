@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="ARTICLE DETAIL" />
+<c:set var="pageTitle" value="게시물 상세 보기" />
 <%@ include file="../common/head.jspf"%>
 
 <!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCountRd?id=2" frameborder="0"></iframe> -->
@@ -119,7 +119,7 @@ $(function() {
 
 <section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
-
+		<div>${pageTitle }</div>
 <!-- 위의 버튼 -->
 		<div class="button">
 			<button class="btn btn-active btn-ghost text-xl" type="button"

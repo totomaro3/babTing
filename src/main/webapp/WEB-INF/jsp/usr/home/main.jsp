@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="HOME MAIN" />
+<c:set var="pageTitle" value="메인 웹페이지" />
 <%@ include file="../common/head.jspf"%>
 
 <!-- 회원간의 거리 구하기 -->
@@ -45,7 +45,7 @@
 <c:if test="${rq.isLogined()}">
 	<section class="mt-8">
 		<div class="container mx-auto px-3">
-
+			<div>${pageTitle }</div>
 			<div>맞춤 밥팅</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
@@ -104,7 +104,7 @@
 
 	<section class="mt-8">
 		<div class="container mx-auto px-3">
-
+			<br>
 			<div>공지사항</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
@@ -119,7 +119,7 @@
 					</tr>
 				</c:forEach>
 			</table>
-			
+
 			<div>자유게시판</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
@@ -136,10 +136,6 @@
 			</table>
 
 		</div>
-	</section>
-
-	<section class="mt-8 text-3xl">
-		<div class="container mx-auto px-3">
 	</section>
 </c:if>
 
