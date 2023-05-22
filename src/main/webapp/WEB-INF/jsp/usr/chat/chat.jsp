@@ -169,7 +169,8 @@ input {
 	window.onload = function chatName() {
 		var userName = '${rq.loginedMember.nickname}';
 		if (userName == null || userName.trim() == "") {
-			alert("사용자 이름을 입력해주세요.");
+			alert("대화방에 참여하시려면 로그인을 해주세요.");
+			window.close();
 		} else {
 			wsOpen();
 			$("#yourMsg").show();

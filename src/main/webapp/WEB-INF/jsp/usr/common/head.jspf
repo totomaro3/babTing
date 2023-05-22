@@ -269,14 +269,14 @@
 		<div class="h-10 flex container mx-auto text-3xl justify-around px-3">
 			<a class="logo text-4xl" href="/">밥팅</a>
 			<ul class="flex">
-				<li><a class="text-2xl"
+				<li><a class="text-2xl px-3"
 					href="/usr/article/list?boardId=1&page=1">공지사항</a></li>
-				<li><a class="text-2xl"
+				<li><a class="text-2xl px-3"
 					href="/usr/article/list?boardId=2&page=1">밥팅보기</a></li>
-				<li><a class="text-2xl"
+				<li><a class="text-2xl px-3"
 					href="/usr/article/list?boardId=3&page=1">자유게시판</a></li>
 				<c:if test="${rq.logined }">
-					<li><a class="text-2xl"
+					<li><a class="text-2xl px-3"
 						href="/usr/article/list?boardId=4&page=1">문의하기</a></li>
 				</c:if>
 			</ul>
@@ -297,7 +297,8 @@
 					<c:when test="${rq.logined}">
 						<table>
 							<tr>
-								<td>${loginedMemberNickname } 님</td>
+								<td>${loginedMemberNickname } 님
+								<br>어서오세요!</td>
 							</tr>
 							<tr>
 								<td><a href="/usr/member/myPage">내 정보</a></td>
@@ -312,7 +313,8 @@
 					</c:when>
 					<c:otherwise>
 						<table>
-						<tr><td>로그인을 해주세요!</td></tr>
+						<tr><td>밥팅을 이용하시려면
+						<br>로그인을 해주세요!</td></tr>
 						<tr><td><a href="/usr/member/join">가입</a></td></tr>
 						<tr><td><a href="${rq.loginUri }">로그인</a></td></tr>
 						</table>

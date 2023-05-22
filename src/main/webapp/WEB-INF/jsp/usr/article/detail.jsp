@@ -119,8 +119,7 @@ $(function() {
 
 <section class="mt-3 text-xl">
 	<div class="container mx-auto px-3">
-		<div>${pageTitle }</div>
-<!-- 위의 버튼 -->
+		<!-- 위의 버튼 -->
 		<div class="button">
 			<button class="btn btn-active btn-ghost text-xl" type="button"
 				onclick="history.back();">뒤로가기</button>
@@ -152,18 +151,12 @@ $(function() {
 			</c:if>
 		</div>
 
-<!-- 게시글 상세 보기 -->
+		<!-- 게시글 상세 보기 -->
 		<table class="mt-3">
 			<colgroup>
 				<col width="200" />
 				<col width="500" />
 			</colgroup>
-			<tr>
-				<th>번호</th>
-				<td>
-					<div class="badge badge-lg text-xl">${article.id }</div>
-				</td>
-			</tr>
 			<tr>
 				<th>작성날짜</th>
 				<td>${article.regDate }</td>
@@ -177,6 +170,14 @@ $(function() {
 				<td>${article.extra__writer }</td>
 			</tr>
 			<c:if test="${article.boardId == 2}">
+				<tr>
+					<th>예상 배달 비용</th>
+					<td>${article.deliveryCost }원</td>
+				</tr>
+				<tr>
+					<th>회원 간의 거리</th>
+					<td><div id="result"></div></td>
+				</tr>
 				<tr>
 					<th>매장</th>
 					<td>
@@ -213,15 +214,6 @@ $(function() {
 							// marker.setMap(null);
 						</script>
 					</td>
-				</tr>
-
-				<tr>
-					<th>예상 배달 비용</th>
-					<td>${article.deliveryCost }원</td>
-				</tr>
-				<tr>
-					<th>회원 간의 거리</th>
-					<td><div id="result"></div></td>
 				</tr>
 				<tr>
 					<th>모집 마감 시간</th>
@@ -262,6 +254,14 @@ $(function() {
 				<td>${article.body }</td>
 			</tr>
 		</table>
+		<br>
+		<div>해당 배달 음식 공동 구매에 참여하시려면 대화방에 참여해주세요!</div>
+		<c:if
+			test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">->
+			<a class="btn-text-link btn btn-active btn-ghost text-xl"
+				onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=700'); return false">대화방
+				참여 하기</a>
+		</c:if>
 	</div>
 </section>
 

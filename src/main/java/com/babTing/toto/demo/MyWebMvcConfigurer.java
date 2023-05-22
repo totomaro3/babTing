@@ -34,7 +34,6 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
 		//로그인이 필요할 때 로그인을 하라고 미리 막아준다
 		//url로 억지로 진입을 하려고 할 때 유용
 		registry.addInterceptor(needLoginInterceptor)
-		.addPathPatterns("/usr/article/detail")
 		.addPathPatterns("/usr/article/write")
 		.addPathPatterns("/usr/article/doWrite")
 		.addPathPatterns("/usr/article/modify")

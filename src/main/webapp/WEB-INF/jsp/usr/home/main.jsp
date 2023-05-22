@@ -45,8 +45,7 @@
 <c:if test="${rq.isLogined()}">
 	<section class="mt-8">
 		<div class="container mx-auto px-3">
-			<div>${pageTitle }</div>
-			<div>맞춤 밥팅</div>
+			<div>맞춤 밥팅 <button></button></div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
 				<tr>
@@ -104,7 +103,6 @@
 
 	<section class="mt-8">
 		<div class="container mx-auto px-3">
-			<br>
 			<div>공지사항</div>
 			<table class="my-2"
 				style="border-collapse: collapse; border-color: green">
@@ -143,7 +141,12 @@
 <c:if test="${!rq.isLogined()}">
 	<section class="mt-8 text-3xl">
 		<div class="container mx-auto px-3">
-			제작자 : 정호연 <br> 배달 공동 구매 웹 사이트 밥팅입니다. <br> 해마다 늘어나는 배달 비용..
+			제작자 : 정호연
+			<br> 해마다 늘어나서 점점 부담스러워지는 배달 비용!
+			<br> 이제 혼자서는 감당하지 마세요~ 
+			<br> 편리하고 간편하게 같이 시켜먹을 사람을 찾아 주는
+			<br> 배달 음식 공동 구매 모집 웹 어플리케이션 사이트
+			<br> 밥팅을 지금 시작해보세요!
 		</div>
 	</section>
 </c:if>
