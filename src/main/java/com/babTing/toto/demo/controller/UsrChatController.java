@@ -85,15 +85,14 @@ public class UsrChatController {
 	@RequestMapping("/usr/chat/initCreateRoom")
 	public @ResponseBody List<Room> initCreateRoom(@RequestParam HashMap<Object, Object> params) {
 
-		if (!isInit) {
-			List<Room> rooms = chatService.getRooms();
+			List<Room> rooms = new ArrayList<Room>();
+			
+			rooms = chatService.getRooms();
 
 			for (Room room : rooms) {
 				roomList.add(room);
 			}
-
-			isInit = true;
-		}
+		
 		return roomList;
 	}
 

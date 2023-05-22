@@ -41,9 +41,10 @@
 </c:if>
 
 <!-- 검색, 리스트, 페이지네이션, 글쓰기  -->
-<section class="mt-5 text-xl">
-	<div class="container mx-auto px-3">
-		<div class="flex justify-center mt-5 text-xl">
+<section class="mt-5 text-xl flex flex-grow justify-center">
+	<div class="container px-3">
+	
+		<div class="flex justify-end mt-5 text-xl">
 			<c:if
 				test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
 				<div class="flex">
@@ -56,9 +57,12 @@
 								${searchKeywordTypeCode == "body" ? "selected" : ""}>내용</option>
 							<option value="title,body"
 								${searchKeywordTypeCode == "title,body" ? "selected" : ""}>제목+내용</option>
-						</select> <input class="input input-bordered w-full max-w-xs"
+						</select>
+						<div class="px-1"></div>
+						<input class="input input-bordered w-full max-w-xs"
 							value="${searchKeyword }" type="text" name="searchKeyword"
 							placeholder="검색어를 입력해주세요" />
+						<div class="px-1"></div>
 						<button class="button btn btn-active btn-ghost text-xl"
 							type="submit">검색</button>
 					</form>
@@ -76,7 +80,7 @@
 				<th>제목</th>
 				<c:if test="${boardId == 2}">
 					<th>매장</th>
-					<th>회원 간의 거리</th>
+					<th>거리차이</th>
 					<th>배달비</th>
 					<th>참여자</th>
 					<th>마감</th>
@@ -101,7 +105,7 @@
 							<td><div id="result ${article.id}"></div></td>
 							<td>${article.deliveryCost }원</td>
 							<td>${article.participants }</td>
-							<td>${article.deadlineTime.substring(5,16) }</td>
+							<td>${article.deadlineTime.substring(10,16) }</td>
 						</c:if>
 						<td>${article.extra__writer }</td>
 						<c:if test="${boardId != 2}">
@@ -146,7 +150,7 @@
 
 		<br>
 		
-		<div class="flex justify-center btn-group text-xl">
+		<div class="flex justify-end btn-group text-xl">
 			<c:if test="${boardId == 1 && rq.loginedMember.authLevel == 7}">
 				<a class="btn" href="/usr/article/write?boardId=1">소개 쓰기</a>
 			</c:if>

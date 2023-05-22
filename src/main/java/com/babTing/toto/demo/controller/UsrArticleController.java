@@ -177,8 +177,6 @@ public class UsrArticleController {
 
 		model.addAttribute("loginedMemberId", loginedMemberId);
 
-		// ResultData.newData(writeArticleRd, "String", sb.toString());
-
 		return "usr/article/write";
 	}
 
@@ -202,11 +200,9 @@ public class UsrArticleController {
 			@RequestParam(defaultValue = "0") double longitude) {
 
 		if (Ut.empty(title)) {
-			// ResultData.from("F-1", "제목을 입력해주세요");
 			return Ut.jsHistoryBack("F-1", "제목을 입력해주세요");
 		}
 		if (Ut.empty(body)) {
-			// ResultData.from("F-2", "내용을 입력해주세요");
 			return Ut.jsHistoryBack("F-2", "내용을 입력해주세요");
 		}
 

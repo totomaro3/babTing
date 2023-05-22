@@ -142,13 +142,6 @@ $(function() {
 				<a class="btn btn-active btn-ghost text-xl"
 					href="../article/doCancelDeadArticle?id=${article.id }">마감 취소</a>
 			</c:if>
-			<!-- 대화방 참여하기 -->
-			<c:if
-				test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">
-				<a class="btn-text-link btn btn-active btn-ghost text-xl"
-					onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=700'); return false">대화방
-					참여 하기</a>
-			</c:if>
 		</div>
 
 		<!-- 게시글 상세 보기 -->
@@ -259,7 +252,7 @@ $(function() {
 		<c:if
 			test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">->
 			<a class="btn-text-link btn btn-active btn-ghost text-xl"
-				onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=700'); return false">대화방
+				onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=750, height=850'); return false">대화방
 				참여 하기</a>
 		</c:if>
 	</div>

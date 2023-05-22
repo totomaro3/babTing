@@ -5,13 +5,32 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GoryeongStrawberry';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/GoryeongStrawberry.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
+	font-family: 'omyu_pretty', sans;
+	font-size: 1.1rem;
+}
+
+header * {
 	font-family: 'Cafe24Ssurround', sans;
-	font-size: 1.2rem;
+	font-size: 1.3rem;
 }
 
 html>body {
-	padding: 1.2rem;
+	padding: 1.3rem;
 }
 
 /* 라이브러리 */
@@ -38,7 +57,10 @@ li {
 }
 
 .logo {
+	font-family: 'GoryeongStrawberry', sans;
+	font-size: 1.3rem;
 	padding: 0 0.5rem;
+	color: goldenrod;
 }
 
 header > div > ul > li{
