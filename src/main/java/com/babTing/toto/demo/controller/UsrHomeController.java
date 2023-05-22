@@ -30,14 +30,17 @@ public class UsrHomeController {
 		int limitFrom = 0;
 		
 		List<Article> noticeArticles;
+		List<Article> myBabtingArticles;
 		List<Article> babtingArticles;
 		List<Article> freeArticles;
 		
 		noticeArticles = articleService.getNoticeArticles(limitFrom, itemsInAPage);
+		myBabtingArticles = articleService.getMyBabtingArticles("title", "용우동", limitFrom, itemsInAPage);
 		babtingArticles = articleService.getBabtingArticles(limitFrom, itemsInAPage);
 		freeArticles = articleService.getFreeArticles(limitFrom, itemsInAPage);
 
 		model.addAttribute("noticeArticles", noticeArticles);
+		model.addAttribute("myBabtingArticles", myBabtingArticles);
 		model.addAttribute("babtingArticles", babtingArticles);
 		model.addAttribute("freeArticles", freeArticles);
 

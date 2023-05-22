@@ -48,11 +48,20 @@
 			<div class="flex flex-col justify-between">
 				<div>
 					<div class="text-left">
-						<span>맞춤 밥팅</span>&nbsp&nbsp<a class="btn btn-active btn-ghost btn-xs"
-							type="button"><span>키워드 설정</span></a>
+						<span>맞춤 밥팅 : 우동 </span>&nbsp&nbsp<a
+							class="btn btn-active btn-ghost btn-xs" type="button"><span>키워드
+								설정</span></a>
 					</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
+						<colgroup>
+							<col width="200" />
+							<col width="100" />
+							<col width="100" />
+							<col width="400" />
+							<col width="80" />
+							<col width="80" />
+						</colgroup>
 						<tr>
 							<th>매장</th>
 							<th>거리차이</th>
@@ -61,7 +70,7 @@
 							<th>참여자</th>
 							<th>마감시간</th>
 						</tr>
-						<c:forEach var="article" items="${babtingArticles }">
+						<c:forEach var="article" items="${myBabtingArticles }">
 							<tr style="text-align: center;">
 								<td>${article.restaurantName }</td>
 								<td><div id="result2 ${article.id}"></div></td>
@@ -76,13 +85,21 @@
 						</c:forEach>
 					</table>
 				</div>
-				
+
 				<div class="h-5"></div>
-				
+
 				<div>
-					<div class="text-left">모든 밥팅</div>
+					<div class="text-left">최근 밥팅</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
+						<colgroup>
+							<col width="200" />
+							<col width="100" />
+							<col width="100" />
+							<col width="400" />
+							<col width="80" />
+							<col width="80" />
+						</colgroup>
 						<tr>
 							<th>매장</th>
 							<th>거리차이</th>
@@ -107,41 +124,41 @@
 					</table>
 				</div>
 			</div>
-			
+
 			<div class="w-20"></div>
-			
+
 			<div class="flex flex-col">
 				<div>
 					<div class="text-left">공지사항</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
 						<tr>
-							<th>작성날짜</th>
+							<th>작성</th>
 							<th class="title">제목</th>
 						</tr>
 						<c:forEach var="article" items="${noticeArticles }">
 							<tr style="text-align: center;">
-								<td>${article.regDate.substring(5,10) }</td>
+								<td>${article.regDate.substring(11,16) }</td>
 								<td class="title text-left"><a
 									href="../article/detail?id=${article.id }">${article.title }</a></td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
-				
+
 				<div class="h-5"></div>
-				
+
 				<div>
-					<div class="text-left">자유게시판</div>
+					<div class="text-left">자유 게시판</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
 						<tr>
-							<th>작성날짜</th>
+							<th>작성</th>
 							<th class="title">제목</th>
 						</tr>
 						<c:forEach var="article" items="${freeArticles }">
 							<tr style="text-align: center;">
-								<td>${article.regDate.substring(5,10) }</td>
+								<td>${article.regDate.substring(11,16) }</td>
 								<td class="title text-left"><a
 									href="../article/detail?id=${article.id }">${article.title }</a></td>
 							</tr>
@@ -157,11 +174,14 @@
 <c:if test="${!rq.isLogined()}">
 	<section class="mt-8 text-3xl mainText">
 		<div class="container mx-auto px-3">
-			Create by 정호연 <br> <br> <br> 해마다 늘어나서 점점 부담스러워지는 배달 비용! <br> <br>
-			이제 혼자서는 감당하지 마세요~ <br> <br> 편리하고 간편하게 같이 시켜먹을 사람을 찾아 주는 <br> <br> 배달
-			음식 공동 구매 모집 웹 어플리케이션 사이트! <br> <br> 밥팅을 지금 시작해보세요!
+			Create by 정호연 <br> <br> <br> 해마다 늘어나서 점점 부담스러워지는 배달 비!
+			<br> <br> 이제 혼자서 감당하지 마세요~ <br> <br> 편리하고 간편하게 같이
+			시켜먹을 사람을 찾아 주는 <br> <br> 배달 음식 공동 구매 모집 웹 어플리케이션 사이트! <br>
+			<br> 밥팅을 지금 시작해보세요!
 		</div>
 	</section>
+
+	<div class="flex flex-grow"></div>
 </c:if>
 </main>
 </body>
@@ -171,6 +191,7 @@
 .title {
 	width: 20rem;
 }
+
 .mainText * {
 	font-family: 'Cafe24Ssurround', sans;
 	font-size: 1.5rem;

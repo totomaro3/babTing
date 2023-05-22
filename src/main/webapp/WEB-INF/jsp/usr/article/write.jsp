@@ -76,7 +76,7 @@
 				<input class="latitude" type="hidden" name="latitude" />
 				<table>
 					<colgroup>
-						<col width="200" />
+						<col width="300" />
 					</colgroup>
 
 					<tbody>

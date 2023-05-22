@@ -41,12 +41,12 @@
 </c:if>
 
 <!-- 검색, 리스트, 페이지네이션, 글쓰기  -->
-<section class="mt-5 text-xl flex flex-grow justify-center">
+<section class="mt-5 text-xl">
 	<div class="container px-3">
 	
 		<div class="flex justify-end mt-5 text-xl">
 			<c:if
-				test="${param.boardId == 1 || param.boardId == 3 || param.boardId == 2}">
+				test="${param.boardId == 1 || param.boardId == 3}">
 				<div class="flex">
 					<form class="flex" method="post"
 						action="?boardId=${boardId }&page=1">
@@ -77,11 +77,14 @@
 					<th>번호</th>
 					<th>작성날짜</th>
 				</c:if>
-				<th>제목</th>
+				
 				<c:if test="${boardId == 2}">
 					<th>매장</th>
 					<th>거리차이</th>
 					<th>배달비</th>
+				</c:if>
+					<th>제목</th>
+				<c:if test="${boardId == 2}">
 					<th>참여자</th>
 					<th>마감</th>
 				</c:if>
@@ -99,11 +102,13 @@
 							<td><div class="badge badge-lg text-xl">${article.id }</div></td>
 							<td>${article.regDate.substring(0,10) }</td>
 						</c:if>
-						<td><a href="detail?id=${article.id }">${article.title }</a></td>
 						<c:if test="${boardId == 2}">
 							<td>${article.restaurantName }</td>
 							<td><div id="result ${article.id}"></div></td>
 							<td>${article.deliveryCost }원</td>
+						</c:if>
+						<td><a href="detail?id=${article.id }">${article.title }</a></td>
+						<c:if test="${boardId == 2}">
 							<td>${article.participants }</td>
 							<td>${article.deadlineTime.substring(10,16) }</td>
 						</c:if>

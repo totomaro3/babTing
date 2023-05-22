@@ -136,12 +136,11 @@
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
 			<input class="longitude" type="hidden" name="longitude" />
 			<input class="latitude" type="hidden" name="latitude" />
-			<table class="table table-zebra w-1/2">
+			<table class="table table-zebra">
 				<colgroup>
 					<col width="200" />
+					<col width="400" />
 				</colgroup>
-
-				<tbody>
 					<tr>
 						<th>아이디</th>
 						<td>
@@ -199,7 +198,6 @@
 							<button class="btn btn-active btn-ghost" type="submit" value="회원가입">회원가입</button>
 						</td>
 					</tr>
-				</tbody>
 			</table>
 		</form>
 	</div>

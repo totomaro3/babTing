@@ -207,14 +207,17 @@ public interface ArticleRepository {
 			<if test="title != null and title != ''">title = #{title},</if>
 			<if test="body != null and title != ''">`body` = #{body},</if>
 			<if test="boardId == 2">
-			<if test="restaurantName != null and restaurantName != ''">restaurantName = #{restaurantName},</if>
+			restaurantName = #{restaurantName},
+			address = #{address},
+			latitude = #{latitude},
+			longitude = #{longitude},
 			</if>
 			updateDate= NOW(),
 			</set>
 			WHERE id = #{id}
 			</script>
 			""")
-	public void doModifyArticle(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
+	public void doModifyArticle(int id, String title, String body, int boardId, String restaurantName, String address, int deliveryCost,
 			double latitude, double longitude);
 
 	@Select("""
@@ -299,6 +302,38 @@ public interface ArticleRepository {
 	public List<Article> getBabtingArticles(int limitFrom, int itemsInAPage);
 
 	@Select("""
+			<script>
+			SELECT A.*, M.nickname AS extra__writer,
+			M.longitude AS extra__writerLongitude,
+			M.latitude AS extra__writerLatitude
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			WHERE A.boardId = 2
+			AND A.deadlineTime &gt; NOW()
+			AND A.deadStatus = 0
+			<if test="searchKeyword != ''">
+				<choose>
+					<when test="searchKeywordTypeCode == 'title'" >
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<when test="searchKeywordTypeCode == 'body'" >
+						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</when>
+					<otherwise>
+						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
+						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
+					</otherwise>
+				</choose>
+			</if>
+			ORDER BY A.id DESC
+			LIMIT #{limitFrom}, #{itemsInAPage};
+			</script>
+			""")
+	public List<Article> getMyBabtingArticles(String searchKeywordTypeCode, String searchKeyword, int limitFrom,
+			int itemsInAPage);
+	
+	@Select("""
 			SELECT A.*, M.nickname AS extra__writer
 			FROM article AS A
 			INNER JOIN `member` AS M
@@ -308,4 +343,6 @@ public interface ArticleRepository {
 			LIMIT #{limitFrom}, #{itemsInAPage};
 			""")
 	public List<Article> getFreeArticles(int limitFrom, int itemsInAPage);
+
+
 }

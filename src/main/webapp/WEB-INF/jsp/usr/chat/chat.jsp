@@ -107,7 +107,6 @@ input {
 		ws.onopen = function(data) {
 			//소켓이 열리면 동작
 			var nickname = "${rq.loginedMember.nickname}";
-
 			$
 					.get(
 							'./load-chat-message',
@@ -115,25 +114,42 @@ input {
 								relId : "${roomNumber}"
 							},
 							function(data) {
-
 								// chatMessages를 활용하여 원하는 작업을 수행합니다.
 								for (var i = 0; i < data.length; i++) {
 									var message = data[i].message;
 									console.log(message); // 콘솔에 채팅 메시지 출력 예시
-
-									if (data[i].userName
+									if (data[i].userName.localeCompare('') == 0) {
+										$("#chating").append(
+												"<p class='notice'>"
+														+ data[i].message
+														+ "</p>");
+									} else if (data[i].userName
 											.localeCompare("${rq.loginedMember.nickname}") == 0) {
-										$("#chating").append(
-												"<div class='chat chat-end'><div class='chat-bubble chat-bubble-warning'>나 : "
-														+ data[i].message
-														+ "</div></div>");
+										$("#chating")
+												.append(
+														"<div class='chat chat-end'><div class='chat-header'>"
+																+ data[i].userName
+																+ "&nbsp<time class='text-xs opacity-50'>"
+																+ data[i].regDate
+																		.substring(
+																				10,
+																				16)
+																+ "</time></div><div class='chat-bubble chat-bubble-warning'>"
+																+ data[i].message
+																+ "</div></div>");
 									} else {
-										$("#chating").append(
-												"<div class='chat chat-start'><div class='chat-bubble chat-bubble-success'>"
-														+ data[i].userName
-														+ " : "
-														+ data[i].message
-														+ "</div></div>");
+										$("#chating")
+												.append(
+														"<div class='chat chat-start'> <div class='chat-header'>"
+																+ data[i].userName
+																+ "&nbsp<time class='text-xs opacity-50'>"
+																+ data[i].regDate
+																		.substring(
+																				10,
+																				16)
+																+ "</time></div><div class='chat-bubble chat-bubble-success'>"
+																+ data[i].message
+																+ "</div></div>");
 									}
 								}
 
@@ -153,12 +169,23 @@ input {
 						$("#sessionId").val(si);
 					}
 				} else if (d.type == "message") {
+					
+					//현재날짜 구하기
+					var currentDate = new Date();
+					var formattedTime = currentDate.getHours() + ':'
+							+ currentDate.getMinutes();
+					var regDate = formattedTime;
+					
 					//메시지 보내기
 					if (d.sessionId == $("#sessionId").val()) {
-						$("#chating").append(
-								"<div class='chat chat-end'><div class='chat-bubble chat-bubble-warning'>"
-										+ d.msg
-										+ "</div></div>");
+						$("#chating")
+								.append(
+										"<div class='chat chat-end'><div class='chat-header'>"
+												+ d.userName
+												+ "&nbsp<time class='text-xs opacity-50'>"
+												+ regDate
+												+ "</time></div><div class='chat-bubble chat-bubble-warning'>"
+												+ d.msg + "</div></div>");
 
 						//메시지 데이터베이스에 저장 (내가 보낸 것만 저장)
 						$.get('./save-chat-message', {
@@ -171,27 +198,51 @@ input {
 						}, 'json');
 
 					} else {
-						$("#chating").append(
-								"<div class='chat chat-start'><div class='chat-bubble chat-bubble-success'>"
-										+ d.userName
-										+ " : "
-										+ d.msg
-										+ "</div></div>");	
+						$("#chating")
+								.append(
+										"<div class='chat chat-start'><div class='chat-header'>"
+												+ d.userName
+												+ "&nbsp<time class='text-xs opacity-50'>"
+												+ regDate
+												+ "</time></div><div class='chat-bubble chat-bubble-success'>"
+												+ d.msg + "</div></div>");
 					}
 
 				} else if (d.type == "enterNotice") {
 					$("#chating").append(
 							"<p class='notice'>" + d.userName
 									+ "님이 입장하셨습니다.</p>");
+
+					//메시지 데이터베이스에 저장 (입장)
+					$.get('./save-chat-message', {
+						isAjax : 'Y',
+						message : d.userName + '님이 입장하셨습니다.',
+						userName : '',
+						relId : "${roomNumber}"
+					}, function(data) {
+						console.log("성공");
+					}, 'json');
+
 				} else if (d.type == "exitNotice") {
 					$("#chating").append(
 							"<p class='notice'>" + d.userName
 									+ "님이 퇴장하셨습니다.</p>");
+
+					//메시지 데이터베이스에 저장 (퇴장)
+					$.get('./save-chat-message', {
+						isAjax : 'Y',
+						message : d.userName + '님이 퇴장하셨습니다.',
+						userName : '',
+						relId : "${roomNumber}"
+					}, function(data) {
+						console.log("성공");
+					}, 'json');
+
 				} else {
 					console.warn("unknown type!")
 				}
 			}
-
+			scrollToBottom();
 		}
 
 		ws.onclose = function(data) {
@@ -239,6 +290,7 @@ input {
 			userName : name,
 			msg : "회원이 입장했습니다."
 		}
+
 		ws.send(JSON.stringify(option))
 	}
 
@@ -250,10 +302,16 @@ input {
 			userName : name,
 			msg : "회원이 퇴장했습니다."
 		}
+
 		ws.send(JSON.stringify(option))
 		ws.close();
 		window.close();
 	}
+	
+	function scrollToBottom() {
+		  var chatContainer = document.querySelector('.chating');
+		  chatContainer.scrollTop = chatContainer.scrollHeight;
+		}
 </script>
 <body>
 	<div id="container" class="container">

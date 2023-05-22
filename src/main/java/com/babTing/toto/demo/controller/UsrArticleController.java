@@ -236,14 +236,12 @@ public class UsrArticleController {
 		Article article = getArticleRd.getData1();
 
 		if (article == null) {
-			// ResultData.from("F-1", id + "번글은 존재하지 않습니다.");
 			return rq.jsHitoryBackOnView(id + "번글은 존재하지 않습니다.");
 		}
 
 		int loginedMemberId = rq.getLoginedMemberId();
 
 		if (article.getMemberId() != loginedMemberId) {
-			// ResultData.from("F-2", Ut.f("해당 글에 대한 권한이 없습니다."));
 			return rq.jsHitoryBackOnView("해당 글에 대한 권한이 없습니다.");
 		}
 
@@ -266,7 +264,7 @@ public class UsrArticleController {
 	 */
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
+	public String doModify(int id, String title, String body, int boardId, String restaurantName, String address, int deliveryCost,
 			double latitude, double longitude) {
 
 		ResultData<Article> getArticleRd = articleService.getArticle(id);
@@ -283,9 +281,8 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-2", "해당 글에 대한 권한이 없습니다.");
 		}
 
-		articleService.doModifyArticle(id, title, body, boardId, restaurantName, deliveryCost, latitude, longitude);
+		articleService.doModifyArticle(id, title, body, boardId, restaurantName, address, deliveryCost, latitude, longitude);
 
-		// ResultData.from("S-1", id + "번글이 수정되었습니다.", "article", article);
 		return Ut.jsReplace("S-1", id + "번글이 수정되었습니다.", "detail?id=" + id);
 	}
 

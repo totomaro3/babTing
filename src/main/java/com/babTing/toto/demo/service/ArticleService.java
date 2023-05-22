@@ -12,24 +12,26 @@ import com.babTing.toto.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
-	
+
 	@Autowired
 	ArticleRepository articleRepository;
 
 	/**
 	 * 글 하나를 불러옵니다.
+	 * 
 	 * @param id
 	 * @return article
 	 */
 	public ResultData<Article> getArticle(int id) {
 
 		Article article = articleRepository.getArticle(id);
-		
-		return ResultData.from("S-1", Ut.f("%d번 글을 불러왔습니다.", id),"article", article);
+
+		return ResultData.from("S-1", Ut.f("%d번 글을 불러왔습니다.", id), "article", article);
 	}
-	
+
 	/**
 	 * 글 전체를 불러옵니다.
+	 * 
 	 * @param boardId
 	 * @param limitFrom
 	 * @param itemsInAPage
@@ -37,15 +39,18 @@ public class ArticleService {
 	 * @param searchKeyword
 	 * @return articles
 	 */
-	public ResultData<List<Article>> getArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword) {
-		
-		List<Article> articles = articleRepository.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword);
-		
-		return ResultData.from("S-1", Ut.f("모든 글을 불러왔습니다."),"articles", articles);
+	public ResultData<List<Article>> getArticles(int boardId, int limitFrom, int itemsInAPage,
+			String searchKeywordTypeCode, String searchKeyword) {
+
+		List<Article> articles = articleRepository.getArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode,
+				searchKeyword);
+
+		return ResultData.from("S-1", Ut.f("모든 글을 불러왔습니다."), "articles", articles);
 	}
-	
+
 	/**
 	 * 내가 작성한 글 전체를 불러옵니다.
+	 * 
 	 * @param limitFrom
 	 * @param itemsInAPage
 	 * @param searchKeywordTypeCode
@@ -53,15 +58,18 @@ public class ArticleService {
 	 * @param loginedMemberId
 	 * @return articles
 	 */
-	public ResultData<List<Article>> getMyArticles(int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword, int loginedMemberId) {
-		
-		List<Article> articles = articleRepository.getMyArticles(limitFrom, itemsInAPage, searchKeywordTypeCode, searchKeyword, loginedMemberId);
-	
-		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."),"articles", articles);
+	public ResultData<List<Article>> getMyArticles(int limitFrom, int itemsInAPage, String searchKeywordTypeCode,
+			String searchKeyword, int loginedMemberId) {
+
+		List<Article> articles = articleRepository.getMyArticles(limitFrom, itemsInAPage, searchKeywordTypeCode,
+				searchKeyword, loginedMemberId);
+
+		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."), "articles", articles);
 	}
-	
+
 	/**
 	 * 글을 작성합니다.
+	 * 
 	 * @param title
 	 * @param body
 	 * @param memberId
@@ -73,35 +81,39 @@ public class ArticleService {
 	 * @param longitude
 	 * @return id
 	 */
-	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId,
-			String restaurantName, String address, int deliveryCost, double latitude, double longitude) {
+	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId, String restaurantName,
+			String address, int deliveryCost, double latitude, double longitude) {
 
-		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, address, deliveryCost, latitude, longitude);
+		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, address, deliveryCost, latitude,
+				longitude);
 
 		int id = articleRepository.getLastInsertId();
 
-		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id),"id", id);
-		
+		return ResultData.from("S-1", Ut.f("%d번 글이 생성되었습니다", id), "id", id);
+
 	}
-	
+
 	/**
 	 * 글을 삭제합니다.
+	 * 
 	 * @param article
 	 */
 	public void doDeleteArticle(Article article) {
 		articleRepository.doDeleteArticle(article);
 	}
-	
+
 	/**
 	 * 글을 마감합니다.
+	 * 
 	 * @param article
 	 */
 	public void doDeadArticle(Article article) {
 		articleRepository.doDeadArticle(article);
 	}
-	
+
 	/**
 	 * 글을 마감 취소합니다.
+	 * 
 	 * @param article
 	 */
 	public void doCancelDeadArticle(Article article) {
@@ -110,6 +122,7 @@ public class ArticleService {
 
 	/**
 	 * 글을 수정합니다.
+	 * 
 	 * @param id
 	 * @param title
 	 * @param body
@@ -120,17 +133,18 @@ public class ArticleService {
 	 * @param longitude
 	 * @return
 	 */
-	public ResultData<Integer> doModifyArticle(int id, String title, String body, int boardId, String restaurantName, int deliveryCost,
-			double latitude, double longitude) {
-		
-		articleRepository.doModifyArticle(id, title, body, boardId, restaurantName, deliveryCost,
-				latitude, longitude);
-		
-		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다", id),"id", id);
+	public ResultData<Integer> doModifyArticle(int id, String title, String body, int boardId, String restaurantName,
+			String address, int deliveryCost, double latitude, double longitude) {
+
+		articleRepository.doModifyArticle(id, title, body, boardId, restaurantName, address, deliveryCost, latitude,
+				longitude);
+
+		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다", id), "id", id);
 	}
 
 	/**
 	 * 글의 갯수를 구합니다. (pagenation)
+	 * 
 	 * @param boardId
 	 * @param searchKeywordTypeCode
 	 * @param searchKeyword
@@ -142,10 +156,11 @@ public class ArticleService {
 
 	/**
 	 * 조회수 증가
+	 * 
 	 * @param id
 	 * @return affectedRow
 	 */
-	public ResultData<Integer>  increaseHitCount(int id) {
+	public ResultData<Integer> increaseHitCount(int id) {
 		int affectedRow = articleRepository.increaseHitCount(id);
 
 		if (affectedRow == 0) {
@@ -157,6 +172,7 @@ public class ArticleService {
 
 	/**
 	 * 조회수 가져오기
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -164,13 +180,13 @@ public class ArticleService {
 		return articleRepository.getArticleHitCount(id);
 	}
 
-	
 	/**
 	 * 추천 관련
 	 */
-	
+
 	/**
 	 * 좋아요 증가
+	 * 
 	 * @param relId
 	 * @return
 	 */
@@ -185,10 +201,11 @@ public class ArticleService {
 
 	/**
 	 * 싫어요 증가
+	 * 
 	 * @param relId
 	 * @return
 	 */
-	public ResultData<Integer>  increaseBadReactionPoint(int relId) {
+	public ResultData<Integer> increaseBadReactionPoint(int relId) {
 
 		int affectedRow = articleRepository.increaseBadReactionPoint(relId);
 
@@ -200,10 +217,11 @@ public class ArticleService {
 
 	/**
 	 * 좋아요 감소
+	 * 
 	 * @param relId
 	 * @return
 	 */
-	public ResultData<Integer>  decreaseGoodReationPoint(int relId) {
+	public ResultData<Integer> decreaseGoodReationPoint(int relId) {
 		int affectedRow = articleRepository.decreaseGoodReactionPoint(relId);
 
 		if (affectedRow == 0) {
@@ -211,13 +229,14 @@ public class ArticleService {
 		}
 		return ResultData.from("S-1", "좋아요 취소", "affectedRow", affectedRow);
 	}
-	
+
 	/**
 	 * 싫어요 감소
+	 * 
 	 * @param relId
 	 * @return
 	 */
-	public ResultData<Integer>  decreaseBadReationPoint(int relId) {
+	public ResultData<Integer> decreaseBadReationPoint(int relId) {
 		int affectedRow = articleRepository.decreaseBadReactionPoint(relId);
 
 		if (affectedRow == 0) {
@@ -225,37 +244,54 @@ public class ArticleService {
 		}
 		return ResultData.from("S-1", "좋아요 취소", "affectedRow", affectedRow);
 	}
-	
-	
+
 	/**
 	 * 메인 페이지에서 사용
-	*/
-	
+	 */
+
 	/**
 	 * 
 	 * 공지사항만 가져오기
+	 * 
 	 * @param limitFrom
 	 * @param itemsInAPage
 	 * @return
 	 */
 	public List<Article> getNoticeArticles(int limitFrom, int itemsInAPage) {
-		
+
 		return articleRepository.getNoticeArticles(limitFrom, itemsInAPage);
 	}
 
 	/**
 	 * 밥팅만 가져오기
+	 * 
 	 * @param limitFrom
 	 * @param itemsInAPage
 	 * @return
 	 */
 	public List<Article> getBabtingArticles(int limitFrom, int itemsInAPage) {
-		
+
 		return articleRepository.getBabtingArticles(limitFrom, itemsInAPage);
 	}
 
 	/**
+	 * 맞춤 밥팅만 가져오기
+	 * 
+	 * @param string
+	 * @param string2
+	 * @param limitFrom
+	 * @param itemsInAPage
+	 * @return
+	 */
+	public List<Article> getMyBabtingArticles(String searchKeywordTypeCode, String searchKeyword, int limitFrom,
+			int itemsInAPage) {
+
+		return articleRepository.getMyBabtingArticles(searchKeywordTypeCode, searchKeyword, limitFrom, itemsInAPage);
+	}
+
+	/**
 	 * 자유글만 가져오기
+	 * 
 	 * @param limitFrom
 	 * @param itemsInAPage
 	 * @return
@@ -263,6 +299,5 @@ public class ArticleService {
 	public List<Article> getFreeArticles(int limitFrom, int itemsInAPage) {
 		return articleRepository.getFreeArticles(limitFrom, itemsInAPage);
 	}
-
 
 }

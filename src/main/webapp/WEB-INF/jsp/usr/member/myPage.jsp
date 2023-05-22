@@ -12,36 +12,38 @@
 			<table border="1">
 				<colgroup>
 					<col width="200" />
+					<col width="600" />
 				</colgroup>
 
 				<tbody>
 					<tr>
 						<th>가입일</th>
-						<td>${rq.loginedMember.regDate }</td>
+						<td class="text-left">${rq.loginedMember.regDate }</td>
 					</tr>
 					<tr>
 						<th>아이디</th>
-						<td>${rq.loginedMember.loginId }</td>
+						<td class="text-left">${rq.loginedMember.loginId }</td>
 					</tr>
 					<tr>
 						<th>이름</th>
-						<td>${rq.loginedMember.name }</td>
+						<td class="text-left">${rq.loginedMember.name }</td>
 					</tr>
 					<tr>
 						<th>닉네임</th>
-						<td>${rq.loginedMember.nickname }</td>
+						<td class="text-left">${rq.loginedMember.nickname }</td>
 					</tr>
 					<tr>
 						<th>전화번호</th>
-						<td>${rq.loginedMember.cellphoneNum }</td>
+						<td class="text-left">${rq.loginedMember.cellphoneNum }</td>
 					</tr>
 					<tr>
 						<th>이메일</th>
-						<td>${rq.loginedMember.email }</td>
+						<td class="text-left">${rq.loginedMember.email }</td>
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td>
+						<td><div class="text-left">${rq.loginedMember.addressName }</div>
+						<div class="text-left">${rq.loginedMember.address }</div>
 						<div id="map" style="width: 100%; height: 350px;"></div>
 						 <script
 							type="text/javascript"

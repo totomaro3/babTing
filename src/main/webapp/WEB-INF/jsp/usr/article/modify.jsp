@@ -41,19 +41,22 @@
 
 <!-- 장소 수정 -->
 <script>
-	function kakaoMapPost(longitude, latitude, name) {
+	function kakaoMapPost(longitude, latitude, name, address) {
 		var action = '../member/doCheckData';
 
 		$.get(action, {
 			isAjax : 'Y',
 			longitude : longitude,
 			latitude : latitude,
-			name : name
+			name : name,
+			address : address
 		}, function(data) {
 			$('.longitude').val(data.data1[0]);
 			$('.latitude').val(data.data1[1]);
-			$('.inputAddress').val(data.data1[2]);
-			$('.address').text(data.data1[2]);
+			$('.inputName').val(data.data1[2]);
+			$('.name').text(data.data1[2]);
+			$('.inputAddress').val(data.data1[3]);
+			$('.address').text(data.data1[3]);
 		}, 'json');
 	}
 </script>
@@ -63,43 +66,49 @@
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
 			<form action="../article/doModify" method="POST" onsubmit="ArticleModify__submit(this); return false;">
-				<input type="hidden" name="body"> <input type="hidden" name="id" value="${article.id }" />
-				<input type="hidden" name="boardId" value = "${article.boardId }">
-				<input value="${article.restaurantName }" class="inputAddress" type="hidden" name="restaurantName" />
-				<input value="${article.longitude }" class="longitude" type="hidden" name="longitude" />
-				<input value="${article.latitude }" class="latitude" type="hidden" name="latitude" />
+				<input type="hidden" name="body" />
+				<input type="hidden" name="id" value="${article.id }" />
+				<input type="hidden" name="boardId" value="${article.boardId }"/>
+				<input type="hidden" name="restaurantName" value="${article.restaurantName }" class="inputName"/>
+				<input type="hidden" name="address" value="${article.address }" class="inputAddress"/>
+				<input type="hidden" name="longitude" value="${article.longitude }" class="longitude"/>
+				<input type="hidden" name="latitude" value="${article.latitude }" class="latitude"/>
 				<table>
 					<colgroup>
 						<col width="200" />
+						<col width="600" />
 					</colgroup>
 
 					<tbody>
-						<tr>
-							<th>번호</th>
-							<td>
-								<div class="badge">${article.id}</div>
-							</td>
-						</tr>
+						<c:if test="${article.boardId == 1 || article.boardId == 3}">
+							<tr>
+								<th>번호</th>
+								<td>
+									<div class="badge">${article.id}</div>
+								</td>
+							</tr>
+						</c:if>
 						<tr>
 							<th>작성날짜</th>
-							<td>${article.regDate }</td>
+							<td class="text-left">${article.regDate }</td>
 						</tr>
 						<tr>
 							<th>수정날짜</th>
-							<td>${article.updateDate }</td>
+							<td class="text-left">${article.updateDate }</td>
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td>${article.extra__writer }</td>
+							<td class="text-left">${article.extra__writer }</td>
 						</tr>
 						<c:if test="${article.boardId == 2}">
 							<tr>
 								<th>매장</th>
 								<td class="text-left">
-									<div class="address">${article.restaurantName }</div>
-									<a class="btn btn-active btn-ghost text-xl" href="#"
-									onclick="window.open('/usr/home/kakaoMap', '장소 검색','width=900, height=550'); return false">장소
-										검색</a>
+									<div class="name">${article.restaurantName }</div>
+									<div class="address">${article.address }</div> <a
+									class="btn btn-active btn-ghost text-xl" href="#"
+									onclick="window.open('/usr/home/kakaoMap', '장소 수정','width=900, height=550'); return false">장소
+										수정</a>
 								</td>
 							</tr>
 							<tr>
@@ -109,16 +118,11 @@
 									value="${article.deliveryCost }" type="text"
 									name="deliveryCost" placeholder="예상 배달 비용" /></td>
 							</tr>
-							<tr>
-								<th>모집 마감 시간</th>
-								<td class="text-left">1시간 후</td>
-							</tr>
 						</c:if>
 						<tr>
 							<th>제목</th>
-							<td><input class="input input-bordered w-full max-w-xs"
-								type="text" name="title" placeholder="제목을 입력해주세요"
-								value="${article.title }" /></td>
+							<td><input class="w-full rounded-sm" type="text"
+								name="title" placeholder="제목을 입력해주세요" value="${article.title }" /></td>
 						</tr>
 						<tr>
 							<th>내용</th>
@@ -130,10 +134,10 @@
 						</tr>
 						<tr>
 							<th><button
-									class="btn-text-link btn btn-active btn-ghost btn-lg"
+									class="btn-text-link btn btn-active btn-ghost text-xl"
 									type="button" onclick="history.back();">뒤로가기</button></th>
 							<td>
-								<button class="btn-text-link btn btn-active btn-ghost btn-lg"
+								<button class="btn-text-link btn btn-active btn-ghost text-xl"
 									type="submit" value="수정" /> 수정
 								</button>
 							</td>

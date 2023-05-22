@@ -29,6 +29,11 @@ header * {
 	font-size: 1.3rem;
 }
 
+.bold * {
+	font-family: 'Cafe24Ssurround', sans;
+	font-size: 1.2rem;
+}
+
 html>body {
 	padding: 1.3rem;
 }
@@ -42,6 +47,10 @@ th, td {
 
 a:hover {
 	color: goldenrod;
+}
+
+.seladd:hover{
+	color: white;
 }
 
 button:hover {

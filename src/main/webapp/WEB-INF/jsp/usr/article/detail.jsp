@@ -123,20 +123,24 @@ $(function() {
 		<div class="button">
 			<button class="btn btn-active btn-ghost text-xl" type="button"
 				onclick="history.back();">뒤로가기</button>
+			&nbsp&nbsp
 			<c:if test="${article.memberId eq loginedMemberId}">
 				<a class="btn btn-active btn-ghost text-xl"
 					href="../article/modify?id=${article.id }">수정</a>
 			</c:if>
+			&nbsp&nbsp
 			<c:if test="${article.memberId eq loginedMemberId}">
 				<a class="btn btn-active btn-ghost text-xl"
 					onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
 					href="../article/doDelete?id=${article.id }">삭제</a>
 			</c:if>
+			&nbsp&nbsp
 			<c:if
 				test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 0}">
 				<a class="btn btn-active btn-ghost text-xl"
 					href="../article/doDeadLine?id=${article.id }">마감</a>
 			</c:if>
+			&nbsp&nbsp
 			<c:if
 				test="${article.memberId eq loginedMemberId && article.boardId == 2 && article.deadStatus == 1}">
 				<a class="btn btn-active btn-ghost text-xl"
@@ -148,34 +152,34 @@ $(function() {
 		<table class="mt-3">
 			<colgroup>
 				<col width="200" />
-				<col width="500" />
+				<col width="600" />
 			</colgroup>
 			<tr>
 				<th>작성날짜</th>
-				<td>${article.regDate }</td>
+				<td class="text-left">${article.regDate }</td>
 			</tr>
 			<tr>
 				<th>수정날짜</th>
-				<td>${article.updateDate }</td>
+				<td class="text-left">${article.updateDate }</td>
 			</tr>
 			<tr>
 				<th>작성자</th>
-				<td>${article.extra__writer }</td>
+				<td class="text-left">${article.extra__writer }</td>
 			</tr>
 			<c:if test="${article.boardId == 2}">
 				<tr>
 					<th>예상 배달 비용</th>
-					<td>${article.deliveryCost }원</td>
+					<td class="text-left">${article.deliveryCost }원</td>
 				</tr>
 				<tr>
 					<th>회원 간의 거리</th>
-					<td><div id="result"></div></td>
+					<td class="text-left"><div id="result"></div></td>
 				</tr>
 				<tr>
 					<th>매장</th>
 					<td>
-						<div>${article.restaurantName }</div>
-						<div>${article.address }</div>
+						<div class="text-left">${article.restaurantName }</div>
+						<div class="text-left">${article.address }</div>
 						<div id="map" style="width: 100%; height: 350px;"></div> <script
 							type="text/javascript"
 							src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ae1891ba1b0c1ff630450e76b284f50"></script>
@@ -210,18 +214,18 @@ $(function() {
 				</tr>
 				<tr>
 					<th>모집 마감 시간</th>
-					<td>${article.deadlineTime.substring(5,16)}</td>
+					<td class="text-left">${article.deadlineTime.substring(5,16)}</td>
 				</tr>
 			</c:if>
 			<c:if test="${article.boardId == 3}">
 				<tr>
 					<th>조회수</th>
-					<td><span class="article-detail__hit-count">${article.hitCount }</span>
+					<td class="text-left"><span class="article-detail__hit-count">${article.hitCount }</span>
 					</td>
 				</tr>
 				<tr>
 					<th>추천</th>
-					<td><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
+					<td class="text-left"><span>&nbsp;좋아요 : ${article.goodReactionPoint }&nbsp;</span>
 						<span>&nbsp;싫어요 : ${article.badReactionPoint }&nbsp;</span> <c:if
 							test="${article.boardId == 3}">
 							<div>
@@ -240,112 +244,119 @@ $(function() {
 			</c:if>
 			<tr>
 				<th>제목</th>
-				<td>${article.title }</td>
+				<td class="text-left">${article.title }</td>
 			</tr>
 			<tr>
 				<th>내용</th>
-				<td>${article.body }</td>
+				<td class="text-left">${article.body }</td>
 			</tr>
 		</table>
 		<br>
-		<div>해당 배달 음식 공동 구매에 참여하시려면 대화방에 참여해주세요!</div>
+		
 		<c:if
-			test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">->
+			test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">
+			<div>해당 배달 음식 공동 구매에 참여하시려면 대화방에 참여해주세요!</div>
 			<a class="btn-text-link btn btn-active btn-ghost text-xl"
 				onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=750, height=850'); return false">대화방
 				참여 하기</a>
+		</c:if>
+
+		<!-- 댓글 작성 -->
+		<c:if
+			test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
+			<section class="mt-3 text-xl">
+				<div class="container mx-auto px-3">
+					<div class="table-box-type-1">
+						<c:if test="${rq.isLogined() }">
+							<form action="../reply/doWrite" method="POST"
+								onsubmit="ReplyWrite__submitForm(this); return false;">
+								<input type="hidden" name="relTypeCode" value="article" /> <input
+									type="hidden" name="relId" value="${article.id }" />
+								<table>
+									<colgroup>
+										<col width="200" />
+									</colgroup>
+
+									<tbody>
+										<tr>
+											<th>댓글</th>
+											<td><textarea
+													class="input input-bordered w-full max-w-xs" type="text"
+													name="body" placeholder="내용을 입력해주세요" /></textarea></td>
+											<td>
+												<button type="submit" value="작성" /> 댓글 작성
+												</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
+						</c:if>
+						<c:if test="${!rq.isLogined() && article.boardId == 3}">
+				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost"
+								href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a> 후 이용해주세요.
+				</c:if>
+					</div>
+				</div>
+			</section>
+		</c:if>
+
+		<!-- 댓글 리스트 -->
+		<c:if test="${article.boardId == 4 || article.boardId == 3 }">
+			<section class="mt-3 text-xl">
+				<div class="container mx-auto px-3">
+					<h1 class="text-3xl">댓글 리스트(${repliesCount })</h1>
+					<table class="table table-zebra w-full">
+						<colgroup>
+							<col width="70" />
+							<col width="100" />
+							<col width="100" />
+							<col width="50" />
+							<col width="140" />
+							<col width="140" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>번호</th>
+								<th>날짜</th>
+								<th>작성자</th>
+								<th>내용</th>
+								<th>수정</th>
+								<th>삭제</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<c:forEach var="reply" items="${replies }">
+								<tr class="hover">
+									<td>
+										<div class="badge">${reply.id}</div>
+									</td>
+									<td>${reply.regDate.substring(2,16)}</td>
+									<td>${reply.extra__writer}</td>
+									<td align="left">${reply.body}</td>
+									<td><c:if test="${reply.memberId eq loginedMemberId}">
+											<a class="btn btn-active btn-ghost text-xl"
+												href="../reply/modify?id=${reply.id }">수정</a>
+										</c:if></td>
+									<td><c:if test="${reply.memberId eq loginedMemberId}">
+											<a class="btn btn-active btn-ghost text-xl"
+												onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
+												href="../reply/doDelete?id=${reply.id }">삭제</a>
+										</c:if></td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</section>
 		</c:if>
 	</div>
 </section>
 
 
 
-<!-- 댓글 작성 -->
-<c:if test="${article.boardId == 3 || rq.loginedMember.authLevel == 7}">
-	<section class="mt-3 text-xl">
-		<div class="container mx-auto px-3">
-			<div class="table-box-type-1">
-				<c:if test="${rq.isLogined() }">
-					<form action="../reply/doWrite" method="POST"
-						onsubmit="ReplyWrite__submitForm(this); return false;">
-						<input type="hidden" name="relTypeCode" value="article" /> <input
-							type="hidden" name="relId" value="${article.id }" />
-						<table>
-							<colgroup>
-								<col width="200" />
-							</colgroup>
 
-							<tbody>
-								<tr>
-									<th>댓글</th>
-									<td><textarea class="input input-bordered w-full max-w-xs"
-											type="text" name="body" placeholder="내용을 입력해주세요" /></textarea></td>
-									<td>
-										<button type="submit" value="작성" /> 댓글 작성
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</form>
-				</c:if>
-				<c:if test="${!rq.isLogined() && article.boardId == 3}">
-				댓글을 작성하려면 <a class="btn-text-link btn btn-active btn-ghost"
-						href="/usr/member/login?afterLoginUri=${rq.getEncodedCurrentUri()}">로그인</a> 후 이용해주세요.
-				</c:if>
-			</div>
-		</div>
-	</section>
-</c:if>
-
-<!-- 댓글 리스트 -->
-<c:if test="${article.boardId == 4 || article.boardId == 3 }">
-	<section class="mt-3 text-xl">
-		<div class="container mx-auto px-3">
-			<h1 class="text-3xl">댓글 리스트(${repliesCount })</h1>
-			<table class="table table-zebra w-full">
-				<colgroup>
-					<col width="70" />
-					<col width="100" />
-					<col width="100" />
-					<col width="50" />
-					<col width="140" />
-					<col width="140" />
-				</colgroup>
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>날짜</th>
-						<th>작성자</th>
-						<th>내용</th>
-						<th>수정삭제</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					<c:forEach var="reply" items="${replies }">
-						<tr class="hover">
-							<td>
-								<div class="badge">${reply.id}</div>
-							</td>
-							<td>${reply.regDate.substring(2,16)}</td>
-							<td>${reply.extra__writer}</td>
-							<td align="left">${reply.body}</td>
-							<td><c:if test="${reply.memberId eq loginedMemberId}">
-									<a class="btn btn-active btn-ghost text-xl"
-										href="../reply/modify?id=${reply.id }">수정</a>
-								</c:if> <c:if test="${reply.memberId eq loginedMemberId}">
-									<a class="btn btn-active btn-ghost text-xl"
-										onclick="if(confirm('정말 삭제하시겠습니까?')==false) return false;"
-										href="../reply/doDelete?id=${reply.id }">삭제</a>
-								</c:if></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-	</section>
-</c:if>
 
 
 <%@ include file="../common/foot.jspf"%>

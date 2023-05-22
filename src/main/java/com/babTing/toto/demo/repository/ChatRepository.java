@@ -35,7 +35,7 @@ public interface ChatRepository {
 
 	@Select("""
 			<script>
-			SELECT message, userName
+			SELECT *
 			FROM chatMessage
 			WHERE relId = #{relId}
 			</script>

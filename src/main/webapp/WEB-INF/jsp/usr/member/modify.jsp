@@ -95,59 +95,60 @@
 				<table border="1">
 					<colgroup>
 						<col width="200" />
+						<col width="400" />
 					</colgroup>
 
 					<tbody>
 						<tr>
 							<th>가입일</th>
-							<td>${rq.loginedMember.regDate }</td>
+							<td class="text-left">${rq.loginedMember.regDate }</td>
 						</tr>
 						<tr>
 							<th>아이디</th>
-							<td>${rq.loginedMember.loginId }</td>
+							<td class="text-left">${rq.loginedMember.loginId }</td>
 						</tr>
 						<tr>
 							<th>새 비밀번호</th>
-							<td><input name="loginPw"
+							<td class="text-left"><input name="loginPw"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="새 비밀번호를 입력해주세요" type="text" /></td>
 						</tr>
 						<tr>
 							<th>새 비밀번호 확인</th>
-							<td><input name="loginPwConfirm"
+							<td class="text-left"><input name="loginPwConfirm"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="새 비밀번호 확인을 입력해주세요" type="text" /></td>
 						</tr>
 						<tr>
 							<th>이름</th>
-							<td><input name="name" value="${rq.loginedMember.name }"
+							<td class="text-left"><input name="name" value="${rq.loginedMember.name }"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="이름을 입력해주세요" type="text" /></td>
 						</tr>
 						<tr>
 							<th>닉네임</th>
-							<td><input name="nickname"
+							<td class="text-left"><input name="nickname"
 								value="${rq.loginedMember.nickname }"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="닉네임을 입력해주세요" type="text" /></td>
 						</tr>
 						<tr>
 							<th>전화번호</th>
-							<td><input name="cellphoneNum"
+							<td class="text-left"><input name="cellphoneNum"
 								value="${rq.loginedMember.cellphoneNum }"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="전화번호를 입력해주세요" type="text" /></td>
 						</tr>
 						<tr>
 							<th>이메일</th>
-							<td><input name="email" value="${rq.loginedMember.email }"
+							<td class="text-left"><input name="email" value="${rq.loginedMember.email }"
 								class="input input-bordered w-full max-w-xs"
 								placeholder="이메일을 입력해주세요" type="text" /></td>
 						</tr>
 						<tr>
 							<th>주소</th>
-							<td><div class="name"></div>
-								<div class="address"></div>
+							<td class="text-left"><div class="name">${rq.loginedMember.addressName }</div>
+								<div class="address">${rq.loginedMember.address }</div>
 								<div>
 									<a class="btn btn-active btn-ghost text-xl" href="#"
 										onclick="window.open('/usr/home/kakaoMap', '장소 수정','width=900, height=550'); return false">장소

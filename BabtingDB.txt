@@ -112,8 +112,9 @@ updateDate = NOW(),
 memberId = 2,
 boardId = 2,
 title = '떡반집에서 토스트 반절씩 나눠 드실분',
-`body` = '떡반집',
-restaurantName = '떡반집',
+`body` = '떡반집 본점',
+restaurantName = '떡반집 본점',
+address = '대전 서구 둔산로 8',
 longitude = 127.37494817405462,
 latitude = 36.35225102142578,
 deliveryCost = 3000,
@@ -127,6 +128,7 @@ boardId = 2,
 title = '돈까스 먹고 싶은데 1인분은 안된대요 살려주세요',
 `body` = '돈쿡',
 restaurantName = '돈쿡',
+address = '대전 서구 둔산로137번길 21',
 longitude = 127.388965415396,
 latitude = 36.3522738041263,
 deliveryCost = 3000,
@@ -198,6 +200,8 @@ CREATE TABLE `member`(
     nickname CHAR(20) NOT NULL,
     cellphoneNum CHAR(20) NOT NULL,
     email CHAR(50) NOT NULL,
+    addressName CHAR(100) NOT NULL,
+    address CHAR(100) NOT NULL,
     longitude DOUBLE NOT NULL,
     latitude DOUBLE NOT NULL,
     delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
@@ -226,6 +230,8 @@ loginPw = 'test1',
 `nickname` = '회원1',
 cellphoneNum = '01043214321',
 email = 'ppoiuy1451@gmail.com',
+addressName = '코리아IT아카데미 대전점',
+address = '대전 서구 둔산로 52',
 longitude = 127.379728273553,
 latitude = 36.3510337596695;
 
@@ -238,6 +244,8 @@ loginPw = 'test2',
 `nickname` = '회원2',
 cellphoneNum = '01067896789',
 email = 'ppoiuy1451@gmail.com',
+addressName = '대전광역시청',
+address = '대전 서구 둔산로 100',
 longitude = 127.384834846753,
 latitude = 36.3505388993078;
 
@@ -250,6 +258,8 @@ loginPw = 'test3',
 `nickname` = '회원3',
 cellphoneNum = '01067896789',
 email = 'ppoiuy1451@gmail.com',
+addressName = '떡반집 본점',
+address = '대전 서구 둔산로 8',
 longitude = 127.37494817405462,
 latitude = 36.35225102142578;
 
@@ -299,52 +309,41 @@ CREATE TABLE reactionPoint (
     `point` INT(10) NOT NULL
 );
 
-# reactionPoint 테이블 생성
-CREATE TABLE reactionPoint (
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL,
-    memberId INT(10) UNSIGNED NOT NULL,
-    relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
-    relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
-    `point` INT(10) NOT NULL
-);
-
 # reactionPoint 테스트 데이터
 # 1번 회원이 1번 글에 싫어요
 INSERT INTO reactionPoint
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 1,
+memberId = 2,
 relTypeCode = 'article',
-relId = 1,
+relId = 6,
 `point` = -1;
 
 # 1번 회원이 2번 글에 좋아요
 INSERT INTO reactionPoint
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 1,
+memberId = 2,
 relTypeCode = 'article',
-relId = 2,
+relId = 7,
 `point` = 1;
 
 # 2번 회원이 1번 글에 싫어요
 INSERT INTO reactionPoint
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 2,
+memberId = 3,
 relTypeCode = 'article',
-relId = 1,
+relId = 6,
 `point` = -1;
 
 # 2번 회원이 2번 글에 싫어요
 INSERT INTO reactionPoint
 SET regDate = NOW(),
 updateDate = NOW(),
-memberId = 2,
+memberId = 7,
 relTypeCode = 'article',
-relId = 2,
+relId = 6,
 `point` = -1;
 
 # 3번 회원이 1번 글에 좋아요
@@ -386,7 +385,7 @@ SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
 relTypeCode = 'article',
-relId = 1,
+relId = 6,
 `body` = '댓글 1';
 
 # 2번 회원이 1번 글에 
@@ -395,7 +394,7 @@ SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
 relTypeCode = 'article',
-relId = 1,
+relId = 6,
 `body` = '댓글 2';
 
 # 3번 회원이 1번 글에 
@@ -404,7 +403,7 @@ SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 3,
 relTypeCode = 'article',
-relId = 1,
+relId = 6,
 `body` = '댓글 3';
 
 # 3번 회원이 1번 글에 
@@ -413,7 +412,7 @@ SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
 relTypeCode = 'article',
-relId = 2,
+relId = 6,
 `body` = '댓글 4';
 
 # 기존의 회원 비번을 암호화
