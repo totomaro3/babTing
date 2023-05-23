@@ -189,6 +189,14 @@ latitude = 36.350491934487465,
 deliveryCost = 4000,
 deadlineTime = NOW() + INTERVAL 6 HOUR;
 
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+boardId = 4,
+title = '문의합니다',
+`body` = '버그가 터졌어요 아주 심각한 버그가 말이죠';
+
 CREATE TABLE `member`(
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
