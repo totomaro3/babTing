@@ -390,7 +390,7 @@
 				}
 
 				itemStr += '  <span class="tel">' + places.phone + '</span>';
-				itemStr += '<span><button class="btn btn-info btn-xs seladd" type="button" onclick="goDoKaKao(' + places.x + ',' + places.y + ',\'' + places.place_name + '\',\'' + places.road_address_name + '\');">장소 선택</button></span>' + '</div>';
+				itemStr += '<div class="flex justify-end"><button class="btn btn-xs" type="button" onclick="goDoKaKao(' + places.x + ',' + places.y + ',\'' + places.place_name + '\',\'' + places.road_address_name + '\');">&nbsp장소 선택&nbsp</button></div>' + '</div>';
 
 				el.innerHTML = itemStr;
 				el.className = 'item';
