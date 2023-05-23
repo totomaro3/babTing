@@ -123,8 +123,10 @@
 		  }, function(data) {
 			$('.longitude').val(data.data1[0]);
 			$('.latitude').val(data.data1[1]);
-		    $('.name').text(data.data1[2]);
+		    $('.addressName').text(data.data1[2]);
+		    $('.inputAddressName').val(data.data1[2]);
 		    $('.address').text(data.data1[3]);
+		    $('.inputAddress').val(data.data1[3]);
 		  }, 'json');
 		}
 </script>
@@ -134,6 +136,8 @@
 	<div class="container mx-auto px-3">
 		<form class="table-box-type-1" name="form1" method="POST" action="../member/doJoin" onsubmit="submitJoinForm(this); return false;">
 			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
+			<input class="inputAddressName" type="hidden" name="addressName" />
+			<input class="inputAddress" type="hidden" name="address" />
 			<input class="longitude" type="hidden" name="longitude" />
 			<input class="latitude" type="hidden" name="latitude" />
 			<table class="table table-zebra">
@@ -187,7 +191,7 @@
 					</tr>
 					<tr>
 						<th>주소</th>
-						<td class="text-left"> <div class="name"></div> <div class="address"></div>
+						<td class="text-left"> <div class="addressName"></div> <div class="address"></div>
 								<a class="btn btn-active btn-ghost text-xl" href="#"
 									onclick="window.open('/usr/home/kakaoMap', '장소 검색','width=900, height=550'); return false">장소 검색</a>
 						</td>

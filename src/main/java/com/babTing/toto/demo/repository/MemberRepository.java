@@ -20,10 +20,12 @@ public interface MemberRepository {
 			nickname = #{nickname},
 			cellphoneNum = #{cellphoneNum},
 			email = #{email},
+			addressName = #{addressName},
+			address = #{address},
 			longitude = #{longitude},
 			latitude = #{latitude}
 			""")
-	public void doJoinMember(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email, double longitude, double latitude);
+	public void doJoinMember(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email, String addressName, String address, double longitude, double latitude);
 
 	@Select("""
 			SELECT *

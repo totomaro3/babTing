@@ -120,7 +120,7 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
 	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
-			String email, double longitude, double latitude,
+			String email, String addressName, String address, double longitude, double latitude,
 			@RequestParam(defaultValue = "/") String afterLoginUri) {
 
 		if (Ut.empty(loginId)) {
@@ -142,7 +142,7 @@ public class UsrMemberController {
 			return rq.jsHistoryBack("F-6", "이메일을 입력해주세요");
 		}
 
-		ResultData<Integer> joinRd = memberService.join(loginId, Ut.sha256(loginPw), name, nickname, cellphoneNum, email, longitude, latitude);
+		ResultData<Integer> joinRd = memberService.join(loginId, Ut.sha256(loginPw), name, nickname, cellphoneNum, email, addressName, address, longitude, latitude);
 
 		if (joinRd.isFail()) {
 			return rq.jsHistoryBack(joinRd.getResultCode(), joinRd.getMsg());
