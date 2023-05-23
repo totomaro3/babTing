@@ -68,6 +68,8 @@ public class UsrChatController {
 	@RequestMapping("/usr/chat/createRoom")
 	public @ResponseBody List<Room> createRoom(@RequestParam HashMap<Object, Object> params) {
 
+		roomList = new ArrayList<Room>();
+		
 		List<Room> rooms = chatService.getRooms();
 
 		for (Room room : rooms) {
@@ -85,6 +87,8 @@ public class UsrChatController {
 	@RequestMapping("/usr/chat/initCreateRoom")
 	public @ResponseBody List<Room> initCreateRoom(@RequestParam HashMap<Object, Object> params) {
 
+			roomList = new ArrayList<Room>();
+		
 			List<Room> rooms = new ArrayList<Room>();
 			
 			rooms = chatService.getRooms();

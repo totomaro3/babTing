@@ -43,4 +43,10 @@ public class ChatService {
 		List<ChatMessage> chatMessages = chatRepository.load(relId);
 		return chatMessages;
 	}
+
+	public void createRoom(int id, String title) {
+		chatRepository.write(id,title);
+	}
+	
+	
 }

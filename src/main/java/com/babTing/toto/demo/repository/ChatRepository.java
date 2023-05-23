@@ -19,8 +19,7 @@ public interface ChatRepository {
 			</script>
 			""")
 	List<Room> getRooms();
-	
-	
+
 	@Insert("""
 			<script>
 			INSERT INTO chatMessage
@@ -41,4 +40,13 @@ public interface ChatRepository {
 			</script>
 			""")
 	List<ChatMessage> load(int relId);
+
+	@Insert("""
+			INSERT INTO chatRoom
+			SET regDate = NOW(),
+			updateDate = NOW(),
+			roomNumber = #{id},
+			roomName = #{title};
+			""")
+	void write(int id, String title);
 }

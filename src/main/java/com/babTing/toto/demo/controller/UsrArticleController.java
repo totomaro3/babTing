@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.babTing.toto.demo.service.ArticleService;
 import com.babTing.toto.demo.service.BoardService;
+import com.babTing.toto.demo.service.ChatService;
 import com.babTing.toto.demo.service.ReactionPointService;
 import com.babTing.toto.demo.service.ReplyService;
 import com.babTing.toto.demo.util.Ut;
@@ -31,6 +32,8 @@ public class UsrArticleController {
 	private ReplyService replyService;
 	@Autowired
 	private ReactionPointService reactionPointService;
+	@Autowired
+	private ChatService chatService;
 	@Autowired
 	private Rq rq;
 
@@ -210,11 +213,13 @@ public class UsrArticleController {
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId, boardId,
 				restaurantName, address, deliveryCost, latitude, longitude);
-
+		
 		int id = (int) writeArticleRd.getData1();
+		
+		chatService.createRoom(id,title);
 
+		//없어도 될려나?
 		ResultData<Article> getArticleRd = articleService.getArticle(id);
-
 		Article article = getArticleRd.getData1();
 
 		// ResultData.newData(writeArticleRd, "String", sb.toString());
