@@ -29,9 +29,9 @@ public class ChatService {
 	 * @param userName
 	 * @param relId
 	 */
-	public void saveChatMessage(String message, String userName, int relId) {
+	public void saveChatMessage(String type, String message, String userName, int relId) {
         // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
-        chatRepository.save(message, userName, relId);
+        chatRepository.save(type, message, userName, relId);
     }
 
 	/**

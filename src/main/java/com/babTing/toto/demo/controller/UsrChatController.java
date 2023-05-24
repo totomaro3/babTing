@@ -131,9 +131,9 @@ public class UsrChatController {
 	 */
 	@RequestMapping("/usr/chat/save-chat-message")
 	@ResponseBody
-    public ResultData saveChatMessage(String message, String userName, int relId) {
+    public ResultData saveChatMessage(String type, String message, String userName, int relId) {
         // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
-		chatService.saveChatMessage(message, userName, relId);
+		chatService.saveChatMessage(type, message, userName, relId);
         return ResultData.from("S-1", "성공");
     }
 	

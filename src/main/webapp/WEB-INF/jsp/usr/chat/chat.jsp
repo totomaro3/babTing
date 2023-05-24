@@ -107,60 +107,47 @@ input {
 		ws.onopen = function(data) {
 			//소켓이 열리면 동작
 			var nickname = "${rq.loginedMember.nickname}";
-			$
-					.get(
-							'./load-chat-message',
-							{
-								relId : "${roomNumber}"
-							},
-							function(data) {
-								// chatMessages를 활용하여 원하는 작업을 수행합니다.
-								for (var i = 0; i < data.length; i++) {
-									var message = data[i].message;
-									console.log(message); // 콘솔에 채팅 메시지 출력 예시
-									if (data[i].userName.localeCompare('') == 0) {
-										$("#chating").append(
-												"<p class='notice'>"
-														+ data[i].message
-														+ "</p>");
-									} else if (data[i].userName
-											.localeCompare("${rq.loginedMember.nickname}") == 0) {
-										$("#chating")
-												.append(
-														"<div class='chat chat-end'><div class='chat-header'>"
-																+ data[i].userName
-																+ "&nbsp<time class='text-xs opacity-50'>"
-																+ data[i].regDate
-																		.substring(
-																				10,
-																				16)
-																+ "</time></div><div class='chat-bubble chat-bubble-warning'>"
-																+ data[i].message
-																+ "</div></div>");
-									} else {
-										$("#chating")
-												.append(
-														"<div class='chat chat-start'> <div class='chat-header'>"
-																+ data[i].userName
-																+ "&nbsp<time class='text-xs opacity-50'>"
-																+ data[i].regDate
-																		.substring(
-																				10,
-																				16)
-																+ "</time></div><div class='chat-bubble chat-bubble-success'>"
-																+ data[i].message
-																+ "</div></div>");
-									}
-								}
-
-								enterSend(nickname);
-							}, 'json');
+			$.get('./load-chat-message', {
+					relId : "${roomNumber}"
+			}, function(data) {
+				// chatMessages를 활용하여 원하는 작업을 수행합니다.
+				for (var i = 0; i < data.length; i++) {
+					var message = data[i].message;
+					if (data[i].type.localeCompare('enterNotice') == 0) {
+						//공지 메시지
+						$("#chating").append("<p class='notice'>"+ data[i].message + "</p>");
+						$("#participant").append("<tr class='"+data[i].userName+"'><td>"+ data[i].userName + "</td></tr>");
+					} else if (data[i].type.localeCompare('exitNotice') == 0) {
+						//공지 메시지
+						$("#chating").append("<p class='notice'>"+ data[i].message + "</p>");
+						$("#participant").find("tr:has(td:contains("+data[i].userName+"))").remove();
+					} else if (data[i].userName.localeCompare("${rq.loginedMember.nickname}") == 0) {
+						//자신의 것
+						$("#chating").append(""
+								+"<div class='chat chat-end'>"
+								+"	<div class='chat-header'>" + data[i].userName + "&nbsp"
+								+"		<time class='text-xs opacity-50'>" + data[i].regDate.substring(10,16) + "</time>"
+								+"	</div>"
+								+"	<div class='chat-bubble chat-bubble-warning'>" + data[i].message + "</div>"
+								+"</div>");
+					} else {
+						//남의 것
+						$("#chating").append(""
+								+"<div class='chat chat-start'>"
+								+"	<div class='chat-header'>" + data[i].userName + "&nbsp"
+								+"		<time class='text-xs opacity-50'>" + data[i].regDate.substring(10,16) + "</time>"
+								+"	</div>"
+								+"	<div class='chat-bubble chat-bubble-success'>" + data[i].message + "</div>"
+								+"</div>");
+					}
+				}
+				enterSend(nickname);
+			}, 'json');
 		}
 
 		ws.onmessage = function(data) {
 			//메시지를 받으면 동작
 			var msg = data.data;
-			console.log(data);
 			if (msg != null && msg.trim() != '') {
 				var d = JSON.parse(msg);
 				if (d.type == "getId") {
@@ -169,23 +156,24 @@ input {
 						$("#sessionId").val(si);
 					}
 				} else if (d.type == "message") {
-					
+
 					//현재날짜 구하기
 					var currentDate = new Date();
-					var formattedTime = currentDate.getHours() + ':'
-							+ currentDate.getMinutes();
+					var minute = currentDate.getMinutes();
+					var formattedMinute = minute < 10 ? '0' + minute : minute.toString();
+					var formattedTime = currentDate.getHours() + ':' + formattedMinute;
 					var regDate = formattedTime;
-					
+
 					//메시지 보내기
 					if (d.sessionId == $("#sessionId").val()) {
-						$("#chating")
-								.append(
-										"<div class='chat chat-end'><div class='chat-header'>"
-												+ d.userName
-												+ "&nbsp<time class='text-xs opacity-50'>"
-												+ regDate
-												+ "</time></div><div class='chat-bubble chat-bubble-warning'>"
-												+ d.msg + "</div></div>");
+						//자신이 보낸 것
+						$("#chating").append(""
+								+"<div class='chat chat-end'>"
+								+"	<div class='chat-header'>"+d.userName+"&nbsp"
+								+"		<time class='text-xs opacity-50'>" + regDate + "</time>"
+								+"	</div>"
+								+"	<div class='chat-bubble chat-bubble-warning'>" + d.msg + "</div>"
+								+"</div>");
 
 						//메시지 데이터베이스에 저장 (내가 보낸 것만 저장)
 						$.get('./save-chat-message', {
@@ -198,48 +186,48 @@ input {
 						}, 'json');
 
 					} else {
-						$("#chating")
-								.append(
-										"<div class='chat chat-start'><div class='chat-header'>"
-												+ d.userName
-												+ "&nbsp<time class='text-xs opacity-50'>"
-												+ regDate
-												+ "</time></div><div class='chat-bubble chat-bubble-success'>"
-												+ d.msg + "</div></div>");
+						//남이 보낸 것
+						$("#chating").append(""
+								+"<div class='chat chat-start'>"
+								+"	<div class='chat-header'>"+d.userName+"&nbsp"
+								+"		<time class='text-xs opacity-50'>" + regDate + "</time>"
+								+"	</div>"
+								+"	<div class='chat-bubble chat-bubble-success'>" + d.msg + "</div>"
+								+"</div>");
 					}
 
-				} else if (d.type == "enterNotice") {
-					$("#chating").append(
-							"<p class='notice'>" + d.userName
-									+ "님이 입장하셨습니다.</p>");
+				} else if (d.type == "enterNotice" && !($("#participant").hasClass("tr."+d.userName).length > 0)) {
+					$("#chating").append("<p class='notice'>" + d.userName + "님이 입장하셨습니다.</p>");
+					$("#participant").append("<tr class='"+d.userName+"'><td>"+ d.userName + "</tr></td>");
 
 					//메시지 데이터베이스에 저장 (입장)
 					$.get('./save-chat-message', {
 						isAjax : 'Y',
+						type : 'enterNotice',
 						message : d.userName + '님이 입장하셨습니다.',
-						userName : '',
+						userName : d.userName,
 						relId : "${roomNumber}"
 					}, function(data) {
 						console.log("성공");
 					}, 'json');
 
 				} else if (d.type == "exitNotice") {
-					$("#chating").append(
-							"<p class='notice'>" + d.userName
-									+ "님이 퇴장하셨습니다.</p>");
+					$("#chating").append("<p class='notice'>" + d.userName + "님이 퇴장하셨습니다.</p>");
+					$("#participant").find("tr." + d.userName).remove();
 
 					//메시지 데이터베이스에 저장 (퇴장)
 					$.get('./save-chat-message', {
 						isAjax : 'Y',
+						type : 'exitNotice',
 						message : d.userName + '님이 퇴장하셨습니다.',
-						userName : '',
+						userName : d.userName,
 						relId : "${roomNumber}"
 					}, function(data) {
 						console.log("성공");
 					}, 'json');
 
 				} else {
-					console.warn("unknown type!")
+					console.warn("unknown type!");
 				}
 			}
 			scrollToBottom();
@@ -266,6 +254,7 @@ input {
 			window.close();
 		} else {
 			wsOpen();
+			$('#chatting').empty();
 			$("#yourMsg").show();
 		}
 	}
@@ -307,25 +296,30 @@ input {
 		ws.close();
 		window.close();
 	}
-	
+
 	function scrollToBottom() {
-		  var chatContainer = document.querySelector('.chating');
-		  chatContainer.scrollTop = chatContainer.scrollHeight;
-		}
+		var chatContainer = document.querySelector('.chating');
+		chatContainer.scrollTop = chatContainer.scrollHeight;
+	}
 </script>
 <body>
-	<div id="container" class="container">
-		<div class="text-2xl flex justify-center">글 제목 : ${roomName}</div>
+	<div id="container" class="container ml-10">
+		<div class="text-2xl">글 제목 : ${roomName}</div>
 		<br> <input type="hidden" id="sessionId" value=""> <input
 			type="hidden" id="roomNumber" value="${roomNumber}">
 
-		<div class="flex justify-center">
+		<div class="flex">
 			<div id="chating" class="chating"></div>
+			<div class="text-xl">
+				<table id="participant" class="participant">
+					<tr><td>현재 참여자</td></tr>
+				</table>
+			</div>
 		</div>
 
 
 		<div id="yourMsg">
-			<table class="inputTable flex justify-center">
+			<table class="inputTable">
 				<tr>
 					<th>메시지</th>
 					<th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>

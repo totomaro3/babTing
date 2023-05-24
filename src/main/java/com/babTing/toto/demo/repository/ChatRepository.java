@@ -25,12 +25,13 @@ public interface ChatRepository {
 			INSERT INTO chatMessage
 			SET regDate = NOW(),
 			updateDate = NOW(),
+			`type` = #{type},
 			message = #{message},
 			userName = #{userName},
 			relId = #{relId}
 			</script>
 			""")
-	void save(String message, String userName, int relId);
+	void save(String type, String message, String userName, int relId);
 
 	@Select("""
 			<script>

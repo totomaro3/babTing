@@ -12,6 +12,7 @@ public class ChatMessage {
 	private int id;
 	private String regDate;
 	private String updateDate;
+	private String type;
 	private String message;
 	private String userName;
 	private int relId;
