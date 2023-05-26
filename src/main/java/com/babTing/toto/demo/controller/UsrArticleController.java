@@ -1,5 +1,6 @@
 package com.babTing.toto.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.babTing.toto.demo.vo.Article;
 import com.babTing.toto.demo.vo.Board;
 import com.babTing.toto.demo.vo.Reply;
 import com.babTing.toto.demo.vo.ResultData;
+import com.babTing.toto.demo.vo.Room;
 import com.babTing.toto.demo.vo.Rq;
 
 @Controller
@@ -104,10 +106,61 @@ public class UsrArticleController {
 		int limitFrom = (page - 1) * itemsInAPage;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
 
-		int loginedMemberId = rq.getLoginedMemberId();
+		int loginedMemberId = rq.getLoginedMember().getId();
 
+		//ResultData<List<String>> getMyKeywordRd = articleService.getMyKeyword(rq.getLoginedMember().getId());
+		
 		ResultData<List<Article>> getArticlesRd = articleService.getMyArticles(limitFrom, itemsInAPage,
 				searchKeywordTypeCode, searchKeyword, loginedMemberId);
+
+		List<Article> articles = getArticlesRd.getData1();
+
+		if (board == null && boardId != 0) {
+			return rq.jsHitoryBackOnView("존재하지 않는 게시판 입니다.");
+		}
+
+		model.addAttribute("board", board);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("articles", articles);
+		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("page", page);
+		model.addAttribute("pagesCount", pagesCount);
+		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
+		model.addAttribute("searchKeyword", searchKeyword);
+
+		// ResultData.from("S-1", "게시글 목록을 조회합니다.","articles", articles);
+		return "usr/article/list";
+	}
+	
+
+	/**
+	 * 
+	 * @param model
+	 * @param boardId
+	 * @param page
+	 * @param searchKeywordTypeCode
+	 * @param searchKeyword
+	 * @return
+	 */
+	@RequestMapping("/usr/article/customBabting")
+	public String customBabtingList(Model model, int boardId, int page,
+			@RequestParam(defaultValue = "") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword) {
+		
+		Board board = boardService.getBoardById(boardId);
+
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
+
+		int itemsInAPage = 10;
+		int limitFrom = (page - 1) * itemsInAPage;
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
+		
+		int loginedMemberId = rq.getLoginedMember().getId();
+		
+		ResultData<String[]> getKeywordRd = articleService.getKeyword(loginedMemberId);
+		
+		ResultData<List<Article>> getArticlesRd = articleService.getCustomArticles(boardId, limitFrom, itemsInAPage,
+				searchKeywordTypeCode, getKeywordRd.getData1());
 
 		List<Article> articles = getArticlesRd.getData1();
 

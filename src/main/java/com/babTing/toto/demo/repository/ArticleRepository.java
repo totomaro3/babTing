@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.babTing.toto.demo.vo.Article;
+import com.babTing.toto.demo.vo.Keywords;
 
 @Mapper
 public interface ArticleRepository {
@@ -82,6 +83,7 @@ public interface ArticleRepository {
 			M.nickname AS extra__writer,
 			M.longitude AS extra__writerLongitude,
 			M.latitude AS extra__writerLatitude,
+			(SELECT COUNT(*) FROM ChatParticipants WHERE relId = A.id) AS extra__participants,
 			IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
 			IFNULL(SUM(IF(RP.point &gt; 0,RP.point,0)),0) AS extra__goodReactionPoint,
 			IFNULL(SUM(IF(RP.point &lt; 0,RP.point,0)),0) AS extra__badReactionPoint
@@ -93,20 +95,6 @@ public interface ArticleRepository {
 			ON A.id = RP.relId AND RP.relTypeCode = 'article'
 			WHERE 1
 			AND A.BoardId = 2
-			<if test="searchKeyword != ''">
-				<choose>
-					<when test="searchKeywordTypeCode == 'title'" >
-						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
-					</when>
-					<when test="searchKeywordTypeCode == 'body'" >
-						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
-					</when>
-					<otherwise>
-						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
-						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
-					</otherwise>
-				</choose>
-			</if>
 			GROUP BY A.id
 			ORDER BY A.id DESC
 			LIMIT #{limitFrom}, #{itemsInAPage};
@@ -114,6 +102,55 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getMyArticles(int limitFrom, int itemsInAPage, String searchKeywordTypeCode, String searchKeyword, int loginedMemberId);
 
+	
+	@Select("""
+			<script>
+			SELECT A.*,
+			M.nickname AS extra__writer,
+			M.longitude AS extra__writerLongitude,
+			M.latitude AS extra__writerLatitude,
+			(SELECT COUNT(*) FROM ChatParticipants WHERE relId = A.id) AS extra__participants
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			WHERE 1
+			AND A.BoardId = #{boardId}
+			<if test="boardId == 2">
+				AND A.deadlineTime &gt; NOW()
+				AND A.deadStatus = 0
+				AND (A.title LIKE CONCAT('%',#{customKeyword[0]},'%')
+			</if>
+			<if test="customKeyword[1] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[1]},'%')
+			</if>
+			<if test="customKeyword[2] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[2]},'%')
+			</if>
+			<if test="customKeyword[3] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[3]},'%')
+			</if>
+			<if test="customKeyword[4] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[4]},'%')
+			</if>
+			)
+			GROUP BY A.id
+			ORDER BY A.id DESC
+			LIMIT #{limitFrom}, #{itemsInAPage};
+			</script>
+			""")
+	public List<Article> getCustomArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode,
+			String[] customKeyword);
+	
+	@Select("""
+			<script>
+			SELECT *
+			FROM UserKeyword
+			WHERE memberId = #{loginedMemberId};
+			</script>
+			""")
+	public Keywords getKeyword(int loginedMemberId);
+
+	
 	@Select("""
 			<script>
 			SELECT Count(*) AS cnt
@@ -290,7 +327,8 @@ public interface ArticleRepository {
 			<script>
 			SELECT A.*, M.nickname AS extra__writer,
 			M.longitude AS extra__writerLongitude,
-			M.latitude AS extra__writerLatitude
+			M.latitude AS extra__writerLatitude,
+			(SELECT COUNT(*) FROM ChatParticipants WHERE relId = A.id) AS extra__participants
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
@@ -306,7 +344,8 @@ public interface ArticleRepository {
 			<script>
 			SELECT A.*, M.nickname AS extra__writer,
 			M.longitude AS extra__writerLongitude,
-			M.latitude AS extra__writerLatitude
+			M.latitude AS extra__writerLatitude,
+			(SELECT COUNT(*) FROM ChatParticipants WHERE relId = A.id) AS extra__participants
 			FROM article AS A
 			INNER JOIN `member` AS M
 			ON A.memberId = M.id
@@ -344,6 +383,5 @@ public interface ArticleRepository {
 			LIMIT #{limitFrom}, #{itemsInAPage};
 			""")
 	public List<Article> getFreeArticles(int limitFrom, int itemsInAPage);
-
 
 }

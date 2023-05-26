@@ -20,6 +20,16 @@ public interface ChatRepository {
 			</script>
 			""")
 	List<Room> getRooms();
+	
+	@Select("""
+			<script>
+			SELECT roomNumber, RoomName
+			FROM chatRoom AS CR
+			INNER JOIN ChatParticipants AS CP
+			ON userName = #{nickname} AND CR.roomNumber = CP.relId;
+			</script>
+			""")
+	List<Room> getMyRoomList(String nickname);
 
 	@Insert("""
 			<script>

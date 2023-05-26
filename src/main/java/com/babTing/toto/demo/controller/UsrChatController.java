@@ -16,12 +16,15 @@ import com.babTing.toto.demo.service.ChatService;
 import com.babTing.toto.demo.vo.ChatMessage;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Room;
+import com.babTing.toto.demo.vo.Rq;
 
 @Controller
 public class UsrChatController {
 
 	@Autowired
 	private ChatService chatService;
+	@Autowired
+	private Rq rq;
 
 	private boolean isInit = false;
 
@@ -40,7 +43,7 @@ public class UsrChatController {
 	}
 
 	/**
-	 * 방 보기 (테스트 때만 사용)
+	 * 방 보기
 	 * @return 방 이동
 	 */
 	@RequestMapping("/usr/chat/room")
@@ -57,11 +60,14 @@ public class UsrChatController {
 	 */
 	@RequestMapping("/usr/chat/getRoom")
 	public @ResponseBody List<Room> getRoom(@RequestParam HashMap<Object, Object> params) {
-		return roomList;
+			
+		List<Room> myRoomList = chatService.getMyRoomList(rq.getLoginedMember().getNickname());
+
+		return myRoomList;
 	}
 
 	/**
-	 * 글 작성 시 채팅방 만들기 Ajax
+	 * 글 작성 시 채팅방 만들기 Ajax (사용 안함)
 	 * @param params
 	 * @return roomList
 	 */

@@ -16,8 +16,8 @@
 
 			const distance = haversineDistance(lat1, lon1, lat2, lon2);
     		const result = Math.round(distance / 100) * 100;
-			document.getElementById("result1 "+id).innerText = `약 `+ result +`m`;
-			document.getElementById("result2 "+id).innerText = `약 `+ result +`m`;
+			document.getElementById("distance1 "+id).innerText = `약 `+ result +`m`;
+			document.getElementById("distance2 "+id).innerText = `약 `+ result +`m`;
 		}
 
 		function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -38,6 +38,8 @@
 		function toRadians(degrees) {
 			return degrees * Math.PI / 180;
 		}
+		
+		
 		</script>
 </c:if>
 
@@ -73,15 +75,15 @@
 						<c:forEach var="article" items="${myBabtingArticles }">
 							<tr style="text-align: center;">
 								<td>${article.restaurantName }</td>
-								<td><div id="result2 ${article.id}"></div></td>
+								<td><div id="distance2 ${article.id}"></div></td>
 								<td>${article.deliveryCost }원</td>
 								<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
-								<td>${article.participants }</td>
+								<td>${article.extra__participants }</td>
 								<td>${article.deadlineTime.substring(11,16) }</td>
 							</tr>
 							<script>
-					calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
-					</script>
+							calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
+							</script>
 						</c:forEach>
 					</table>
 				</div>
@@ -111,15 +113,15 @@
 						<c:forEach var="article" items="${babtingArticles }">
 							<tr style="text-align: center;">
 								<td>${article.restaurantName }</td>
-								<td><div id="result1 ${article.id}"></div></td>
+								<td><div id="distance1 ${article.id}"></div></td>
 								<td>${article.deliveryCost }원</td>
 								<td><a href="../article/detail?id=${article.id }">${article.title }</a></td>
-								<td>${article.participants }</td>
+								<td>${article.extra__participants }</td>
 								<td>${article.deadlineTime.substring(11,16) }</td>
 							</tr>
 							<script>
-					calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
-					</script>
+							calDistance(${article.extra__writerLatitude},${article.extra__writerLongitude}, ${article.id})
+							</script>
 						</c:forEach>
 					</table>
 				</div>
@@ -181,7 +183,7 @@
 		</div>
 	</section>
 
-	<div class="flex flex-grow"></div>
+	<div class="w-1/3 flex"></div>
 </c:if>
 </main>
 </body>

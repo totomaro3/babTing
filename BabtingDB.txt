@@ -475,6 +475,7 @@ CREATE TABLE ChatMessage (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
+    `type` TEXT NOT NULL,
     message TEXT NOT NULL,
     userName CHAR(100) NOT NULL,
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호'
@@ -483,11 +484,12 @@ CREATE TABLE ChatMessage (
 INSERT INTO ChatMessage
 SET regDate = NOW(),
 updateDate = NOW(),
+`type` = 'message',
 message = '이건 저장 되어있는 채팅',
 userName = '회원1',
 relId = 11;
 
-CREATE TABLE ChatParticipant (
+CREATE TABLE ChatParticipants (
     id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
@@ -495,12 +497,34 @@ CREATE TABLE ChatParticipant (
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호'
 );
 
+CREATE TABLE UserKeyword (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    keyword1 CHAR(100) NOT NULL,
+    keyword2 CHAR(100),
+    keyword3 CHAR(100),
+    keyword4 CHAR(100),
+    keyword5 CHAR(100)
+);
+
+INSERT INTO UserKeyword
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+keyword1 = '용우동',
+keyword2 = '떡반집',
+keyword3 = '돈까스';
+
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM reactionPoint;
 SELECT * FROM reply;
 SELECT * FROM chatRoom;
 SELECT * FROM ChatMessage;
-SELECT * FROM ChatParticipant;
+SELECT * FROM ChatParticipants;
+SELECT * FROM UserKeyword;
+
 
 

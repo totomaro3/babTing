@@ -1,5 +1,6 @@
 package com.babTing.toto.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.babTing.toto.demo.repository.ArticleRepository;
 import com.babTing.toto.demo.util.Ut;
 import com.babTing.toto.demo.vo.Article;
+import com.babTing.toto.demo.vo.Keywords;
 import com.babTing.toto.demo.vo.ResultData;
+import com.babTing.toto.demo.vo.Room;
 
 @Service
 public class ArticleService {
@@ -60,12 +63,31 @@ public class ArticleService {
 	 */
 	public ResultData<List<Article>> getMyArticles(int limitFrom, int itemsInAPage, String searchKeywordTypeCode,
 			String searchKeyword, int loginedMemberId) {
-
+		
 		List<Article> articles = articleRepository.getMyArticles(limitFrom, itemsInAPage, searchKeywordTypeCode,
 				searchKeyword, loginedMemberId);
 
 		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."), "articles", articles);
 	}
+	
+	public ResultData<List<Article>> getCustomArticles(int boardId, int limitFrom, int itemsInAPage,
+			String searchKeywordTypeCode, String[] customKeyword) {
+		
+		List<Article> articles = articleRepository.getCustomArticles(boardId, limitFrom, itemsInAPage, searchKeywordTypeCode,
+				customKeyword);
+		
+		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."), "articles", articles);
+	}
+	
+	public ResultData<String[]> getKeyword(int loginedMemberId) {
+		
+		Keywords keywords = articleRepository.getKeyword(loginedMemberId);
+		
+		String[] keyword = {keywords.getKeyword1(),keywords.getKeyword2(),keywords.getKeyword3(),keywords.getKeyword4(),keywords.getKeyword5()};
+		
+		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."), "keyword", keyword);
+	}
+
 
 	/**
 	 * 글을 작성합니다.
@@ -299,5 +321,4 @@ public class ArticleService {
 	public List<Article> getFreeArticles(int limitFrom, int itemsInAPage) {
 		return articleRepository.getFreeArticles(limitFrom, itemsInAPage);
 	}
-
 }

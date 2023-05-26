@@ -22,6 +22,10 @@ public class ChatService {
 	public List<Room> getRooms() {
 		return chatRepository.getRooms();
 	}
+	
+	public List<Room> getMyRoomList(String nickname) {
+		return chatRepository.getMyRoomList(nickname);
+	}
 
 	/**
 	 * 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
@@ -55,6 +59,8 @@ public class ChatService {
 	public void delChatParticipant(String userName, int relId) {
 		chatRepository.delChatParticipant(userName,relId);
 	}
+
+
 	
 	
 }

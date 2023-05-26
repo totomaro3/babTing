@@ -257,7 +257,7 @@ $(function() {
 			test="${article.boardId == 2 || rq.loginedMember.authLevel == 7}">
 			<div>해당 배달 음식 공동 구매에 참여하시려면 대화방에 참여해주세요!</div>
 			<a class="btn-text-link btn btn-active btn-ghost text-xl"
-				onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=750, height=850'); return false">대화방
+				onclick="window.open('/usr/chat/moveChating?roomName=${article.title}&roomNumber=${article.id}', '대화방 참여 하기','width=800, height=850'); return false">대화방
 				참여 하기</a>
 		</c:if>
 
