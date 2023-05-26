@@ -47,6 +47,14 @@ public class ChatService {
 	public void createRoom(int id, String title) {
 		chatRepository.write(id,title);
 	}
+
+	public void addChatParticipant(String userName, int relId) {
+		chatRepository.addChatParticipant(userName,relId);
+	}
+
+	public void delChatParticipant(String userName, int relId) {
+		chatRepository.delChatParticipant(userName,relId);
+	}
 	
 	
 }

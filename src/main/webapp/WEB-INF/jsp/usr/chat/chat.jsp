@@ -216,7 +216,14 @@ input {
 							userName : d.userName,
 							relId : "${roomNumber}"
 						}, function(data) {
-							console.log("성공");
+						}, 'json');
+						
+						//참여자 저장
+						$.get('./add-chat-participant', {
+							isAjax : 'Y',
+							userName : d.userName,
+							relId : "${roomNumber}"
+						}, function(data) {
 						}, 'json');
 					}
 
@@ -225,16 +232,28 @@ input {
 					$("#participant").removeClass(d.userName);
 					$("#participant").find("tr." + d.userName).remove();
 
+					if (d.sessionId == $("#sessionId").val()) {
 					//메시지 데이터베이스에 저장 (퇴장)
-					$.get('./save-chat-message', {
-						isAjax : 'Y',
-						type : 'exitNotice',
-						message : d.userName + '님이 퇴장하셨습니다.',
-						userName : d.userName,
-						relId : "${roomNumber}"
-					}, function(data) {
-						console.log("성공");
-					}, 'json');
+						$.get('./save-chat-message', {
+							isAjax : 'Y',
+							type : 'exitNotice',
+							message : d.userName + '님이 퇴장하셨습니다.',
+							userName : d.userName,
+							relId : "${roomNumber}"
+						}, function(data) {
+						}, 'json');
+					
+						//참여자 제거
+						$.get('./del-chat-participant', {
+							isAjax : 'Y',
+							userName : d.userName,
+							relId : "${roomNumber}"
+						}, function(data) {
+							ws.close();
+							alert("채팅방을 나갔습니다.");
+							window.close();
+						}, 'json');
+					}
 
 				} else {
 					console.warn("unknown type!");
@@ -303,8 +322,6 @@ input {
 		}
 
 		ws.send(JSON.stringify(option))
-		ws.close();
-		window.close();
 	}
 
 	function scrollToBottom() {

@@ -31,4 +31,5 @@ public class Article {
 	private String extra__writer;
 	private String extra__writerLongitude;
 	private String extra__writerLatitude;
+	private int extra__participants;
 }

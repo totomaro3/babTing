@@ -487,11 +487,20 @@ message = '이건 저장 되어있는 채팅',
 userName = '회원1',
 relId = 11;
 
+CREATE TABLE ChatParticipant (
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    userName CHAR(100) NOT NULL,
+    relId INT(10) NOT NULL COMMENT '관련 데이터 번호'
+);
+
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM reactionPoint;
 SELECT * FROM reply;
 SELECT * FROM chatRoom;
 SELECT * FROM ChatMessage;
+SELECT * FROM ChatParticipant;
 
 

@@ -16,7 +16,7 @@
 
 			const distance = haversineDistance(lat1, lon1, lat2, lon2);
     		const result = Math.round(distance / 100) * 100;
-			document.getElementById("result "+id).innerText = `약 `+ result +`m`;
+			document.getElementById("distance "+id).innerText = `약 `+ result +`m`;
 		}
 
 		function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -104,12 +104,12 @@
 						</c:if>
 						<c:if test="${boardId == 2}">
 							<td>${article.restaurantName }</td>
-							<td><div id="result ${article.id}"></div></td>
+							<td><div id="distance ${article.id}"></div></td>
 							<td>${article.deliveryCost }원</td>
 						</c:if>
 						<td><a href="detail?id=${article.id }">${article.title }</a></td>
 						<c:if test="${boardId == 2}">
-							<td>${article.participants }</td>
+							<td>${article.extra__participants }</td>
 							<td>${article.deadlineTime.substring(10,16) }</td>
 						</c:if>
 						<td>${article.extra__writer }</td>

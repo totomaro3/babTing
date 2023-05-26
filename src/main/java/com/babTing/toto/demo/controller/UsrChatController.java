@@ -149,4 +149,20 @@ public class UsrChatController {
 		List<ChatMessage> chatMessages = chatService.getChatMessages(relId);
         return chatMessages;
     }
+	
+	@RequestMapping("/usr/chat/add-chat-participant")
+	@ResponseBody
+    public ResultData addChatParticipant(String userName, int relId) {
+        // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
+		chatService.addChatParticipant(userName, relId);
+        return ResultData.from("S-1", "성공");
+    }
+	
+	@RequestMapping("/usr/chat/del-chat-participant")
+	@ResponseBody
+    public ResultData delChatParticipant(String userName, int relId) {
+        // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
+		chatService.delChatParticipant(userName, relId);
+        return ResultData.from("S-1", "성공");
+    }
 }
