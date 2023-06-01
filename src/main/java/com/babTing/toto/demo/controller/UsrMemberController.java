@@ -8,12 +8,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.babTing.toto.demo.service.MemberService;
 import com.babTing.toto.demo.util.Ut;
+import com.babTing.toto.demo.vo.Article;
 import com.babTing.toto.demo.vo.Member;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Rq;
@@ -93,13 +95,14 @@ public class UsrMemberController {
 	 */
 	@RequestMapping("/usr/member/doCheckData")
 	@ResponseBody
-	public ResultData doCheckData(double longitude ,double latitude, String name, String address) {
+	public ResultData doCheckData(double longitude ,double latitude, String name, String address, String category) {
 		
-		Object[] dataArray = new Object[4];
+		Object[] dataArray = new Object[5];
 		dataArray[0] = longitude;
 		dataArray[1] = latitude;
 		dataArray[2] = name;
 		dataArray[3] = address;
+		dataArray[4] = category;
 		
 		return ResultData.from("S-1", "성공적으로 불러왔습니다.","dataArray",dataArray);
 	}
@@ -283,7 +286,7 @@ public class UsrMemberController {
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
 	public String doModify(int id, String loginId, String loginPw, String name, String nickname,
-			String cellphoneNum, String email, double longitude, double latitude) {
+			String cellphoneNum, String email, String addressName, String address, double longitude, double latitude) {
 		
 		if (Ut.empty(loginPw)) {
 			
@@ -291,7 +294,7 @@ public class UsrMemberController {
 			loginPw = Ut.sha256(loginPw);
 		}
 
-		ResultData<String> doModifyMemberRd = memberService.doModifyMember(id, loginPw, name, nickname, cellphoneNum, email, longitude, latitude);
+		ResultData<String> doModifyMemberRd = memberService.doModifyMember(id, loginPw, name, nickname, cellphoneNum, email, addressName, address, longitude, latitude);
 		
 		ResultData<Member> loginRd = memberService.login(loginId, loginPw);
 		
@@ -378,5 +381,44 @@ public class UsrMemberController {
 
 		return Ut.jsReplace(notifyTempLoginPwByEmailRd.getResultCode(), notifyTempLoginPwByEmailRd.getMsg(),
 				afterFindLoginPwUri);
+	}
+	
+	@RequestMapping("/usr/member/setKeyword")
+	public String setKeyword(Model model, int id) {
+
+		ResultData<Member> getMemberByIdRd = memberService.getMemberById(id);
+
+		Member member = getMemberByIdRd.getData1();
+
+		if (member == null) {
+			return rq.jsHitoryBackOnView("해당 멤버는 없습니다.");
+		}
+
+		model.addAttribute("member", member);
+
+		return "usr/member/setKeyword";
+	}
+	
+	@RequestMapping("/usr/member/doSetKeyword")
+	@ResponseBody
+	public String doSetKeyword(int id, String keyword1, String keyword2, String keyword3, String keyword4, String keyword5) {
+
+		ResultData<Member> getMemberByIdRd = memberService.getMemberById(id);
+
+		Member member = getMemberByIdRd.getData1();
+
+		if (member == null) {
+			return rq.jsHitoryBackOnView("해당 멤버는 없습니다.");
+		}
+		
+		memberService.modifyKeyword(id, keyword1, keyword2, keyword3, keyword4, keyword5);
+		
+		if(keyword1 != "") rq.getLoginedMember().setKeyword1(keyword1);
+		if(keyword2 != "") rq.getLoginedMember().setKeyword2(keyword2);
+		if(keyword3 != "") rq.getLoginedMember().setKeyword3(keyword3);
+		if(keyword4 != "") rq.getLoginedMember().setKeyword4(keyword4);
+		if(keyword5 != "") rq.getLoginedMember().setKeyword5(keyword5);
+
+		return rq.jsReplace("S-1", "키워드가 수정되었습니다.", "../home/main");
 	}
 }

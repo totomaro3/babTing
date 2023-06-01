@@ -271,10 +271,12 @@
 			<ul class="flex">
 				<li><a class="text-2xl px-3"
 					href="/usr/article/list?boardId=1&page=1">공지사항</a></li>
-				<li><a class="text-2xl px-3"
-					href="/usr/article/customBabting?boardId=2&page=1">맞춤밥팅</a></li>
-				<li><a class="text-2xl px-3"
-					href="/usr/article/list?boardId=2&page=1">모든밥팅</a></li>
+				<c:if test="${rq.logined }">
+					<li><a class="text-2xl px-3"
+						href="/usr/article/customBabting?boardId=2&page=1">맞춤밥팅</a></li>
+				</c:if>
+					<li><a class="text-2xl px-3"
+						href="/usr/article/list?boardId=2&page=1">모든밥팅</a></li>
 				<li><a class="text-2xl px-3"
 					href="/usr/article/list?boardId=3&page=1">자유게시판</a></li>
 				<c:if test="${rq.logined }">

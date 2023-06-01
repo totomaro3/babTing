@@ -74,6 +74,8 @@
 		}, function(data) {
 			$('.longitude').val(data.data1[0]);
 			$('.latitude').val(data.data1[1]);
+			$('.inputAddressName').val(data.data1[2]);
+			$('.inputAddress').val(data.data1[3]);
 			$('.name').text(data.data1[2]);
 			$('.address').text(data.data1[3]);
 		}, 'json');
@@ -86,12 +88,12 @@
 		<div class="table-box-type-1">
 			<form action="../member/doModify" method="POST"
 				onsubmit="MemberModify__submit(this); return false;">
-				<input value="${rq.loginedMember.id }" type="hidden" name="id" /> <input
-					value="${rq.loginedMember.loginId }" type="hidden" name="loginId" />
-				<input value="${rq.loginedMember.longitude }" class="longitude"
-					type="hidden" name="longitude" /> <input
-					value="${rq.loginedMember.latitude }" class="latitude"
-					type="hidden" name="latitude" />
+				<input value="${rq.loginedMember.id }" type="hidden" name="id" />
+				<input value="${rq.loginedMember.loginId }" type="hidden" name="loginId" />
+				<input value="${rq.loginedMember.name }" class ="inputAddressName" type="hidden" name="addressName" />
+				<input value="${rq.loginedMember.address }" class = "inputAddress" type="hidden" name="address" />
+				<input value="${rq.loginedMember.longitude }" class="longitude" type="hidden" name="longitude" />
+				<input value="${rq.loginedMember.latitude }" class="latitude" type="hidden" name="latitude" />
 				<table border="1">
 					<colgroup>
 						<col width="200" />

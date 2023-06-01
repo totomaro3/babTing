@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.babTing.toto.demo.service.ArticleService;
 import com.babTing.toto.demo.vo.Article;
+import com.babTing.toto.demo.vo.Member;
 import com.babTing.toto.demo.vo.Rq;
 
 @Controller
@@ -29,13 +30,25 @@ public class UsrHomeController {
 		int itemsInAPage = 5;
 		int limitFrom = 0;
 		
+		Member loginedMember = rq.getLoginedMember();
+		String[] customKeyword = {null, null, null, null, null};
+		
+		if(loginedMember != null) {
+			customKeyword[0] = loginedMember.getKeyword1();
+			customKeyword[1] = loginedMember.getKeyword2();
+			customKeyword[2] = loginedMember.getKeyword3();
+			customKeyword[3] = loginedMember.getKeyword4();
+			customKeyword[4] = loginedMember.getKeyword5();
+		}
+		
+		
 		List<Article> noticeArticles;
 		List<Article> myBabtingArticles;
 		List<Article> babtingArticles;
 		List<Article> freeArticles;
 		
 		noticeArticles = articleService.getNoticeArticles(limitFrom, itemsInAPage);
-		myBabtingArticles = articleService.getMyBabtingArticles("title", "용우동", limitFrom, itemsInAPage);
+		myBabtingArticles = articleService.getMyBabtingArticles("title", customKeyword, limitFrom, itemsInAPage);
 		babtingArticles = articleService.getBabtingArticles(limitFrom, itemsInAPage);
 		freeArticles = articleService.getFreeArticles(limitFrom, itemsInAPage);
 
@@ -67,12 +80,4 @@ public class UsrHomeController {
 
 		return "usr/home/kakaoMap";
 	}
-	
-	/*
-	@RequestMapping("/usr/home/doKakaoMap")
-	public String showDoKakaoMap(Model model) {
-
-		return "usr/home/doKakaoMap";
-	}
-	*/
 }

@@ -50,9 +50,26 @@
 			<div class="flex flex-col justify-between">
 				<div>
 					<div class="text-left">
-						<span>맞춤 밥팅 : 우동 </span>&nbsp&nbsp<a
-							class="btn btn-active btn-ghost btn-xs" type="button"><span>키워드
-								설정</span></a>
+						<span class="text-xl">맞춤 밥팅 : 
+							<c:if test = "${rq.loginedMember.keyword1 != null}">
+								<div class="badge badge-lg text-xl">${rq.loginedMember.keyword1}</div>
+							</c:if>
+							<c:if test = "${rq.loginedMember.keyword2 != null}">
+								<div class="badge badge-lg text-xl">${rq.loginedMember.keyword2}</div>
+							</c:if>
+							<c:if test = "${rq.loginedMember.keyword3 != null}">
+								<div class="badge badge-lg text-xl">${rq.loginedMember.keyword3}</div>
+							</c:if>
+							<c:if test = "${rq.loginedMember.keyword4 != null}">
+								<div class="badge badge-lg text-xl">${rq.loginedMember.keyword4}</div>
+							</c:if>
+							<c:if test = "${rq.loginedMember.keyword5 != null}">
+								<div class="badge badge-lg text-xl">${rq.loginedMember.keyword5}</div>
+							</c:if>&nbsp&nbsp</span>
+						<a class="btn btn-active btn-ghost btn-xs" type="button"
+							href="/usr/member/setKeyword?id=${rq.loginedMember.id}">
+							<span>키워드 설정</span>
+						</a>
 					</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
@@ -91,7 +108,7 @@
 				<div class="h-5"></div>
 
 				<div>
-					<div class="text-left">최근 밥팅</div>
+					<div class="text-left text-xl">최근 밥팅</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
 						<colgroup>
@@ -131,7 +148,7 @@
 
 			<div class="flex flex-col">
 				<div>
-					<div class="text-left">공지사항</div>
+					<div class="text-left text-xl">공지사항</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
 						<tr>
@@ -151,7 +168,7 @@
 				<div class="h-5"></div>
 
 				<div>
-					<div class="text-left">자유 게시판</div>
+					<div class="text-left text-xl">자유 게시판</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
 						<tr>

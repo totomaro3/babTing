@@ -89,9 +89,9 @@ public class MemberService {
 	 * @param latitude
 	 * @return
 	 */
-	public ResultData<String> doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum, String email, double longitude, double latitude) {
+	public ResultData<String> doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum, String email,String addressName, String address, double longitude, double latitude) {
 		
-		memberRepository.doModifyMember(id, loginPw, name, nickname, cellphoneNum, email, longitude, latitude);
+		memberRepository.doModifyMember(id, loginPw, name, nickname, cellphoneNum, email, addressName, address, longitude, latitude);
 		
 		return ResultData.from("S-1", nickname+"회원이 수정되었습니다.","nickname", nickname);
 	}
@@ -179,8 +179,10 @@ public class MemberService {
 	 * @param tempPassword
 	 */
 	private void setTempPassword(Member actor, String tempPassword) {
-		memberRepository.doModifyMember(actor.getId(), Ut.sha256(tempPassword), null, null, null, null, 0, 0);
+		memberRepository.doModifyMember(actor.getId(), Ut.sha256(tempPassword), null, null, null, null, null, null, 0, 0);
 	}
-	
-	
+
+	public void modifyKeyword(int id, String keyword1, String keyword2, String keyword3, String keyword4, String keyword5) {
+		memberRepository.doModifyKeyword(id, keyword1, keyword2, keyword3, keyword4, keyword5);
+	}
 }

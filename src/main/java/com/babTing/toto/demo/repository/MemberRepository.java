@@ -93,6 +93,12 @@ public interface MemberRepository {
 				<if test="email != ''">
 					email = #{email},
 				</if>
+				<if test="addressName != ''">
+					addressName = #{addressName},
+				</if>
+				<if test="address != ''">
+					address = #{address},
+				</if>
 				<if test="longitude != 0">
 					longitude = #{longitude},
 				</if>
@@ -105,7 +111,7 @@ public interface MemberRepository {
 			</script>
 			""")
 	public void doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum,
-			String email, double longitude, double latitude);
+			String email, String addressName, String address, double longitude, double latitude);
 
 	@Update("""
 			<script>
@@ -118,4 +124,29 @@ public interface MemberRepository {
 			</script>
 			""")
 	public void doDeleteMember(int id);
+
+	@Update("""
+			<script>
+			UPDATE member
+			<set>
+			<if test="keyword1 != ''">
+					keyword1 = #{keyword1},
+			</if>
+			<if test="keyword2 != ''">
+					keyword2 = #{keyword2},
+			</if>
+			<if test="keyword3 != ''">
+					keyword3 = #{keyword3},
+			</if>
+			<if test="keyword4 != ''">
+					keyword4 = #{keyword4},
+			</if>
+			<if test="keyword5 != ''">
+					keyword5 = #{keyword5},
+			</if>
+			</set>
+			WHERE id = #{id}
+			</script>
+			""")
+	public void doModifyKeyword(int id, String keyword1, String keyword2, String keyword3, String keyword4, String keyword5);
 }

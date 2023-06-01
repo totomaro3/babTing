@@ -41,7 +41,7 @@
 
 <!-- 장소 수정 -->
 <script>
-	function kakaoMapPost(longitude, latitude, name, address) {
+	function kakaoMapPost(longitude, latitude, name, address, category) {
 		var action = '../member/doCheckData';
 
 		$.get(action, {
@@ -49,7 +49,8 @@
 			longitude : longitude,
 			latitude : latitude,
 			name : name,
-			address : address
+			address : address,
+			category : category
 		}, function(data) {
 			$('.longitude').val(data.data1[0]);
 			$('.latitude').val(data.data1[1]);
@@ -57,6 +58,7 @@
 			$('.name').text(data.data1[2]);
 			$('.inputAddress').val(data.data1[3]);
 			$('.address').text(data.data1[3]);
+			$('.inputCategory').val(data.data1[4]);
 		}, 'json');
 	}
 </script>
@@ -71,6 +73,7 @@
 				<input type="hidden" name="boardId" value="${article.boardId }"/>
 				<input type="hidden" name="restaurantName" value="${article.restaurantName }" class="inputName"/>
 				<input type="hidden" name="address" value="${article.address }" class="inputAddress"/>
+				<input type="hidden" name="category" value="${article.category }" class="inputCategory"/>
 				<input type="hidden" name="longitude" value="${article.longitude }" class="longitude"/>
 				<input type="hidden" name="latitude" value="${article.latitude }" class="latitude"/>
 				<table>

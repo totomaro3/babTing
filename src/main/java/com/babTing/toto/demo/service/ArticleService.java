@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.babTing.toto.demo.repository.ArticleRepository;
 import com.babTing.toto.demo.util.Ut;
 import com.babTing.toto.demo.vo.Article;
-import com.babTing.toto.demo.vo.Keywords;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Room;
 
@@ -78,15 +77,6 @@ public class ArticleService {
 		
 		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."), "articles", articles);
 	}
-	
-	public ResultData<String[]> getKeyword(int loginedMemberId) {
-		
-		Keywords keywords = articleRepository.getKeyword(loginedMemberId);
-		
-		String[] keyword = {keywords.getKeyword1(),keywords.getKeyword2(),keywords.getKeyword3(),keywords.getKeyword4(),keywords.getKeyword5()};
-		
-		return ResultData.from("S-1", Ut.f("내 글을 모두 불러왔습니다."), "keyword", keyword);
-	}
 
 
 	/**
@@ -104,9 +94,9 @@ public class ArticleService {
 	 * @return id
 	 */
 	public ResultData<Integer> writeArticle(String title, String body, int memberId, int boardId, String restaurantName,
-			String address, int deliveryCost, double latitude, double longitude) {
+			String address, String category, int deliveryCost, double latitude, double longitude) {
 
-		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, address, deliveryCost, latitude,
+		articleRepository.writeArticle(title, body, memberId, boardId, restaurantName, address, category, deliveryCost, latitude,
 				longitude);
 
 		int id = articleRepository.getLastInsertId();
@@ -156,9 +146,9 @@ public class ArticleService {
 	 * @return
 	 */
 	public ResultData<Integer> doModifyArticle(int id, String title, String body, int boardId, String restaurantName,
-			String address, int deliveryCost, double latitude, double longitude) {
+			String address, String category, int deliveryCost, double latitude, double longitude) {
 
-		articleRepository.doModifyArticle(id, title, body, boardId, restaurantName, address, deliveryCost, latitude,
+		articleRepository.doModifyArticle(id, title, body, boardId, restaurantName, address, category, deliveryCost, latitude,
 				longitude);
 
 		return ResultData.from("S-1", Ut.f("%d번 글이 수정되었습니다", id), "id", id);
@@ -305,10 +295,10 @@ public class ArticleService {
 	 * @param itemsInAPage
 	 * @return
 	 */
-	public List<Article> getMyBabtingArticles(String searchKeywordTypeCode, String searchKeyword, int limitFrom,
+	public List<Article> getMyBabtingArticles(String searchKeywordTypeCode, String[] customKeyword, int limitFrom,
 			int itemsInAPage) {
 
-		return articleRepository.getMyBabtingArticles(searchKeywordTypeCode, searchKeyword, limitFrom, itemsInAPage);
+		return articleRepository.getMyBabtingArticles(searchKeywordTypeCode, customKeyword, limitFrom, itemsInAPage);
 	}
 
 	/**

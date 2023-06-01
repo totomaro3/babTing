@@ -20,6 +20,7 @@ public class Article {
 	private int badReactionPoint;
 	private String restaurantName;
 	private String address;
+	private String category;
 	private double longitude;
 	private double latitude;
 	private int distance;

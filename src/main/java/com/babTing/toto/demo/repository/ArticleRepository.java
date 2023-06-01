@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.babTing.toto.demo.vo.Article;
-import com.babTing.toto.demo.vo.Keywords;
 
 @Mapper
 public interface ArticleRepository {
@@ -119,18 +118,28 @@ public interface ArticleRepository {
 				AND A.deadlineTime &gt; NOW()
 				AND A.deadStatus = 0
 				AND (A.title LIKE CONCAT('%',#{customKeyword[0]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[0]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[0]},'%')
 			</if>
 			<if test="customKeyword[1] != null">
 				OR A.title LIKE CONCAT('%',#{customKeyword[1]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[1]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[1]},'%')
 			</if>
 			<if test="customKeyword[2] != null">
 				OR A.title LIKE CONCAT('%',#{customKeyword[2]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[2]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[2]},'%')
 			</if>
 			<if test="customKeyword[3] != null">
 				OR A.title LIKE CONCAT('%',#{customKeyword[3]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[3]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[3]},'%')
 			</if>
 			<if test="customKeyword[4] != null">
 				OR A.title LIKE CONCAT('%',#{customKeyword[4]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[4]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[4]},'%')
 			</if>
 			)
 			GROUP BY A.id
@@ -140,16 +149,6 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getCustomArticles(int boardId, int limitFrom, int itemsInAPage, String searchKeywordTypeCode,
 			String[] customKeyword);
-	
-	@Select("""
-			<script>
-			SELECT *
-			FROM UserKeyword
-			WHERE memberId = #{loginedMemberId};
-			</script>
-			""")
-	public Keywords getKeyword(int loginedMemberId);
-
 	
 	@Select("""
 			<script>
@@ -194,6 +193,7 @@ public interface ArticleRepository {
 				address = #{address},
 				latitude = #{latitude},
 				longitude = #{longitude},
+				category = #{category},
 				deliveryCost = #{deliveryCost},
 				deadlineTime = NOW() + INTERVAL 6 HOUR,
 			</if>
@@ -205,7 +205,7 @@ public interface ArticleRepository {
 				</script>
 				""")
 	public void writeArticle(String title, String body, int memberId, int boardId, String restaurantName, String address,
-			int deliveryCost, double latitude, double longitude);
+			String category, int deliveryCost, double latitude, double longitude);
 
 	@Delete("""
 			<script>
@@ -247,6 +247,7 @@ public interface ArticleRepository {
 			<if test="boardId == 2">
 			restaurantName = #{restaurantName},
 			address = #{address},
+			category = #{category},
 			latitude = #{latitude},
 			longitude = #{longitude},
 			</if>
@@ -255,7 +256,7 @@ public interface ArticleRepository {
 			WHERE id = #{id}
 			</script>
 			""")
-	public void doModifyArticle(int id, String title, String body, int boardId, String restaurantName, String address, int deliveryCost,
+	public void doModifyArticle(int id, String title, String body, int boardId, String restaurantName, String address, String category, int deliveryCost,
 			double latitude, double longitude);
 
 	@Select("""
@@ -342,7 +343,8 @@ public interface ArticleRepository {
 
 	@Select("""
 			<script>
-			SELECT A.*, M.nickname AS extra__writer,
+			SELECT A.*,
+			M.nickname AS extra__writer,
 			M.longitude AS extra__writerLongitude,
 			M.latitude AS extra__writerLatitude,
 			(SELECT COUNT(*) FROM ChatParticipants WHERE relId = A.id) AS extra__participants
@@ -352,25 +354,36 @@ public interface ArticleRepository {
 			WHERE A.boardId = 2
 			AND A.deadlineTime &gt; NOW()
 			AND A.deadStatus = 0
-			<if test="searchKeyword != ''">
-				<choose>
-					<when test="searchKeywordTypeCode == 'title'" >
-						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
-					</when>
-					<when test="searchKeywordTypeCode == 'body'" >
-						AND A.body LIKE CONCAT('%',#{searchKeyword},'%')
-					</when>
-					<otherwise>
-						AND A.title LIKE CONCAT('%',#{searchKeyword},'%')
-						OR A.body LIKE CONCAT('%',#{searchKeyword},'%')
-					</otherwise>
-				</choose>
+			AND (A.title LIKE CONCAT('%',#{customKeyword[0]},'%')
+			OR A.restaurantName LIKE CONCAT('%',#{customKeyword[0]},'%')
+			OR A.category LIKE CONCAT('%',#{customKeyword[0]},'%')
+			<if test="customKeyword[1] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[1]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[1]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[1]},'%')
 			</if>
+			<if test="customKeyword[2] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[2]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[2]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[2]},'%')
+			</if>
+			<if test="customKeyword[3] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[3]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[3]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[3]},'%')
+			</if>
+			<if test="customKeyword[4] != null">
+				OR A.title LIKE CONCAT('%',#{customKeyword[4]},'%')
+				OR A.restaurantName LIKE CONCAT('%',#{customKeyword[4]},'%')
+				OR A.category LIKE CONCAT('%',#{customKeyword[4]},'%')
+			</if>
+			)
+			GROUP BY A.id
 			ORDER BY A.id DESC
 			LIMIT #{limitFrom}, #{itemsInAPage};
 			</script>
 			""")
-	public List<Article> getMyBabtingArticles(String searchKeywordTypeCode, String searchKeyword, int limitFrom,
+	public List<Article> getMyBabtingArticles(String searchKeywordTypeCode, String[] customKeyword, int limitFrom,
 			int itemsInAPage);
 	
 	@Select("""

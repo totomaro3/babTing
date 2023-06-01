@@ -22,6 +22,11 @@ public class Member {
 	private String address;
 	private double longitude;
 	private double latitude;
+	private String keyword1;
+	private String keyword2;
+	private String keyword3;
+	private String keyword4;
+	private String keyword5;
 	private boolean delStatus;
 	private String delDate;
 }

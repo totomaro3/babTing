@@ -18,6 +18,7 @@ import com.babTing.toto.demo.service.ReplyService;
 import com.babTing.toto.demo.util.Ut;
 import com.babTing.toto.demo.vo.Article;
 import com.babTing.toto.demo.vo.Board;
+import com.babTing.toto.demo.vo.Member;
 import com.babTing.toto.demo.vo.Reply;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Room;
@@ -155,12 +156,12 @@ public class UsrArticleController {
 		int limitFrom = (page - 1) * itemsInAPage;
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
 		
-		int loginedMemberId = rq.getLoginedMember().getId();
+		Member loginedMember = rq.getLoginedMember();
 		
-		ResultData<String[]> getKeywordRd = articleService.getKeyword(loginedMemberId);
+		String[] keyword = {loginedMember.getKeyword1(),loginedMember.getKeyword2(),loginedMember.getKeyword3(),loginedMember.getKeyword4(),loginedMember.getKeyword5()};
 		
 		ResultData<List<Article>> getArticlesRd = articleService.getCustomArticles(boardId, limitFrom, itemsInAPage,
-				searchKeywordTypeCode, getKeywordRd.getData1());
+				searchKeywordTypeCode, keyword);
 
 		List<Article> articles = getArticlesRd.getData1();
 
@@ -176,8 +177,8 @@ public class UsrArticleController {
 		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
 		model.addAttribute("searchKeyword", searchKeyword);
+		model.addAttribute("isCustomBabting", true);
 
-		// ResultData.from("S-1", "게시글 목록을 조회합니다.","articles", articles);
 		return "usr/article/list";
 	}
 
@@ -252,6 +253,7 @@ public class UsrArticleController {
 	@ResponseBody
 	public String doWrite(String title, String body, int boardId,
 			@RequestParam(defaultValue = "") String restaurantName, @RequestParam(defaultValue = "") String address,
+			@RequestParam(defaultValue = "") String category,
 			@RequestParam(defaultValue = "0") int deliveryCost, @RequestParam(defaultValue = "0") double latitude,
 			@RequestParam(defaultValue = "0") double longitude) {
 
@@ -265,7 +267,7 @@ public class UsrArticleController {
 		int loginedMemberId = rq.getLoginedMemberId();
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body, loginedMemberId, boardId,
-				restaurantName, address, deliveryCost, latitude, longitude);
+				restaurantName, address,category, deliveryCost, latitude, longitude);
 		
 		int id = (int) writeArticleRd.getData1();
 		
@@ -322,7 +324,7 @@ public class UsrArticleController {
 	 */
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(int id, String title, String body, int boardId, String restaurantName, String address, int deliveryCost,
+	public String doModify(int id, String title, String body, int boardId, String restaurantName, String address, String category, int deliveryCost,
 			double latitude, double longitude) {
 
 		ResultData<Article> getArticleRd = articleService.getArticle(id);
@@ -339,7 +341,7 @@ public class UsrArticleController {
 			return Ut.jsHistoryBack("F-2", "해당 글에 대한 권한이 없습니다.");
 		}
 
-		articleService.doModifyArticle(id, title, body, boardId, restaurantName, address, deliveryCost, latitude, longitude);
+		articleService.doModifyArticle(id, title, body, boardId, restaurantName, address, category, deliveryCost, latitude, longitude);
 
 		return Ut.jsReplace("S-1", id + "번글이 수정되었습니다.", "detail?id=" + id);
 	}

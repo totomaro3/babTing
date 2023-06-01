@@ -390,34 +390,28 @@
 				}
 
 				itemStr += '  <span class="tel">' + places.phone + '</span>';
-				itemStr += '<div class="flex justify-end"><button class="btn btn-xs" type="button" onclick="goDoKaKao(' + places.x + ',' + places.y + ',\'' + places.place_name + '\',\'' + places.road_address_name + '\');">&nbsp장소 선택&nbsp</button></div>' + '</div>';
-
+				itemStr += '<div class="flex justify-end">';
+				itemStr += '	<button class="btn btn-xs" type="button" onclick="goDoKaKao(' + places.x + ',' + places.y + ',\'' + places.place_name + '\',\'' + places.road_address_name + '\',\''+ places.category_name + '\');">&nbsp장소 선택&nbsp</button></div>';
+				itemStr += '</div>';			
+				
 				el.innerHTML = itemStr;
 				el.className = 'item';
 
 				return el;
 			}
 			
-			function goDoKaKao(longitude,latitude,name,address) {
+			//관련
+			//멤버 가입,수정
+			//아티클 작성,수정
+			function goDoKaKao(longitude,latitude,name,address,category) {
 				
-				window.opener.kakaoMapPost(longitude,latitude,name,address);
+				alert(category);
+				
+				window.opener.kakaoMapPost(longitude,latitude,name,address,category);
 
 				window.close();
 				
 			}
-			
-			/*
-			const url = window.location.href;
-			console.log(url);
-			// URL에서 쿼리 스트링을 추출
-			const queryString = url.split('?')[1];
-			// 쿼리 스트링을 파싱하여 객체로 변환
-			const queryParams = new URLSearchParams(queryString);
-			// replaceUri 값을 가져옴
-			const replaceUri = queryParams.get('replaceUri');
-			console.log(replaceUri);
-			 opener.document.location.href = replaceUri +"?longitude="+x+"&latitude="+y+"&name="+n;
-			 */
 
 			// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
 			function addMarker(position, idx, title) {

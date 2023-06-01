@@ -43,10 +43,9 @@
 <!-- 검색, 리스트, 페이지네이션, 글쓰기  -->
 <section class="mt-5 text-xl">
 	<div class="container px-3">
-	
+
 		<div class="flex justify-end mt-5 text-xl">
-			<c:if
-				test="${param.boardId == 1 || param.boardId == 3}">
+			<c:if test="${param.boardId == 1 || param.boardId == 3}">
 				<div class="flex">
 					<form class="flex" method="post"
 						action="?boardId=${boardId }&page=1">
@@ -70,6 +69,27 @@
 			</c:if>
 		</div>
 
+		<c:if test="${isCustomBabting == true }">
+			<div class="flex justify-between items-end mt-2 text-xl">
+				<span class="text-xl">맞춤 밥팅 : <c:if
+						test="${rq.loginedMember.keyword1 != null}">
+						<div class="badge badge-lg text-xl">${rq.loginedMember.keyword1}</div>
+					</c:if> <c:if test="${rq.loginedMember.keyword2 != null}">
+						<div class="badge badge-lg text-xl">${rq.loginedMember.keyword2}</div>
+					</c:if> <c:if test="${rq.loginedMember.keyword3 != null}">
+						<div class="badge badge-lg text-xl">${rq.loginedMember.keyword3}</div>
+					</c:if> <c:if test="${rq.loginedMember.keyword4 != null}">
+						<div class="badge badge-lg text-xl">${rq.loginedMember.keyword4}</div>
+					</c:if> <c:if test="${rq.loginedMember.keyword5 != null}">
+						<div class="badge badge-lg text-xl">${rq.loginedMember.keyword5}</div>
+					</c:if>&nbsp&nbsp
+				</span> <a class="btn btn-active btn-ghost btn-sm" type="button"
+					href="/usr/member/setKeyword?id=${rq.loginedMember.id}"><span>키워드
+						설정</span> </a>
+			</div>
+		</c:if>
+
+
 		<table class="flex justify-center mt-5 text-xl"
 			style="border-collapse: collapse; border-color: green">
 			<tr>
@@ -77,13 +97,13 @@
 					<th>번호</th>
 					<th>작성날짜</th>
 				</c:if>
-				
+
 				<c:if test="${boardId == 2}">
 					<th>매장</th>
 					<th>거리차이</th>
 					<th>배달비</th>
 				</c:if>
-					<th>제목</th>
+				<th>제목</th>
 				<c:if test="${boardId == 2}">
 					<th>참여자</th>
 					<th>마감</th>
@@ -154,7 +174,7 @@
 		</div>
 
 		<br>
-		
+
 		<div class="flex justify-end btn-group text-xl">
 			<c:if test="${boardId == 1 && rq.loginedMember.authLevel == 7}">
 				<a class="btn" href="/usr/article/write?boardId=1">소개 쓰기</a>

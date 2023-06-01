@@ -63,7 +63,7 @@ public interface ChatRepository {
 	void write(int id, String title);
 
 	@Insert("""
-			INSERT INTO ChatParticipants
+			INSERT INTO chatParticipants
 			SET regDate = NOW(),
 			updateDate = NOW(),
 			userName = #{userName},
@@ -72,7 +72,7 @@ public interface ChatRepository {
 	void addChatParticipant(String userName, int relId);
 
 	@Delete("""
-			DELETE FROM ChatParticipants
+			DELETE FROM chatParticipants
 			WHERE userName = #{userName} AND relId = #{relId}
 			""")
 	void delChatParticipant(String userName, int relId);
