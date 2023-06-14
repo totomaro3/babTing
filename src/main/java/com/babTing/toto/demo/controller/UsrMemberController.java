@@ -30,7 +30,7 @@ public class UsrMemberController {
 	private Rq rq;
 	
 	/**
-	 * 회원 가입 폼
+	 * 회원 가입 폼 join
 	 * @return 가입 이동
 	 */
 	@RequestMapping("/usr/member/join")
@@ -39,7 +39,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 아이디 중복 체크 (가입 시 사용) Ajax
+	 * 아이디 중복 체크 (가입 시 사용) Ajax getLoginIdDup
 	 * @param loginId
 	 * @return
 	 */
@@ -61,7 +61,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 비밀번호 일치 체크 (가입 시 사용) Ajax
+	 * 비밀번호 일치 체크 (가입 시 사용) Ajax getLoginPwConfirm
 	 * @param loginPw
 	 * @param loginPwConfirm
 	 * @return
@@ -86,7 +86,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * doKakaoMap에서 사용자가 입력한 지도 위치 불러오기 Ajax
+	 * kakaoMap에서 사용자가 입력한 지도 위치 불러오기 Ajax doCheckData
 	 * @param longitude
 	 * @param latitude
 	 * @param name
@@ -108,7 +108,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 회원 가입 (INSERT)
+	 * 회원 가입 (INSERT) doJoin
 	 * @param loginId
 	 * @param loginPw
 	 * @param name
@@ -159,20 +159,20 @@ public class UsrMemberController {
 	}
 
 	/**
-	 * 로그인 폼
+	 * 로그인 폼 login
 	 * @param loginId
 	 * @param loginPw
 	 * @param replaceUri
 	 * @return 로그인 이동
 	 */
 	@RequestMapping("/usr/member/login")
-	public String login(String loginId, String loginPw, String replaceUri) {
+	public String showLogin(String loginId, String loginPw, String replaceUri) {
 		
 		return "usr/member/login";
 	}
 
 	/**
-	 * 로그인
+	 * 로그인 doLogin
 	 * @param loginId
 	 * @param loginPw
 	 * @param afterLoginUri
@@ -205,7 +205,7 @@ public class UsrMemberController {
 	}
 
 	/**
-	 * 로그아웃
+	 * 로그아웃 doLogout
 	 * @param afterLogoutUri
 	 * @return 로그아웃 알림
 	 */
@@ -219,7 +219,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 내 정보
+	 * 내 정보 myPage
 	 * @return 이동
 	 */
 	@RequestMapping("/usr/member/myPage")
@@ -229,7 +229,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 비밀번호 본인 확인 폼 (회원 정보 수정 시 사용)
+	 * 비밀번호 본인 확인 폼 (회원 정보 수정 시 사용) checkPw
 	 * @return
 	 */
 	@RequestMapping("/usr/member/checkPw")
@@ -239,7 +239,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 비밀번호 일치 체크 (회원 정보 수정 시 사용)
+	 * 비밀번호 본인 확인 (회원 정보 수정 시 사용) doCheckPw
 	 * @param loginId
 	 * @param loginPw
 	 * @return
@@ -262,16 +262,16 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 회원 정보 수정 폼
+	 * 회원 정보 수정 폼 modify
 	 * @return
 	 */
 	@RequestMapping("/usr/member/modify")
-	public String modify() {
+	public String showModify() {
 		return "/usr/member/modify";
 	}
 
 	/**
-	 * 회원 정보 수정 (UPDATE)
+	 * 회원 정보 수정 (UPDATE) doModify
 	 * @param id
 	 * @param loginId
 	 * @param loginPw
@@ -305,7 +305,7 @@ public class UsrMemberController {
 	}
 
 	/**
-	 * 회원 정보 삭제 (UPDATE) (?) Delstatus 조정 , 탈퇴 회원 정보 유지
+	 * 회원 정보 삭제 (UPDATE) Delstatus 조정 , 탈퇴 회원 정보 유지 doDelete
 	 * @param id
 	 * @return
 	 */
@@ -320,7 +320,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 아이디 찾기 폼
+	 * 아이디 찾기 폼 findLoginId
 	 * @return
 	 */
 	@RequestMapping("/usr/member/findLoginId")
@@ -330,7 +330,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 아이디 찾기 (이름과 이메일 일치 체크)
+	 * 아이디 찾기 (이름과 이메일 일치 체크) doFindLoginId
 	 * @param afterFindLoginIdUri
 	 * @param name
 	 * @param email
@@ -346,7 +346,7 @@ public class UsrMemberController {
 	}
 	
 	/**
-	 * 비밀번호 찾기 폼
+	 * 비밀번호 찾기 폼 findLoginPw
 	 * @return
 	 */
 	@RequestMapping("/usr/member/findLoginPw")
@@ -356,7 +356,7 @@ public class UsrMemberController {
 	}
 
 	/**
-	 * 비밀번호 찾기 (이름과 이메일 일치 체크)
+	 * 비밀번호 찾기 (이름과 이메일 일치 체크) doFindLoginPw
 	 * @param afterFindLoginPwUri
 	 * @param loginId
 	 * @param email
@@ -383,8 +383,14 @@ public class UsrMemberController {
 				afterFindLoginPwUri);
 	}
 	
+	/**
+	 * 키워드 설정 폼 setKeyword
+	 * @param model
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/usr/member/setKeyword")
-	public String setKeyword(Model model, int id) {
+	public String showSetKeyword(Model model, int id) {
 
 		ResultData<Member> getMemberByIdRd = memberService.getMemberById(id);
 
@@ -399,6 +405,16 @@ public class UsrMemberController {
 		return "usr/member/setKeyword";
 	}
 	
+	/**
+	 * 키워드 설정 doSetKeyword
+	 * @param id
+	 * @param keyword1
+	 * @param keyword2
+	 * @param keyword3
+	 * @param keyword4
+	 * @param keyword5
+	 * @return
+	 */
 	@RequestMapping("/usr/member/doSetKeyword")
 	@ResponseBody
 	public String doSetKeyword(int id, String keyword1, String keyword2, String keyword3, String keyword4, String keyword5) {
