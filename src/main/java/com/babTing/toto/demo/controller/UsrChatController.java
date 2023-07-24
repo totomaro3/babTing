@@ -43,7 +43,7 @@ public class UsrChatController {
 	}
 
 	/**
-	 * 방 보기
+	 * 나의 채팅방 보기
 	 * @return 방 이동
 	 */
 	@RequestMapping("/usr/chat/room")
@@ -156,18 +156,30 @@ public class UsrChatController {
         return chatMessages;
     }
 	
+	/**
+	 * 채팅방에 참여자를 추가
+	 * @param userName
+	 * @param relId
+	 * @return
+	 */
 	@RequestMapping("/usr/chat/add-chat-participant")
 	@ResponseBody
     public ResultData addChatParticipant(String userName, int relId) {
-        // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
+        // 채팅방에 참여자를 추가합니다.
 		chatService.addChatParticipant(userName, relId);
         return ResultData.from("S-1", "성공");
     }
 	
+	/**
+	 * 채팅방에 참여자를 삭제
+	 * @param userName
+	 * @param relId
+	 * @return
+	 */
 	@RequestMapping("/usr/chat/del-chat-participant")
 	@ResponseBody
     public ResultData delChatParticipant(String userName, int relId) {
-        // 채팅 메시지를 데이터베이스에 저장하는 로직을 수행합니다.
+        // 채팅방에 참여자를 삭제합니다.
 		chatService.delChatParticipant(userName, relId);
         return ResultData.from("S-1", "성공");
     }

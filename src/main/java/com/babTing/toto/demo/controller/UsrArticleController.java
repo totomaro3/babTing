@@ -133,8 +133,8 @@ public class UsrArticleController {
 		return "usr/article/list";
 	}
 	
-
 	/**
+	 * 맞츰 밥팅 불러오기
 	 * 
 	 * @param model
 	 * @param boardId
@@ -407,7 +407,7 @@ public class UsrArticleController {
 	 * @param id
 	 * @return 마감 취소 알림
 	 */
-	@RequestMapping("/usr/article/doCancelDeadArticle")
+	@RequestMapping("/usr/article/doCancelDeadLine")
 	@ResponseBody
 	public String doCancleDeadLine(int id) {
 
@@ -434,7 +434,7 @@ public class UsrArticleController {
 	 * @param id
 	 * @return 
 	 */
-	@RequestMapping("/usr/article/doIncreaseHitCountRd")
+	@RequestMapping("/usr/article/doIncreaseHitCount")
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCountRd(int id) {
 

@@ -16,6 +16,7 @@ CREATE TABLE article(
     badReactionPoint INT(10) NOT NULL DEFAULT 0,
     restaurantName CHAR(100),
     address CHAR(100),
+    category CHAR(100),
     longitude DOUBLE NOT NULL,
     latitude DOUBLE NOT NULL,
     deliveryCost INT(10),
@@ -117,6 +118,7 @@ restaurantName = '떡반집 본점',
 address = '대전 서구 둔산로 8',
 longitude = 127.37494817405462,
 latitude = 36.35225102142578,
+category = '떡볶이',
 deliveryCost = 3000,
 deadlineTime = NOW() + INTERVAL 6 HOUR;
 
@@ -131,6 +133,7 @@ restaurantName = '돈쿡',
 address = '대전 서구 둔산로137번길 21',
 longitude = 127.388965415396,
 latitude = 36.3522738041263,
+category = '돈까스',
 deliveryCost = 3000,
 deadlineTime = NOW() + INTERVAL 6 HOUR;
 
@@ -158,6 +161,7 @@ restaurantName = '용우동 대전타임월드점',
 address = '대전 서구 둔산로 18',
 longitude = 127.37571605248365,
 latitude = 36.35184758670218,
+category = '우동',
 deliveryCost = 4000,
 deadlineTime = NOW() + INTERVAL 6 HOUR;
 
@@ -172,6 +176,7 @@ restaurantName = '쿠우쿠우 대전둔산점',
 address = '대전 서구 대덕대로233번길 17',
 longitude = 127.37816440955355,
 latitude = 36.35338988395546,
+category = '초밥',
 deliveryCost = 5000,
 deadlineTime = NOW() + INTERVAL 6 HOUR;
 
@@ -186,6 +191,7 @@ restaurantName = '버거킹 대전둔산1점',
 address = '대전 서구 대덕대로 193',
 longitude = 127.3775220770047,
 latitude = 36.350491934487465,
+category = '햄버거',
 deliveryCost = 4000,
 deadlineTime = NOW() + INTERVAL 6 HOUR;
 
@@ -212,6 +218,11 @@ CREATE TABLE `member`(
     address CHAR(100) NOT NULL,
     longitude DOUBLE NOT NULL,
     latitude DOUBLE NOT NULL,
+    keyword1 CHAR(100) NOT NULL,
+    keyword2 CHAR(100),
+    keyword3 CHAR(100),
+    keyword4 CHAR(100),
+    keyword5 CHAR(100),
     delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
     delDate DATETIME COMMENT '탈퇴 날짜'
 );
@@ -241,7 +252,9 @@ email = 'ppoiuy1451@gmail.com',
 addressName = '코리아IT아카데미 대전점',
 address = '대전 서구 둔산로 52',
 longitude = 127.379728273553,
-latitude = 36.3510337596695;
+latitude = 36.3510337596695,
+keyword1 = '돈까스',
+keyword2 = '햄버거';
 
 INSERT INTO `member` 
 SET regDate = NOW(),
@@ -497,26 +510,6 @@ CREATE TABLE ChatParticipants (
     relId INT(10) NOT NULL COMMENT '관련 데이터 번호'
 );
 
-CREATE TABLE UserKeyword (
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL,
-    memberId INT(10) UNSIGNED NOT NULL,
-    keyword1 CHAR(100) NOT NULL,
-    keyword2 CHAR(100),
-    keyword3 CHAR(100),
-    keyword4 CHAR(100),
-    keyword5 CHAR(100)
-);
-
-INSERT INTO UserKeyword
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-keyword1 = '용우동',
-keyword2 = '떡반집',
-keyword3 = '돈까스';
-
 SELECT * FROM article;
 SELECT * FROM `member`;
 SELECT * FROM reactionPoint;
@@ -524,7 +517,6 @@ SELECT * FROM reply;
 SELECT * FROM chatRoom;
 SELECT * FROM ChatMessage;
 SELECT * FROM ChatParticipants;
-SELECT * FROM UserKeyword;
 
 
 
