@@ -4,7 +4,7 @@
 <c:set var="pageTitle" value="게시물 상세 보기" />
 <%@ include file="../common/head.jspf"%>
 
-<!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCountRd?id=2" frameborder="0"></iframe> -->
+<!-- <iframe src="http://localhost:8081/usr/article/doIncreaseHitCount?id=2" frameborder="0"></iframe> -->
 <script>
 	const params = {}
 	params.id = parseInt('${param.id}');
@@ -29,8 +29,6 @@
 	$(function() {
 		// 실전코드
 		ArticleDetail__increaseHitCount();
-		// 연습코드
-		//setTimeout(ArticleDetail__increaseHitCount, 2000);
 	})
 </script>
 

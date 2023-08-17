@@ -160,7 +160,8 @@ public class MemberService {
 		String title = "[" + siteName + "] 임시 패스워드 발송";
 		String tempPassword = Ut.getTempPassword(6);
 		String body = "<h1>임시 패스워드 : " + tempPassword + "</h1>";
-		body += "<a href=\"" + siteMainUri + "/usr/member/login\" target=\"_blank\">로그인 하러가기</a>";
+		body += "<div>로그인 후에 비밀번호를 꼭 변경하시길 바랍니다!</div>";
+		body += "<a href=\"" + siteMainUri + "/usr/member/login?afterLoginUri=%2Fusr%2Fhome%2Fmain%3Fnull\" target=\"_blank\">로그인 하러가기</a>";
 
 		ResultData sendResultData = mailService.send(actor.getEmail(), title, body);
 
@@ -179,10 +180,19 @@ public class MemberService {
 	 * @param tempPassword
 	 */
 	private void setTempPassword(Member actor, String tempPassword) {
-		memberRepository.doModifyMember(actor.getId(), Ut.sha256(tempPassword), null, null, null, null, null, null, 0, 0);
+		memberRepository.doModifyMember(actor.getId(), Ut.sha256(tempPassword), "", "", "", "", "", "", 0, 0);
 	}
 
 	public void modifyKeyword(int id, String keyword1, String keyword2, String keyword3, String keyword4, String keyword5) {
 		memberRepository.doModifyKeyword(id, keyword1, keyword2, keyword3, keyword4, keyword5);
+	}
+
+	public ResultData<Boolean> isDupEmail(String email) {
+		if(memberRepository.isDupEmail(email)) {
+			return ResultData.from("F-2", "중복된 이메일 입니다.","isDupEmail", true);
+		}
+		else {
+			return ResultData.from("S-1", "사용 가능한 이메일 입니다.","isDupEmail", false);
+		}
 	}
 }

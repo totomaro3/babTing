@@ -18,13 +18,13 @@
 		form.email.value = form.email.value.trim();
 
 		if (form.name.value.length == 0) {
-			alert('이름 써라');
+			alert('이름을 입력해주세요.');
 			form.name.focus();
 			return;
 		}
 
 		if (form.email.value.length == 0) {
-			alert('email 써라');
+			alert('이메일을 입력해주세요.');
 			form.email.focus();
 			return;
 		}
@@ -57,7 +57,7 @@
 					<th><button class="button btn btn-active btn-ghost text-xl"
 							type="button" onclick="history.back();">뒤로가기</button></th>
 					<td><button class="btn btn-active btn-ghost text-xl"
-							type="submit">찾기</button></td>
+							type="submit">아이디 찾기</button></td>
 				</tr>
 			</table>
 		</form>

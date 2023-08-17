@@ -1,10 +1,8 @@
 package com.babTing.toto.demo.controller;
 
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.babTing.toto.demo.service.MemberService;
 import com.babTing.toto.demo.util.Ut;
-import com.babTing.toto.demo.vo.Article;
 import com.babTing.toto.demo.vo.Member;
 import com.babTing.toto.demo.vo.ResultData;
 import com.babTing.toto.demo.vo.Rq;
@@ -83,6 +80,32 @@ public class UsrMemberController {
 		}
 		
 		return ResultData.from("S-1", "비밀번호가 일치합니다.");
+	}
+	
+	@RequestMapping("/usr/member/getEmailDup")
+	@ResponseBody
+	public ResultData<String> getEmailDup(String email) {
+		
+		if (Ut.empty(email)) {
+			return ResultData.from("F-1", "이메일을 입력해주세요");
+		}
+		
+	    String emailRegex = "\\S+@\\S+\\.\\S+"; // 이메일 유효성 검사용 정규표현식
+
+	    Pattern pattern = Pattern.compile(emailRegex);
+	    Matcher matcher = pattern.matcher(email);
+
+	    if (!matcher.matches()) {
+	    	return ResultData.from("F-2", "올바른 이메일 형식이 아닙니다.");
+	    }
+		
+		ResultData<Boolean> isDupEmailRd = memberService.isDupEmail(email);
+		
+		if(isDupEmailRd.getData1()) {
+			return ResultData.from("F-2", isDupEmailRd.getMsg(),"email",email);
+		}
+		
+		return ResultData.from("S-1", "사용가능한 이메일 입니다.","email",email);
 	}
 	
 	/**

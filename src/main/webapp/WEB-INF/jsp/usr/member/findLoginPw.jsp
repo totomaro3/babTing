@@ -17,13 +17,13 @@
 		form.email.value = form.email.value.trim();
 
 		if (form.name.value.length == 0) {
-			alert('이름 써라');
+			alert('아이디를 입력해주세요.');
 			form.name.focus();
 			return;
 		}
 
 		if (form.email.value.length == 0) {
-			alert('email 써라');
+			alert('이메일을 입력해주세요.');
 			form.email.focus();
 			return;
 		}
@@ -61,25 +61,16 @@
 							</td>
 						</tr>
 						<tr>
-							<th></th>
+							<th>
+								<button class="btn-text-link btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button>
+							</th>
 							<td>
-								<button type="submit">비밀번호 찾기</button>
-							</td>
-						</tr>
-						<tr>
-							<th></th>
-							<td>
-								<a class="btn btn-active btn-ghost" href="../member/login">로그인</a>
+								<button class="btn btn-active btn-ghost text-xl" type="submit">비밀번호 찾기</button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
 			</form>
-		</div>
-		<div class="btns">
-			<button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
-
-
 		</div>
 	</div>
 </section>

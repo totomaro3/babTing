@@ -191,6 +191,8 @@ public class UsrArticleController {
 	 */
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
+		
+		articleService.increaseHitCount(id);
 
 		ResultData<Article> getArticleRd = articleService.getArticle(id);
 		Article article = getArticleRd.getData1();

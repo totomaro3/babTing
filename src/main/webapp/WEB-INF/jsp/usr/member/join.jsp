@@ -53,9 +53,19 @@
 			alert('이메일을 입력해주세요');
 			return;
 		}
+		if (form.email.value != validEmail) {
+			alert('사용할 수 없는 이메일입니다');
+			form.loginId.focus();
+			return;
+		}
 		form.cellphoneNum.value = form.cellphoneNum.value.trim();
 		if (form.cellphoneNum.value == 0) {
 			alert('전화번호를 입력해주세요');
+			return;
+		}
+		form.address.value = form.cellphoneNum.value.trim();
+		if (form.addressName.value == '') {
+			alert('주소를 입력해주세요.');
 			return;
 		}
 		submitJoinFormDone = true;
@@ -108,6 +118,36 @@
 				$('.checkConfirm-msg').addClass('text-red-500');
 			}
 
+		}, 'json');
+	}
+	
+	function checkEmailDup(el) {
+		const form = $(el).closest('form').get(0);
+		
+		if (form.email.value.length == 0) {
+			validEmail = '';
+		}
+		
+		const emailRegex = /\S+@\S+\.\S+/; // 이메일 유효성 검사용 정규표현식
+		if (emailRegex.test(form.email.value)) {
+			validEmail = '';
+		}
+		
+		var email = form.email.value;
+		var action = './getEmailDup';
+		
+		$.get(action, {
+			isAjax : 'Y',
+			email : email,
+		}, function(data) {
+			$('.checkEmailDup-msg').text(data.msg);
+			if (data.success) {
+				$('.checkEmailDup-msg').removeClass('text-red-500');
+				validEmail = data.data1;
+			} else {
+				$('.checkEmailDup-msg').addClass('text-red-500');
+				validEmail = '';
+			}
 		}, 'json');
 	}
 	
@@ -186,7 +226,8 @@
 					<tr>
 						<th>이메일</th>
 						<td>
-							<input name="email" class="w-full input input-bordered  max-w-xs" placeholder="이메일을 입력해주세요" />
+							<input onblur="checkEmailDup(this);" name="email" class="w-full input input-bordered  max-w-xs" placeholder="이메일을 입력해주세요" />
+							<div class="checkEmailDup-msg mt-2">&nbsp</div>
 						</td>
 					</tr>
 					<tr>
@@ -197,9 +238,9 @@
 						</td>
 					</tr>
 					<tr>
-						<th><button class="btn-text-link btn btn-active btn-ghost" type="button" onclick="history.back();">뒤로가기</button></th>
+						<th><button class="btn-text-link btn btn-active btn-ghost text-xl" type="button" onclick="history.back();">뒤로가기</button></th>
 						<td>
-							<button class="btn btn-active btn-ghost" type="submit" value="회원가입">회원가입</button>
+							<button class="btn btn-active btn-ghost text-xl" type="submit" value="회원가입">회원가입</button>
 						</td>
 					</tr>
 			</table>

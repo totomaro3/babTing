@@ -151,15 +151,22 @@
 					<div class="text-left text-xl">공지사항</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
+						<colgroup>
+							<col width="70" />
+							<col width="100" />
+							<col width="50" />
+						</colgroup>
 						<tr>
 							<th>작성</th>
 							<th class="title">제목</th>
+							<th>조회</th>
 						</tr>
 						<c:forEach var="article" items="${noticeArticles }">
 							<tr style="text-align: center;">
-								<td>${article.regDate.substring(11,16) }</td>
-								<td class="title text-left"><a
+								<td>${article.regDate.substring(5,10) }</td>
+								<td class="title"><a
 									href="../article/detail?id=${article.id }">${article.title }</a></td>
+								<td>${article.hitCount }</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -171,15 +178,22 @@
 					<div class="text-left text-xl">자유 게시판</div>
 					<table class="my-2"
 						style="border-collapse: collapse; border-color: green">
+						<colgroup>
+							<col width="70" />
+							<col width="100" />
+							<col width="50" />
+						</colgroup>
 						<tr>
 							<th>작성</th>
 							<th class="title">제목</th>
+							<th>조회</th>
 						</tr>
 						<c:forEach var="article" items="${freeArticles }">
 							<tr style="text-align: center;">
-								<td>${article.regDate.substring(11,16) }</td>
-								<td class="title text-left"><a
+								<td>${article.regDate.substring(5,10) }</td>
+								<td class="title"><a
 									href="../article/detail?id=${article.id }">${article.title }</a></td>
+								<td>${article.hitCount }</td>
 							</tr>
 						</c:forEach>
 					</table>

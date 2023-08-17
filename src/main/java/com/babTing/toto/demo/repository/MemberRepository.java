@@ -112,7 +112,7 @@ public interface MemberRepository {
 			""")
 	public void doModifyMember(int id, String loginPw, String name, String nickname, String cellphoneNum,
 			String email, String addressName, String address, double longitude, double latitude);
-
+	
 	@Update("""
 			<script>
 			UPDATE member
@@ -149,4 +149,11 @@ public interface MemberRepository {
 			</script>
 			""")
 	public void doModifyKeyword(int id, String keyword1, String keyword2, String keyword3, String keyword4, String keyword5);
+
+	@Select("""
+			SELECT Count(*)
+			FROM `member`
+			WHERE email = #{email}
+			""")
+	public boolean isDupEmail(String email);
 }

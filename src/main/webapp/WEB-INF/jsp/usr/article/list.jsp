@@ -94,10 +94,8 @@
 			style="border-collapse: collapse; border-color: green">
 			<tr>
 				<c:if test="${boardId != 2}">
-					<th>번호</th>
 					<th>작성날짜</th>
 				</c:if>
-
 				<c:if test="${boardId == 2}">
 					<th>매장</th>
 					<th>거리차이</th>
@@ -119,7 +117,6 @@
 					test="${boardId != 4 || rq.loginedMember.id == article.memberId || rq.loginedMember.id == 1}">
 					<tr style="text-align: center;">
 						<c:if test="${boardId != 2}">
-							<td><div class="badge badge-lg text-xl">${article.id }</div></td>
 							<td>${article.regDate.substring(0,10) }</td>
 						</c:if>
 						<c:if test="${boardId == 2}">

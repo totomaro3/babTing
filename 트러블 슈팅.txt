@@ -1,7 +1,0 @@
-채팅창 간헐적으로 닉네임을 불러오지 못하는 버그
-
-됐다가 안됐다가
-
-채팅을 쓸 때 마다 rq.loginedMember.nickname을 조회
-
-채팅방을 입장할 때 한번만 rq.loginedMember.nickname
